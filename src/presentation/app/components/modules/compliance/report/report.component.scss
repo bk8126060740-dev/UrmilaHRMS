@@ -1,0 +1,23 @@
+@import '../../../../../../styles/styles.scss';
+
+.main-board {
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #eaedf1;
+    display: block;
+    width: 100%;
+}
+
+.report-list {
+    list-style: none;
+}
+
+.report-list li {
+    text-decoration: none;
+}
+
+.report-list li a {
+    color: #999;
+    text-decoration: none;
+}

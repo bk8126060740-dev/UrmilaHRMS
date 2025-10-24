@@ -1,0 +1,60 @@
+@import '../../../../../../styles/styles.scss';
+
+.view-tabel td {
+    padding-left: 20px;
+}
+
+
+td span {
+    background-color: transparent !important;
+}
+
+
+td input {
+    height: 32px !important;
+    border: 1px solid #eee !important;
+    outline: none !important;
+    border-radius: 4px;
+}
+
+
+.main-board .table-scroll {
+    overflow-y: auto;
+}
+
+.emp-icn {
+    svg {
+        color: $black-color !important;
+    }
+}
+
+.table-responsive {
+    tbody {
+        z-index: 0;
+        position: relative;
+
+        td {
+            background-color: transparent !important;
+        }
+    }
+}
+
+th {
+    background-color: var(--light-theme) !important;
+}
+
+.table-responsive {
+    tr:hover td {
+        background-color: var(--light-theme) !important;
+    }
+}
+
+.color-black {
+    td {
+        span {
+
+            color: #000000d6;
+        }
+    }
+}
+

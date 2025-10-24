@@ -1,0 +1,213 @@
+<div class="dashborad-main mb-0 mt-4">
+    <div class="container-fluid p-0">
+        <div class="row m-0 p-0 main-borad pt-4">
+            <div class="col-12 pb-3 px-4">
+                <div class="borad-header-create d-flex border-bottom gap-5 justify-content-between p-0 align-items-center"
+                    style="border:0px !important">
+                    <p class="board-title">Attendance Record</p>
+                    <div class="d-flex align-items-center justify-content-center gap-3">
+                        <div class="position-relative">
+                         
+                        </div>
+                        <div class="position-relative">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Select Month</mat-label>
+                                <mat-select [(ngModel)]="selectedMonth" (ngModelChange)="onYearChange($event)">
+                                   
+                                    <mat-option *ngFor="let month of monthList ; index as i" [value]="month.value">
+                                        {{ month.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="position-relative">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Select Year</mat-label>
+                                <mat-select [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
+                                    <mat-option *ngFor="let year of yearsList ; index as i" [value]="year.value">
+                                        {{ year.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-3 ">
+                    <div class="d-flex justify-content-between">
+                        <div class="employee-title d-flex align-items-center">
+                            <h4>Days break-down</h4>
+                            <h5>{{
+                                employeeAttendanceData.totalWorkingDays || '0' }} Days</h5>
+                        </div>
+
+                        <div class="d-flex gap-4 align-items-center">
+                            <div class="d-flex gap-2 align-items-center present days-type">
+                                <span class="leave-box"></span>
+                                <p>Present Day ({{ employeeAttendanceData.totalPresentDays ||
+                                    0 }})</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center absant days-type">
+                                <span class="leave-box"></span>
+                                <p>Absent Day ({{employeeAttendanceData.totalAbsentDays}})</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center leave days-type">
+                                <span class="leave-box"></span>
+                                <p>On Leave Day (0)</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center holiday days-type">
+                                <span class="leave-box"></span>
+                                <p>Holiday ({{employeeAttendanceData.totalHolidays}})</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline mt-3 progress d-flex">
+                        <span class="present-line progress-bar progress-bar-striped"
+                            [style.width]="calculateTypeWidth('present')" mat-raised-button
+                            [matTooltip]="'Present Days: ' + (employeeAttendanceData.totalPresentDays || 0)"
+                            [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                            [matTooltipHideDelay]="hideDelay.value" aria-label="Present Days">
+                        </span>
+                        <span class="absant-line  progress-bar progress-bar-striped"
+                            [style.width]="calculateTypeWidth('absent')" mat-raised-button
+                            [matTooltip]="'Absent Days: ' + (employeeAttendanceData.totalAbsentDays || 0)"
+                            [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                            [matTooltipHideDelay]="hideDelay.value" aria-label="Absent Days"></span>
+                        <span class="leave-line progress-bar progress-bar-striped"
+                            [style.width]="calculateTypeWidth('leave')" mat-raised-button
+                            [matTooltip]="'On Leave Days: ' + ( 0)" [matTooltipPosition]="'above'"
+                            [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+                            aria-label="On Leave Days"></span>
+                        <span class="holiday-line progress-bar progress-bar-striped"
+                            [style.width]="calculateTypeWidth('holiday')" mat-raised-button
+                            [matTooltip]="'Holiday Days: ' + (employeeAttendanceData.totalHolidays || 0)"
+                            [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                            [matTooltipHideDelay]="hideDelay.value" aria-label="Holiday Days"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attendance-table d-flex position-relative">
+                <div class="attendance-date">
+                    <div class="attendance-date-title">
+                        <div class="attendance-title d-flex">
+                            <div class="attendance-cell" style="width: 152px;">
+                                Date
+                            </div>
+                            <div class="attendance-cell" style="width: 90px;text-align: center;">
+                                Time
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attendance-datas">
+                        @for (item of groupedAttendanceData; track $index) {
+                        <div class="attendance-data d-flex">
+
+                            <div class="attendance-cell date-attendance" style="width: 152px;">
+                                {{item.displayDate}}
+                            </div>
+                            <ng-container *ngIf="item.totalHours === '00:00:00'">
+                                <div class="attendance-cell date-attendance no-time-found" style="width: 90px;">
+                                    {{item.totalHours}}
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="item.totalHours != '00:00:00'">
+                                <div class="attendance-cell date-attendance time-found" style="width: 90px;">
+                                    {{item.totalHours}}
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        }
+                    </div>
+
+                </div>
+                <div class="attendance-hours w-100">
+                    <div class="attendance-time-title d-flex w-100 ">
+                        @for (item of timeList; track $index) {
+                        <div class="attendance-time">
+                            <div class="attendance-title d-flex">
+                                <div class="attendance-cell hours text-center" style="width: 96px;">
+                                    {{item.hour}}
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <div class="attendance-cells w-100">
+                        @for (item of groupedAttendanceData; track $index) {
+                        <div class="attendance-cells-row d-flex w-100">
+                            <div class="position-relative" *ngIf="item.dailyData.length > 0">
+                                <ng-container *ngIf="calculateGraphWidth(item) > 100">
+                                    <span [ngClass]="item.isHoliday ? 'holiday-presentDay' : 'presentDay'"
+                                        [style.width.px]="calculateGraphWidth(item)"
+                                        [style.left.px]="calculateGraphStartPosition(item)">
+                                        <ng-container *ngIf="calculateGraphWidth(item) != 0">
+                                            <h5 class="time-title">{{item.dailyData[0].inTime | timeFormat}} --
+                                                {{item.dailyData[item.dailyData.length -1 ].outTime | timeFormat}}
+                                            </h5>
+                                            <p class="time-location" [style.width.px]="calculateGraphWidth(item) - 10">
+                                                {{item.dailyData[item.dailyData.length -1
+                                                ].inTimeLocation}}</p>
+
+                                            <p *ngIf="item.dailyData[item.dailyData.length -1
+                                                ].inTimeLocation === ''" class="time-location"
+                                                [style.width.px]="calculateGraphWidth(item) - 10">
+                                                Location Off</p>
+                                        </ng-container>
+
+                                    </span>
+                                </ng-container>
+
+                                <ng-container *ngIf="calculateGraphWidth(item) < 100">
+                                    <span [style.width.px]="200"
+                                        [ngClass]="item.isHoliday ? 'holiday-presentDay' : 'presentDay'"
+                                        [style.left.px]="calculateGraphStartPosition(item)">
+                                        <ng-container>
+                                            <h5 class="time-title" mat-raised-button [matTooltip]="'Today Hours: ' + (item.dailyData[0].inTime | timeFormat) + ' -- ' + 
+                                                (item.dailyData[item.dailyData.length -1 ].outTime | timeFormat)"
+                                                [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                                                [matTooltipHideDelay]="hideDelay.value" aria-label="TimeHoliday Days">
+                                                {{item.dailyData[0].inTime | timeFormat}}
+                                            </h5>
+                                            <p class="time-location" [style.width.px]="calculateGraphWidth(item) - 10">
+                                                {{item.dailyData[item.dailyData.length -1
+                                                ].inTimeLocation}}</p>
+
+                                            <p *ngIf="item.dailyData[item.dailyData.length -1
+                                                ].inTimeLocation === ''" class="time-location" [style.width.px]="190">
+                                                Location Off</p>
+
+                                        </ng-container>
+                                    </span>
+                                </ng-container>
+
+                            </div>
+                            <ng-container *ngIf="item.dailyData.length === 0 && !item.isHoliday">
+                                <div class="position-relative" style="margin: auto;">
+                                    <div class="absent-bars d-flex justify-content-center align-items-center gap-1">
+                                        <icon-absent></icon-absent>
+                                        Absent
+                                    </div>
+                                </div>
+                            </ng-container>
+                           
+                            <ng-container *ngIf="item.isHoliday && item.dailyData.length === 0">
+                                <div class="position-relative" style="margin: auto;">
+                                    <div class="holiday-bars d-flex justify-content-center align-items-center gap-1">
+                                        <icon-holiday></icon-holiday>
+                                        {{item.holiday.type}}
+                                    </div>
+                                </div>
+                            </ng-container>
+
+
+                        </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

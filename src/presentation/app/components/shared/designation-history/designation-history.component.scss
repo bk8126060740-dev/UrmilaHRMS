@@ -1,0 +1,29 @@
+@import '../../../../../styles/styles.scss';
+
+
+table {
+    th {
+        background-color: var(--light-theme);
+    }
+
+    tr:hover {
+        background-color: var(--light-theme);
+    }
+}
+
+.check-active {
+    color: var(--theme-color);
+}
+
+.close-false {
+    fill: #8F959D;
+}
+
+table tr .ng-star-inserted {
+    background-color: transparent !important;
+}
+
+ng-select.ng-invalid.ng-touched .ng-select-container {
+    border: 1px solid #FA6060 !important;
+    border-radius: 5px !important;
+}

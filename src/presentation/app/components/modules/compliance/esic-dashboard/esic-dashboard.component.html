@@ -1,0 +1,448 @@
+<div class="dashborad-main payment-report">
+    <div class="container-fulid p-0">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 mt-3 ">
+            <div class="col p-0 m-0">
+                <div class="main-board-1 pb-0 position-relative z-9">
+                    <div
+                        class="borad-header-create pb-3 pt-3 border-bottom d-flex justify-content-between position-sticky top-0 align-items-center cursor-pointer">
+                        <p class="board-title">ESIC CONTRIBUTION</p>
+
+                    </div>
+                    <div class="borad-body p-4">
+
+                        <!-- Form Details -->
+                        <form [formGroup]="esicFilterForm">
+                            <div class="row gy-3">
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Enter Name</mat-label>
+                                        <input matInput formControlName="name" name="Enter Name" required />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-2 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Total Working Days</mat-label>
+                                        <input matInput formControlName="totalWorkingDays" name="Enter Name" required
+                                            type="number" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-12">
+                                    <ng-select [items]="clientList" bindLabel="text" bindValue="value"
+                                        [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedClientId'].errors"
+                                        formControlName="selectedClientId" (change)="onClientChange()"
+                                        placeholder="Search & Select Client *" required>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="row gy-4 mt-1">
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <ng-select [items]="projectList" bindLabel="name" bindValue="id"
+                                        [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedProjectId'].errors"
+                                        (change)="onProjectChange()" formControlName="selectedProjectId"
+                                        [multiple]="false" placeholder="Search & Select Project *" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <ng-select [items]="payrollList" bindLabel="displayName" bindValue="id"
+                                        [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedPayrollId'].errors"
+                                        formControlName="selectedPayrollId" [multiple]="true"
+                                        placeholder="Search & Select Payroll *" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 header-btns">
+                                    <div class="row gy-3">
+                                        <div class="col-12 col-md-6">
+                                            <button (click)="exportReport()"
+                                                class="btn btn-light w-100 d-flex gap-2 justify-content-center align-items-center">
+                                                <icon-ExportBtn></icon-ExportBtn>
+                                                Export Report
+                                            </button>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <button (click)="viewDetails()"
+                                                class="btn btn-save hover-none w-100 d-flex gap-2 justify-content-center align-items-center">
+                                                <icon-filter></icon-filter>
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row m-0 px-0">
+            <div class="dashborad-main m-4 mx-0 mt-3 p-0 mb-0 pfdashborad">
+                <div class="container-fluid">
+
+                    <div class="row p-0">
+                        <div class="col borad-parent p-0">
+                            <div class="main-board-1 position-static px-0">
+                                <div class="board-content position-relative h-100 flex-wrap">
+                                    <div class="board-header d-flex justify-content-between px-4 py-3 flex-wrap">
+                                        <div class="board-title d-flex align-items-center">
+                                            ESIC Report
+                                        </div>
+                                    </div>
+                                    <div class="parent-container">
+                                        <div class="user-data table-responsive-container  overflow-auto">
+                                            <table class="table mb-0" style="table-layout: fixed;">
+                                                <thead class="position-sticky top-0 bg-white"
+                                                    style="z-index: 2 !important; ">
+                                                    <tr class="table-header-row table-title">
+                                                        <th class="fw-semibold" style="width: 420px;">Name</th>
+                                                        <th class="fw-semibold" style="width: 226px;">Challan Number
+                                                        </th>
+                                                        <th class="fw-semibold" style="width: 226px;">Challan Submitted
+                                                            Date</th>
+                                                        <th class="fw-semibold" style="width: 160px;">Amount Paid</th>
+                                                        <th class="fw-semibold" style="width: 160px;">Transaction
+                                                            Number</th>
+                                                        <th class="fw-semibold" style="width: 235px;">Remark</th>
+                                                        <th class="fw-semibold" style="width: 120px;">Status</th>
+                                                        <th class="fw-semibold text-center" style="width: 120px;">
+                                                            Re-Download
+                                                        </th>
+                                                        <th class="fw-semibold text-center" style="width: 120px;">Upload
+                                                        </th>
+                                                        <th class="fw-semibold text-center" style="width: 120px;">View
+                                                            Record</th>
+                                                        <th class="fw-semibold text-center" style="width: 120px;">Error
+                                                        </th>
+                                                        <th class="fw-semibold text-center" style="width: 120px;">Action
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let esic of esicChallan">
+                                                        <!-- Group by Project -->
+                                                        <tr (click)="toggleChild(esic.id.toString())">
+                                                            <td colspan="100" style="cursor: pointer;">
+                                                                <span class="icon-dropdown"
+                                                                    [ngClass]="{'rotate-arrow': isExpanded[esic.id.toString()]}">
+                                                                    <icon-dropdown></icon-dropdown>
+                                                                </span>
+                                                                <p class="ms-2 d-inline-block">
+                                                                    <!-- {{ getUniqueProjectNames(challan.payrolls) }} -->
+                                                                    {{esic.name}}
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+
+                                                        <!-- Child Row (conditionally shown) -->
+                                                        <tr *ngIf="isExpanded[esic.id.toString()]">
+                                                            <td colspan="100" class="p-0">
+                                                                <table class="nested-table w-100">
+                                                                    <tbody>
+                                                                        <tr
+                                                                            *ngFor="let challan of esic.esicChallanHistory">
+                                                                            <td style="width: 420px;">{{challan.tag}}
+                                                                            </td>
+                                                                            <td style="width: 226px;">
+                                                                                {{challan.challanNo}}
+                                                                            </td>
+                                                                            <td style="width: 226px;">
+                                                                                {{challan.challanSubmittedDate |
+                                                                                date:'dd-MMM-yyyy'}}</td>
+                                                                            <td style="width: 160px;">
+                                                                                {{challan.amountPaid |
+                                                                                number:'1.2-2'}}</td>
+                                                                            <td style="width: 160px;">
+                                                                                {{challan.transactionNo
+                                                                                || '-'}}</td>
+                                                                            <td style="width: 235px;">
+                                                                                {{challan.remark}}
+                                                                            </td>
+                                                                            <td style="width: 120px;">
+                                                                                <div class="status-btn text-center position-relative overflow-hidden"
+                                                                                    style="z-index: 1;">
+                                                                                    <p style="z-index: 4; " [ngStyle]="{
+                                                                                        'color': challan.status.color 
+                                                                                      }">
+                                                                                        {{challan.status.name}}
+                                                                                        <!-- pending -->
+                                                                                    </p>
+                                                                                    <span
+                                                                                        class="position-absolute top-0 left-0 h-100 w-100 card-status-opacity"
+                                                                                        style="z-index:1; "
+                                                                                        [ngStyle]="{'background-color': challan.status.color}">
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style=" width: 120px;">
+                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                                    (click)="reDownloadChallan(challan)"
+                                                                                    *ngIf="challan.status.id === 578"
+                                                                                    style="width: fit-content;"
+                                                                                    mat-raised-button
+                                                                                    matTooltip="Re-Download"
+                                                                                    [matTooltipPosition]="'right'"
+                                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                                    aria-label="Upload">
+                                                                                    <span class="icn-bg bg-skyblue">
+                                                                                        <icon-Regenrate></icon-Regenrate>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style=" width: 120px;">
+                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                                    (click)="openESICchallanModal(challan.id)"
+                                                                                    *ngIf="challan.status.id === 578"
+                                                                                    style="width: fit-content;"
+                                                                                    mat-raised-button
+                                                                                    matTooltip="Upload"
+                                                                                    [matTooltipPosition]="'right'"
+                                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                                    aria-label="Upload">
+                                                                                    <span class="icn-bg bg-skyblue">
+                                                                                        <icon-FileUpload></icon-FileUpload>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style="width: 120px;">
+                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                                    style="width: fit-content;"
+                                                                                    (click)="viewRecord(challan)"
+                                                                                    *ngIf="challan.status.id === 581"
+                                                                                    mat-raised-button
+                                                                                    matTooltip="View Record"
+                                                                                    [matTooltipPosition]="'right'"
+                                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                                    aria-label="Upload">
+                                                                                    <span class="icn-bg bg-green">
+                                                                                        <icon-pfChallan></icon-pfChallan>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style="width: 120px;">
+                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                                    style="width: fit-content;"
+                                                                                    (click)="downloadErrorFile(challan)"
+                                                                                    *ngIf="challan.errorFilePath != null && challan.errorFilePath != ''"
+                                                                                    mat-raised-button
+                                                                                    matTooltip="View Record"
+                                                                                    [matTooltipPosition]="'right'"
+                                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                                    aria-label="Upload">
+                                                                                    <span class="icn-bg bg-green">
+                                                                                        <icon-fileDownload></icon-fileDownload>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style="width: 120px;">
+                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                                    style="width: fit-content;"
+                                                                                    (click)="deleteChallan(challan.id)"
+                                                                                    *ngIf="challan.status.id === 578"
+                                                                                    mat-raised-button
+                                                                                    matTooltip="Delete"
+                                                                                    [matTooltipPosition]="'right'"
+                                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                                    [matTooltipHideDelay]="hideDelay.value">
+                                                                                    <span class="icn-bg bg-red">
+                                                                                        <icon-delete></icon-delete>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #ESICchallanModal="bs-modal" class="modal" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog popup-design pf-challan">
+        <div class="modal-content px-4 ">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">ESIC Challan</h5>
+                <span class="d-block" (click)="closeESICchallanModal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                <div class="col-12">
+                    <form [formGroup]="ESICUploadForm">
+                        <div class="row gy-3">
+                            <div class="col-12 col-md-4">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Challan No</mat-label>
+                                    <input matInput formControlName="challanNo" required />
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Challan Submitted Date</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="challanSubmittedDate"
+                                        required />
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Amount Paid</mat-label>
+                                    <input matInput formControlName="amountPaid" required />
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Transaction No</mat-label>
+                                    <input matInput formControlName="transactionNo" required />
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Remark</mat-label>
+                                    <input matInput formControlName="remark" required />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 mb-3">
+                                <p>Upload Document :</p>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 ">
+                                <p class="text-secondary browse-file-title">CSV file</p>
+                                <div class="mt-2">
+                                    <div class="browse-file position-relative"
+                                        [class.browse-file-error]="isUploadSubmitted && ESICUploadForm.controls['csvFile'].errors">
+                                        <ng-container *ngIf="!ESICUploadForm.controls['csvFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-AddAttch></icon-AddAttch>
+                                            </div>
+                                            <div class="mt-2 w-100">
+                                                <p>Drag & Drop Upload File</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse">Browse File</button>
+                                            </div>
+                                            <input type="file" (change)="onFileChange($event, 'csvFile')" accept=".csv"
+                                                class="position-absolute top-0 left-0 h-100 w-100 opacity-0">
+                                        </ng-container>
+                                        <ng-container *ngIf=" ESICUploadForm.controls['csvFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-TextFile></icon-TextFile>
+                                            </div>
+                                            <div class="mt-2 w-100 selected-file-name">
+                                                <p>{{ ESICUploadForm.controls['csvFile'].value.name }}</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse" (click)="clearFile('csvFile')">Clear</button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 ">
+                                <p class="text-secondary browse-file-title">ECR (PDF File)</p>
+                                <div class="mt-2">
+                                    <div class="browse-file position-relative"
+                                        [class.browse-file-error]="isUploadSubmitted && ESICUploadForm.controls['ecrFile'].errors">
+                                        <ng-container *ngIf="!ESICUploadForm.controls['ecrFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-AddAttch></icon-AddAttch>
+                                            </div>
+                                            <div class="mt-2 w-100">
+                                                <p>Drag & Drop Upload File</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse">Browse File</button>
+                                            </div>
+                                            <input type="file" (change)="onFileChange($event, 'ecrFile')" accept=".pdf"
+                                                class="position-absolute top-0 left-0 h-100 w-100 opacity-0">
+                                        </ng-container>
+                                        <ng-container *ngIf=" ESICUploadForm.controls['ecrFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-TextFile></icon-TextFile>
+                                            </div>
+                                            <div class="mt-2 w-100 selected-file-name">
+                                                <p>{{ ESICUploadForm.controls['ecrFile'].value.name }}</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse" (click)="clearFile('ecrFile')">Clear</button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 ">
+                                <p class="text-secondary browse-file-title">Challan (PDF File)</p>
+                                <div class="mt-2">
+                                    <div class="browse-file position-relative"
+                                        [class.browse-file-error]="isUploadSubmitted && ESICUploadForm.controls['challanFile'].errors">
+                                        <ng-container *ngIf="!ESICUploadForm.controls['challanFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-AddAttch></icon-AddAttch>
+                                            </div>
+                                            <div class="mt-2 w-100">
+                                                <p>Drag & Drop Upload File</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse">Browse File</button>
+                                            </div>
+                                            <input type="file" (change)="onFileChange($event, 'challanFile')"
+                                                accept=".pdf"
+                                                class="position-absolute top-0 left-0 h-100 w-100 opacity-0">
+                                        </ng-container>
+                                        <ng-container *ngIf=" ESICUploadForm.controls['challanFile'].value">
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <icon-Pdf></icon-Pdf>
+                                            </div>
+                                            <div class="mt-2 w-100 selected-file-name">
+                                                <p>{{ ESICUploadForm.controls['challanFile'].value.name }}</p>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn-browse"
+                                                    (click)="clearFile('challanFile')">Clear</button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="modal-footer popup-footer d-flex mt-4">
+                <div class="d-flex justify-content-end gap-3">
+                    <button class="btn btn-cancel p-footerbtns" (click)="closeESICchallanModal()">Cancel</button>
+                    <button type="submit" class="btn btn-save p-footerbtns" (click)="uploadESICDocument()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

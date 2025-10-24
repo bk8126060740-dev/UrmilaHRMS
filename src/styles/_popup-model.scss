@@ -1,0 +1,82 @@
+.popup-design {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    font-family: $fonts;
+    border: none;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.05);
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: $font-normal;
+        color: $header-title;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 20px !important;
+    }
+
+    .popup-header {
+        border-radius: 50px 50px 0px 0px;
+        font-size: 22px !important;
+        color: $sub-title;
+
+        svg {
+            color: $icon-color;
+            cursor: pointer;
+        }
+
+        h5 {
+            font-family: $fonts;
+        }
+    }
+
+    .popup-footer {
+        button {
+            height: 40px;
+            width: 98px;
+            border-radius: $border4;
+        }
+
+        .btn-cancel {
+            border: 1px solid var(--theme-color);
+            color: var(--theme-color);
+
+            &:focus {
+                border: 1px solid var(--theme-color) !important;
+                box-shadow: none !important;
+            }
+        }
+
+        .btn-save {
+            background-color: var(--theme-color);
+            color: $white-color;
+
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+    }
+}
+
+.popup-design.modal-dialog {
+    &.right-sidebar-panel {
+        font-family: $fonts;
+        margin: 0 0 0 auto;
+        max-width: 400px;
+
+        .modal-content {
+            height: 100vh;
+            border-radius: 0 !important;
+            overflow: auto;
+        }
+    }
+}
+
+.swal-modal {
+    -webkit-animation: none !important;
+    animation: none !important;
+    transform: scale(1) !important;
+}

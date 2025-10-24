@@ -1,0 +1,60 @@
+<div class="borad-body p-4">
+    <form [formGroup]="PfAccountForm" #formDirective="ngForm">
+        <div class="row gy-2">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>UAN No.</mat-label>
+                    <input formControlName="uannumber" matInput name="name" maxlength="12" required autocomplete="off"
+                        (input)="restrictInput($event)">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>PF Number</mat-label>
+                    <input formControlName="pfnumber" matInput name="name"
+                        pattern="^[A-Z]{2}[\s\/]?[A-Z]{3}[\s\/]?[0-9]{7}[\s\/]?[0-9]{3}[\s\/]?[0-9]{7}$" required>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>PF Registration Date</mat-label>
+                    <input matInput (dateChange)="onDateChange($event)" [matDatepicker]="date"
+                        formControlName="pfRegistrationDate" name="startDate" [max]="today" />
+                    <mat-datepicker-toggle matIconSuffix [for]="date"></mat-datepicker-toggle>
+                    <mat-datepicker #date></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-6 col-xl-4">
+                <div class="input-group choose-file">
+                    <span class="input-group-text mac-lbl lbl-form"
+                        style="padding-left: 18px !important; padding-right: 18px !important;">PF</span>
+                    <div class="col">
+                        <ng-container *ngIf="selectedFile">
+                            <i *ngIf="selectedFile?.name?.includes('.pdf')" class="fas fa-file-pdf icon"
+                                style="color: red"></i>
+                            <i *ngIf="selectedFile?.name?.includes('.doc') || selectedFile?.name?.includes('.docx')"
+                                class="fas fa-file-word icon" style="color: blue"></i>
+                            <i *ngIf="selectedFile?.name?.includes('.png') || selectedFile?.name?.includes('.jpg') || selectedFile?.name?.includes('.jpeg')"
+                                class="fas fa-file-image icon" style="color: green"></i>
+                        </ng-container>
+                        <span class="file-label">
+                            {{ selectedFile ? selectedFile.name : 'Document Upload' }}
+                        </span>
+                        <input type="file" class="form-control" id="inputFile" (change)="onDocumentFileSelected($event)"
+                            accept=".pdf, .doc, .docx" />
+                    </div>
+                    <div class="file-upload-action d-flex">
+                        <div class="close-doc" *ngIf="selectedFile" (click)="removeFile()">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                        </div>
+                        <div class="download-doc" *ngIf="pfAccountDetail?.uploadDocument">
+                            <i class="fa-solid fa-download"
+                                (click)="getDownloadFile(pfAccountDetail.uploadDocument)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

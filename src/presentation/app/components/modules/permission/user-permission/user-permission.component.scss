@@ -1,0 +1,181 @@
+@import '../../../../../../styles/styles.scss';
+
+* {
+    font-family: $fonts !important;
+}
+
+// permission table
+.grouptable-bg {
+    background-color: $white-color;
+    border-radius: $border8;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+    padding: 15px 20px;
+
+    td {
+        height: 44.88px;
+        border: 0px !important;
+        width: 100%;
+        display: block;
+        background-color: rgba(228, 234, 238, 0.3);
+        padding: 12px 20px !important;
+        margin: 12px 0px;
+        font-size: 14px !important;
+        border-radius: $border6;
+        color: $grey-text;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+        cursor: pointer;
+
+        .action-icons {
+            display: none;
+            transition: .3s;
+        }
+
+        &:hover {
+
+            .action-icons {
+                display: inline-block;
+
+                .del-group {
+                    color: #FF7373;
+                }
+            }
+        }
+    }
+
+    td.active {
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 70%;
+            width: 4px;
+            background-color: var(--theme-color);
+            transform: translateY(-50%);
+            border-radius: 0px 50px 50px 0px;
+        }
+    }
+}
+
+// screen table
+.screen-title {
+    background-color: $white-color;
+    border-radius: $border6;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+
+    h5 {
+        font-size: 16px !important;
+        color: $sub-title;
+        padding: 12px;
+        padding-left: 15px;
+        font-weight: $font-medium;
+        color: $grey-text;
+    }
+}
+
+.screen-table {
+    background-color: $white-color;
+    border-radius: $border8;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06) !important;
+
+    .screentabletitle {
+        background-color: var(--light-theme) !important;
+        border-radius: $border8 $border8 0px 0px;
+    }
+
+    th {
+        padding: 12px 18px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    tr {
+        border-bottom: 1px solid $border-color;
+        padding-right: 40px !important;
+
+        td {
+            align-self: center !important;
+            display: inline-flex !important;
+            padding: 10px 18px !important;
+            color: $grey-text;
+            // border: none !important;
+
+            .toggle-btn {
+                margin-top: -4px !important;
+            }
+        }
+
+        &:last-child {
+            border-bottom: 0px !important;
+        }
+    }
+}
+
+.screen-table.screen-permissiontable {
+    td {
+        padding: 4px 18px !important;
+    }
+}
+
+.manage_table {
+    max-height: 245px;
+    overflow-y: auto;
+}
+
+.checks {
+    padding: 4px 18px !important;
+
+
+}
+
+.height-manage {
+    max-height: 180px;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.mdc-checkbox__background {
+    // height: 18px !important;
+    width: 18px !important;
+    margin-left: -10PX !important;
+}
+
+.btn-assign {
+    font-size: $fonts-content;
+}
+
+.w-20 {
+    width: 10.5%;
+}
+
+
+.screentabletitle tr {
+    background-color: var(--light-theme) !important;
+}
+
+.screentabletitle th {
+    background-color: transparent !important;
+}
+
+.w-26 {
+    width: 26% !important;
+}
+
+.mdc-checkbox {
+    width: 22px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.mdc-checkbox__native-control {
+    width: 22px !important;
+}
+
+.screen-table {
+    max-height: 322px !important;
+    height: 100%;
+    overflow-y: auto;
+}

@@ -1,0 +1,531 @@
+<div class="dashborad-main">
+    <div class="container-fulid p-0">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 mt-3 ">
+            <div class="col p-0 m-0">
+                <div class="main-board form-borad pb-0 position-relative z-1 overflow-auto">
+                    <div
+                        class="borad-header-create pb-3 pt-3 border-bottom d-flex justify-content-between position-sticky top-0 align-items-center">
+                        <p class="board-title">Project</p>
+                        <div class="header-buttons d-flex">
+                            <ng-container *appIsGranted="'Export'">
+                                <div class="dropdown ms-3 edit-btn download-btn  d-flex align-items-center me-3  "
+                                    *ngIf="projectDataModel.id > 0">
+                                    <button
+                                        class="btn dropdown-toggle d-flex align-items-center me-1 justify-content-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <icon-Download></icon-Download>
+                                        <p>Download</p>
+                                    </button>
+                                    <ul class="dropdown-menu list-style-none">
+                                        <li>
+                                            <a class="dropdown-item" (click)="downloadInvoice(projectDataModel.id)">
+                                                GST Invoice
+                                            </a>
+                                            <a class="dropdown-item" (click)="downloadUTR(projectDataModel.id)">
+                                                UTR
+                                            </a>
+                                            <a class="dropdown-item">
+                                                Proforma Invoice
+                                            </a>
+                                            <a class="dropdown-item" (click)="downloadPF(projectDataModel.id)">
+                                                PF challan
+                                            </a>
+                                            <a class="dropdown-item" (click)="downloadESIC(projectDataModel.id)">
+                                                ESIC challan
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
+                            <button type="submit" class="header-btn btn-cancel me-3" (click)="onCancel()">
+                                <p>Cancel</p>
+                                <icon-CancelHead></icon-CancelHead>
+                            </button>
+                            <ng-container *appIsGranted="'Write'">
+                                <button type="submit" class="header-btn btn-save"
+                                    (click)="triggerFormSubmit(projectForm)" *ngIf="this.projectDataModel.id === 0">
+                                    <p>Save</p>
+                                    <icon-Save></icon-Save>
+                                </button>
+                            </ng-container>
+                            <ng-container *appIsGranted="'Write'">
+                                <button type="submit" class="header-btn btn-save"
+                                    (click)="triggerFormSubmit(projectForm)" *ngIf="this.projectDataModel.id != 0">
+                                    <p>Update</p>
+                                    <icon-Update></icon-Update>
+                                </button>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="borad-body p-4 pb-0">
+                        <form action="" #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
+                            <div class="row gy-2">
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <div class="row justify-content-center flex-nowrap profile-input">
+                                        <div class="col-12 col-md-3  pe-0">
+                                            <div class="profile-info cursor position-relative"
+                                                (click)="fileInput.click()">
+                                                <div class="pro-pic mb-1">
+                                                    <svg *ngIf="!profilePicUrl" xmlns="http://www.w3.org/2000/svg"
+                                                        width="30px" height="30px" viewBox="0 0 24 24">
+                                                        <path fill="black"
+                                                            d="M21 15v3h3v2h-3v3h-2v-3h-3v-2h3v-3zm.008-12c.548 0 .992.445.992.993v9.349A6 6 0 0 0 20 13V5H4l.001 14l9.292-9.293a1 1 0 0 1 1.32-.084l.094.085l3.545 3.55a6.003 6.003 0 0 0-3.91 7.743L2.992 21A.993.993 0 0 1 2 20.007V3.993A1 1 0 0 1 2.992 3zM8 7a2 2 0 1 1 0 4a2 2 0 0 1 0-4" />
+                                                    </svg>
+                                                    <img *ngIf="profilePicUrl" [src]="profilePicUrl" alt="Profile Pic"
+                                                        class="profile-pic" />
+                                                </div>
+                                                <p>Profile Pic *</p>
+                                                <input type="file" #fileInput style="display: none;"
+                                                    accept=".jpg,.jpeg,.png" (change)="onProfileFileSelected($event)"
+                                                    name="profilePicPath" />
+                                                <div class="close-pdf-icn" *ngIf="profilePicUrl"
+                                                    (click)="removeProfilePicture()">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="w-100">
+                                                        <mat-form-field appearance="outline"
+                                                            class="w-100 custom-mat-form-field">
+                                                            <mat-label>Client Name</mat-label>
+                                                            <mat-select [(ngModel)]="projectDataModel.clientId"
+                                                                name="clientId" #clientId="ngModel" required>
+                                                                <mat-option *ngFor="let item of clientDropdownData"
+                                                                    [value]="item.value">{{item.text}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col  gy-2 mt-2">
+                                                    <div class="w-100">
+                                                        <ng-select #projectManagerSelect class="w-100"
+                                                            [items]="projectManagerDropdownData" bindLabel="fullName"
+                                                            bindValue="id" [(ngModel)]="projectDataModel.projectManager"
+                                                            name="PM" placeholder="Search & Select Project Manager"
+                                                            [searchable]="true">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Name</mat-label>
+                                                <input matInput name="name" [(ngModel)]="projectDataModel.name"
+                                                    #name="ngModel" required>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <ng-select #leader1Select class="w-100" [items]="leaderDropdownData"
+                                                bindLabel="fullName" bindValue="id"
+                                                [(ngModel)]="projectDataModel.leader1" name="L1"
+                                                placeholder="Search & Select Leader1 Name" [searchable]="true"
+                                                [clearable]="true">
+                                            </ng-select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-12 col-12">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 col-lg-12">
+                                            <div class="w-100">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>State_District</mat-label>
+                                                    <input matInput name="subLocation" required
+                                                        [(ngModel)]="projectDataModel.subLocation" appAllowOnlyChars
+                                                        #subLocation="ngModel">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-12 mt-2">
+                                            <div class="w-100">
+                                                <ng-select #leader2Select class="w-100" [items]="leaderDropdownData"
+                                                    bindLabel="fullName" bindValue="id"
+                                                    [(ngModel)]="projectDataModel.leader2" name="L2"
+                                                    placeholder="Search & Select Leader2 Name" [searchable]="true"
+                                                    [clearable]="true">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Project Nature Type</mat-label>
+                                            <mat-select name="projectNatureType" #projectNatureType="ngModel"
+                                                [(ngModel)]="projectDataModel.projectNatureType" required>
+                                                <mat-option *ngFor="let item of projectNatureTypeArray ; index as i"
+                                                    [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>GSTIN</mat-label>
+                                        <input matInput name="scheme" [(ngModel)]="projectDataModel.gstin"
+                                            pattern="^[0-9]{2}[a-zA-Z]{4}[a-zA-Z0-9]{1}[0-9]{4}[a-zA-Z]{1}[a-zA-Z0-9]{3}$"
+                                            (input)="onGstinInput(GSTIN)"
+                                            oninput="this.value = this.value.toUpperCase()" #GSTIN="ngModel" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Service Charge</mat-label>
+                                        <input type="number" min="0" matInput name="serviceCharge"
+                                            [(ngModel)]="projectDataModel.serviceCharge" #serviceCharge="ngModel">
+                                        <span class="input-group-text">%</span>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Start Date</mat-label>
+                                                <input matInput [matDatepicker]="startdate"
+                                                    [(ngModel)]="projectDataModel.startDate" name="startDate"
+                                                    #startDate="ngModel" placeholder="dd/mm/yy"
+                                                    (dateChange)="onStartDateChange($event, endDate)" required />
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="startdate"></mat-datepicker-toggle>
+                                                <mat-datepicker #startdate></mat-datepicker>
+                                                <mat-error *ngIf="startDate.invalid && startDate.touched">
+                                                    Start Date is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 mt-md-0 mt-2">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>End Date</mat-label>
+                                                <input matInput [matDatepicker]="enddate"
+                                                    [(ngModel)]="projectDataModel.endDate" name="endDate"
+                                                    #endDate="ngModel" [min]="projectDataModel.startDate" required />
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="enddate"></mat-datepicker-toggle>
+                                                <mat-datepicker #enddate></mat-datepicker>
+                                                <mat-error
+                                                    *ngIf="endDate.invalid && (endDate.touched || endDate.dirty)">
+                                                    <span *ngIf="endDate.errors?.['required']">End Date is
+                                                        required</span>
+                                                    <small *ngIf="endDate.errors?.['dateRange']">End Date cannot be
+                                                        before Start Date</small>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Select Delivery Model Type</mat-label>
+                                            <mat-select [(ngModel)]="projectDataModel.projectDeliveryModelType"
+                                                name="projectDeliveryModelType" #projectDeliveryModelType="ngModel">
+                                                <mat-option *ngFor="let item of deliveryModelTypeArray ; index as i"
+                                                    [value]="item.id">
+                                                    {{ item.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <div class="row gy-2">
+                                        <div class="col-12 col-md-6">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Bank Name</mat-label>
+                                                <input matInput [(ngModel)]="projectDataModel.bankName"
+                                                    appAllowOnlyChars name="bankName" #bankName="ngModel" required>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 ">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Labour Licence Number</mat-label>
+                                                <input matInput [(ngModel)]="projectDataModel.labourLICNumber"
+                                                    name="labourLICNumber" #labourLICNumber="ngModel">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <div class="row gy-2">
+                                        <div class="col-12 col-md-6">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Project Resource Type</mat-label>
+                                                <mat-select [(ngModel)]="projectDataModel.projectResourceType"
+                                                    name="projectResourceType" #projectResourceType="ngModel">
+                                                    <mat-option
+                                                        *ngFor="let item of projectResourceTypeArray ; index as i"
+                                                        [value]="item.id">
+                                                        {{ item.name }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 ">
+                                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                                <mat-label>Service Windows</mat-label>
+                                                <mat-select [(ngModel)]="projectDataModel.serviceWindowsValue"
+                                                    name="shift" multiple #shift="ngModel">
+                                                    <mat-option *ngFor="let item of shiftTypeArray ; index as i"
+                                                        [value]="item.id">
+                                                        {{ item.name }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Resource Requirement</mat-label>
+                                            <input type="number" min="0" matInput
+                                                [(ngModel)]="projectDataModel.projectResourceRequirement"
+                                                [appMaxNumber]="10000" name="projectResourceRequirement"
+                                                #projectResourceRequirement="ngModel" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Attendance Type</mat-label>
+                                        <mat-select [(ngModel)]="projectDataModel.attendanceType" name="attendanceType"
+                                            #attendanceType="ngModel">
+                                            <mat-option *ngFor="let item of projectAttendanceTypeArray ; index as i"
+                                                [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Select Status</mat-label>
+                                        <mat-select [(ngModel)]="projectDataModel.projectStatus" name="projectStatus"
+                                            #projectStatus="ngModel" required>
+                                            <mat-option *ngFor="let item of projectStatusArray; index as i"
+                                                [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Payment Type</mat-label>
+                                        <mat-select [(ngModel)]="projectDataModel.paymentType" name="paymentType"
+                                            #paymentType="ngModel">
+                                            <mat-option *ngFor="let item of paymentTypeArray ; index as i"
+                                                [value]="item.id">
+                                                {{ item.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-12 ">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Payment Receivable Days</mat-label>
+                                        <input type="number" matInput [appMaxNumber]="100"
+                                            [(ngModel)]="projectDataModel.paymentCycleDays" name="paymentCycleDays"
+                                            #paymentCycleDays="ngModel" />
+                                        <span class="input-group-text">Days</span>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <div class="w-100 ">
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Description</mat-label>
+                                            <textarea matInput [(ngModel)]="projectDataModel.description"
+                                                name="description" #description="ngModel" required rows="3"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="grid-view mt-5 mb-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="grid-header d-flex justify-content-between">
+                                        <p class="grid-title">Addendum</p>
+                                        <div class="add-newBtn" (click)="addEndum()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 24 24">
+                                                <path fill="none" stroke="black" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+                                            </svg>
+                                            Add New
+                                        </div>
+                                    </div>
+                                    <div class="grid-body  mt-3 border rounded-2 overflow-hidden">
+                                        <table class="table w-100 mb-0">
+                                            <tr class="first-child">
+                                                <th class="w-25 py-3">Title</th>
+                                                <th class="w-25 text-start">Location</th>
+                                                <th class="w-25 text-start">File</th>
+                                                <th class="w-25 text-start">Description</th>
+                                                <th class="text-end w-25" style="padding-right: 36px !important;">Action
+                                                </th>
+                                            </tr>
+                                            <tr *ngIf="addendumData.length === 0" class="text-center">
+                                                <td colspan="100%" class="text-center py-3">No data found</td>
+                                            </tr>
+                                            <tr class="" *ngFor="let enumdata of addendumData;let i = index">
+                                                <td class="ps-3"
+                                                    style="padding-top: 0px !important; padding-bottom:0px !important; padding-left: 20px !important;">
+                                                    {{enumdata.title}}</td>
+                                                <td class="ps-3"
+                                                    style="padding-top: 0px !important; padding-bottom:0px !important;padding-left: 20px !important;">
+                                                    {{enumdata.location}}</td>  
+                                                <td class="ps-3"
+                                                    style="padding-top: 0px !important; padding-bottom:0px !important;padding-left: 20px !important;">
+                                                    <span class="icn-bg bg-skyblue download-i">
+                                                        <ng-container *appIsGranted="'Export'">
+                                                            <a *ngIf="enumdata.documentPath"
+                                                                [href]="enumdata.documentUrl"
+                                                                download="{{ enumdata.documentPath }}" mat-raised-button
+                                                                matTooltip="Download" [matTooltipPosition]="'right'"
+                                                                [matTooltipShowDelay]="showDelay.value"
+                                                                [matTooltipHideDelay]="hideDelay.value"
+                                                                aria-label="Download">
+                                                                <i class="fa fa-download"></i>
+                                                            </a>
+                                                        </ng-container>
+                                                    </span>
+                                                </td>
+                                                <td class="ps-2"
+                                                    style="padding-top: 0px !important; padding-bottom:0px !important;padding-left: 20px !important;">
+                                                    {{enumdata.description}}</td>
+                                                <td style="padding-top: 0px !important; padding-bottom:0px !important;">
+                                                    <div class="d-flex gap-2 py-0">
+                                                        <div class="edit-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                            (click)="editAddendum(i)"
+                                                            style="padding-top: 8px !important; padding-bottom:8px !important;">
+                                                            <span class="icn-bg bg-skyblue" mat-raised-button
+                                                                mat-raised-button matTooltip="Edit"
+                                                                [matTooltipPosition]="'left'"
+                                                                [matTooltipShowDelay]="showDelay.value"
+                                                                [matTooltipHideDelay]="hideDelay.value"
+                                                                aria-label="Edit">
+                                                                <icon-edit></icon-edit>
+                                                            </span>
+                                                        </div>
+                                                        <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                            (click)="removeAddendum(i)"
+                                                            style="padding-top: 8px !important; padding-bottom:8px !important;">
+                                                            <span class="icn-bg bg-red" mat-raised-button
+                                                                mat-raised-button matTooltip="Delete"
+                                                                [matTooltipPosition]="'left'"
+                                                                [matTooltipShowDelay]="showDelay.value"
+                                                                [matTooltipHideDelay]="hideDelay.value"
+                                                                aria-label="Delete">
+                                                                <icon-delete></icon-delete>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #AddEnumDumModel="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{backdrop: 'static'}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
+                <span class="d-block" (click)="addEnuDumModel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <form #projectendumForm="ngForm" (ngSubmit)="saveAddendum()">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                        <mat-label>Title</mat-label>
+                        <input matInput [(ngModel)]="addEnudumDataModel.title" name="title" #title="ngModel" required
+                            appAllowOnlyChars>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mt-3 custom-mat-form-field">
+                        <mat-label>Location</mat-label>
+                        <input matInput [(ngModel)]="addEnudumDataModel.location" name="location" #location="ngModel"
+                            appAllowOnlyChars required>
+                    </mat-form-field>
+
+                    <div class="input-group choose-file mt-3 choose-single" (click)="triggerEnumDocumentFileInput()">
+                        <i class="fas fa-paperclip icon"></i>
+                        <span class="placeholder">Upload File</span>
+                        <input type="file" class="form-control d-none" id="inputEnumFile" #inputEnumFile
+                            (change)="onEnumDocumentFileSelected($event)">
+                    </div>
+
+                    <div class="file-info mt-2" *ngIf="selectedFileName">
+                        <!-- Display the file icon based on the file type with margin for spacing -->
+                        <i *ngIf="selectedFileName.endsWith('.pdf')" class="fas fa-file-pdf me-2"
+                            style="color: #FA6060;"></i>
+                        <i *ngIf="selectedFileName.endsWith('.doc') || selectedFileName.endsWith('.docx')"
+                            class="fas fa-file-word me-2" style="color: #4285F4;"></i>
+                        <i *ngIf="selectedFileName.endsWith('.jpg') || selectedFileName.endsWith('.jpeg')"
+                            class="fas fa-file-image me-2" style="color: #FFA75D;"></i>
+                        <i *ngIf="selectedFileName.endsWith('.png')" class="fas fa-file-image me-2"
+                            style="color: #59AAAA;"></i>
+                        <span class="file-name">{{ selectedFileName }}</span>
+                        <button type="button" class="btn btn-close" (click)="removeFile()"></button>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="w-100 mt-3">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput [(ngModel)]="addEnudumDataModel.description" name="description"
+                            #description="ngModel" [rows]="5"></textarea>
+                    </mat-form-field>
+                    <input type="hidden" [(ngModel)]="addEnudumDataModel.addendumId" name="id" required>
+                    <div class="modal-footer popup-footer px-0 d-flex">
+                        <button type="submit" class="btn btn-save mx-0 p-footerbtns w-100">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

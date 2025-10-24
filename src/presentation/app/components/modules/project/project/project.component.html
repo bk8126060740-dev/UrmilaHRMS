@@ -1,0 +1,159 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-0 m-lg-3 mt-3">
+            <div class="col-12 breadcrumb mb-0">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="card mx-4">
+            <div class="row m-0 p-0 gy-0" *appIsGranted="'Read'">
+                <!-- <div class="col-md col-12 ps-0 cart-design">
+                    <div class="client-cart " (click)="onStatusCardClick(defualtSelectedStatus,$event)"
+                        [ngClass]="{'active' : selectedStatus.name === defualtSelectedStatus.name}">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="align-self-center card-item card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5"
+                                        d="M21.001 12A9 9 0 0 1 12 21a9.001 9.001 0 1 1 0-18m8.554.469L14.99 9.01m5.564-5.541c-.495-.495-3.832-.45-4.537-.44m4.537.44c.495.495.449 3.83.439 4.536"
+                                        color="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="left-card-side text-end">
+                                <p class="mb-2">All Status</p>
+                                <p class="client-cart-number">{{statusCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-12 col-sm-3 col-md-3 col-lg ps-0 cart-design gy-3 gy-lg-0"
+                    *ngFor="let status of projectStatus">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)" style="border-color: #4285F4;"
+                        [ngStyle]="{'border-color' : selectedStatus.name === status.name ? status.colorCode : '' }">
+                        <div class="align-items-center justify-content-between main-client-card">
+                            <div class="left-card-side card-icon1">
+                                <p class="mb-2">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Total Records'">
+                                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8z"/></svg> -->
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': '#4285F4'}"></span>
+                                <icon-totalRecords></icon-totalRecords>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': '#4285F4'}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Completed'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Completed></icon-Completed>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon2 overflow-hidden position-relative"
+                                *ngIf="status.name === 'In Progress'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0"
+                                    viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                    class="" style="height: 30px !important; width: 30px !important;">
+                                    <g>
+                                        <path
+                                            d="M22 12.75a.75.75 0 0 1-.75-.75A9.25 9.25 0 0 0 5.459 5.459a9.427 9.427 0 0 0-.862.993.75.75 0 0 1-1.2-.9 11.235 11.235 0 0 1 1-1.15A10.75 10.75 0 0 1 22.75 12a.75.75 0 0 1-.75.75zM12 22.75A10.748 10.748 0 0 1 1.25 12a.75.75 0 0 1 1.5 0 9.25 9.25 0 0 0 15.791 6.541 9.331 9.331 0 0 0 .861-.992.751.751 0 0 1 1.2.9 11.087 11.087 0 0 1-1 1.151A10.684 10.684 0 0 1 12 22.75z"
+                                            fill="#F5B849" opacity="1" data-original="#000000" class=""></path>
+                                        <path
+                                            d="M20.485 21.235a.75.75 0 0 1-.75-.75v-2.078h-2.079a.75.75 0 0 1 0-1.5h2.829a.75.75 0 0 1 .75.75v2.828a.75.75 0 0 1-.75.75zM6.343 7.093H3.515a.75.75 0 0 1-.75-.75V3.515a.75.75 0 0 1 1.5 0v2.078h2.078a.75.75 0 0 1 0 1.5zM12 5.25A6.75 6.75 0 1 0 18.75 12 6.758 6.758 0 0 0 12 5.25zm2.5 7.5H12a.75.75 0 0 1-.75-.75V9a.75.75 0 0 1 1.5 0v2.25h1.75a.75.75 0 0 1 0 1.5z"
+                                            fill="#F5B849" opacity="1" data-original="#000000" class=""></path>
+                                    </g>
+                                </svg> -->
+                                <icon-InProgress></icon-InProgress>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon3 position-relative overflow-hidden"
+                                *ngIf="status.name === 'On Hold'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-onHold></icon-onHold>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Cancel'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <!-- <svg fill="#FA6060" version="1.1" baseProfile="tiny" id="Layer_1"
+                                    xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" width="64px"
+                                    height="64px" viewBox="0 0 42.00 42.00" xml:space="preserve" stroke="#94C196"
+                                    stroke-width="0.00042000000000000007">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke="#CCCCCC" stroke-width="2.016"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path fill-rule="evenodd"
+                                            d="M21.002,26.588l10.357,10.604c1.039,1.072,1.715,1.083,2.773,0l2.078-2.128 c1.018-1.042,1.087-1.726,0-2.839L25.245,21L36.211,9.775c1.027-1.055,1.047-1.767,0-2.84l-2.078-2.127 c-1.078-1.104-1.744-1.053-2.773,0L21.002,15.412L10.645,4.809c-1.029-1.053-1.695-1.104-2.773,0L5.794,6.936 c-1.048,1.073-1.029,1.785,0,2.84L16.759,21L5.794,32.225c-1.087,1.113-1.029,1.797,0,2.839l2.077,2.128 c1.049,1.083,1.725,1.072,2.773,0L21.002,26.588z">
+                                        </path>
+                                    </g>
+                                </svg> -->
+                                <icon-Cancel></icon-Cancel>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Closed'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-ClosedCard></icon-ClosedCard>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Hybrid Model'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+                                    <path fill="#F171B1"
+                                        d="M26 22a3.96 3.96 0 0 0-2.02.566L17.414 16l6.567-6.567A3.95 3.95 0 0 0 26 10a4 4 0 1 0-4-4a3.95 3.95 0 0 0 .567 2.019L16 14.586L9.434 8.02A3.96 3.96 0 0 0 10 6a4 4 0 1 0-4 4a3.96 3.96 0 0 0 2.02-.566L14.586 16l-6.567 6.567A3.95 3.95 0 0 0 6 22a4 4 0 1 0 4 4a3.95 3.95 0 0 0-.567-2.019L16 17.414l6.566 6.566A3.96 3.96 0 0 0 22 26a4 4 0 1 0 4-4m0-18a2 2 0 1 1-2 2a2 2 0 0 1 2-2M6 28a2 2 0 1 1 2-2a2 2 0 0 1-2 2" />
+                                </svg> -->
+                                <icon-HybridModel></icon-HybridModel>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Active'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Active></icon-Active>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 p-0 mb-4 ">
+        <div class="col p-0 m-0 borad card-adjust">
+            <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [title]="'Project'"
+                (edit)="onEdit($any($event))" (delete)="onDelete($any($event))" (insert)="addProject()"
+                (pageNumber)="onPageChange($any($event))" (recodeValueChange)="onTotalProjectPerPageValueChange($any($event))"
+                [isBreadCurmbsShow]="false" [filterData]="filterData" (searchTearm)="onSearch($any($event))"
+                (orderBy)="orderBy($event)" (buttonClick)="attributeButtonClick($event)" (export)="export()">
+            </tg-grid>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="borad-body">
+    <div class="col-12">
+        <div class="borad-header p-0 d-flex align-items-center justify-content-between me-4 mt-2">
+            <h4 class="innerform-title mb-3 ms-4 mt-3">
+                <p *ngIf="showTitle">Salary Slips</p>
+            </h4>
+            <div class="header-buttons d-flex" (click)="addSalarySlip()">
+                <div class="add-newBtn cursor d-flex justify-content-center align-items-center gap-1">
+                    <icon-Add></icon-Add>
+                    Add New
+                </div>
+            </div>
+        </div>
+        <table class="w-100 position-relative table tr-table-hover table">
+            <tr class="my-2 ">
+                <th class="py-3 ps-4 cursor">Company Name</th>
+                <th class="text-start cursor">Month-Year</th>
+                <th class="text-start cursor">Salary Amount</th>
+                <th class="text-start">View</th>
+                <th class="text-end pe-5">Action</th>
+            </tr>
+            <tr class="text-center my-2" *ngIf="salarySlipData.length === 0">
+                <td colspan="100%" class="text-center py-3">No data found</td>
+            </tr>
+            <tr class="text-center my-2" *ngFor="let item of salarySlipData">
+                <td class="text-start ps-4">{{item.companyName}}</td>
+                <td class="text-start py-2">{{item.monthYear}}</td>
+                <td class="text-start py-2">{{item.salaryAmount}}</td>
+                <td class="text-start py-2">
+                    <div class="attributes-icon d-flex cursor" (click)="viewdocument(item)"
+                        *ngIf="item.salarySlipDoc != null">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32"
+                                d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 0 0-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 0 0 0-17.47C428.89 172.28 347.8 112 255.66 112" />
+                            <circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                stroke-width="32" />
+                        </svg>
+                    </div>
+                </td>
+                <td class="d-flex align-items-center justify-content-end pe-4 edit-icns py-2">
+                    <div class="edit-icon d-flex justify-content-center align-items-center action-icn me-2 cursor"
+                        (click)="editSlip(item)">
+                        <icon-edit></icon-edit>
+                    </div>
+
+                    <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                        (click)="deleteSlip(item);">
+                        <icon-delete></icon-delete>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- Salary Slip popup modal -->
+<div bsModal #AddSalarySlipModel="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{backdrop: 'static'}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Add Salary Slip</h5>
+                <span class="d-block" (click)="closeSalarySlip()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <form [formGroup]="salarySlipForm" #formDirective="ngForm">
+                    <div class="row gy-2">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Select Company</mat-label>
+                            <mat-select formControlName="company">
+                                <mat-option *ngFor="let experience of experienceData"
+                                    [value]="experience.companyName">{{ experience.companyName
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Select Month</mat-label>
+                            <mat-select formControlName="month">
+                                <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Select Year</mat-label>
+                            <mat-select formControlName="year">
+                                <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Salary Amount</mat-label>
+                            <input matInput formControlName="salaryAmount" required type="number" />
+                        </mat-form-field>
+                        <h4 class="innerform-title fw-medium pb-2 mt-3">Document</h4>
+                        <div class="col-12 pt-2">
+                            <div class="cursor" *ngIf="!files.length" appDrag (files)="filesDropped($event)"
+                                (fileSizeError)="handleFileSizeErrors($event)"
+                                (click)="triggerProfileFileInput(fileInput)">
+                                <div
+                                    class="input-group choose-file dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center">
+                                    <div class="browse-icn w-100 text-center mb-2">
+                                        <icon-BrowsFile></icon-BrowsFile>
+                                    </div>
+                                    <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                    <span class="w-100 text-center mb-1">OR</span>
+                                    <button class="browse-btn">Browse File</button>
+                                    <input type="file" #fileInput style="display: none;" accept=".pdf,.docx"
+                                        name="profilePicPath" (change)="onDocumentFileSelected($event)" />
+                                </div>
+                            </div>
+                            <div class="file-info mt-2" *ngFor="let file of files">
+                                <i *ngIf="file.name.endsWith('.xls') || file.name.endsWith('.xlsx')"
+                                    class="fas fa-file-excel me-2" style="color: red;"></i>
+                                <span class="file-name">{{ file.name }}</span>
+                                <button type="button" class="btn btn-close" (click)="removeFile()"></button>
+                            </div>
+                        </div>
+                        <div class="modal-footer popup-footer px-0 d-flex mt-3">
+                            <button type="submit" class="btn btn-save mx-0 p-footerbtns w-100"
+                                (click)="onSubmit()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

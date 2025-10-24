@@ -1,0 +1,369 @@
+<header class="position-sticky top-0 z-4">
+    <div class="col p-0 header-main">
+        <div class="top-header" (click)="closeprofileMenu()">
+            <div class="header-left-info d-flex align-items-center">
+                <div class="bars-icon" (click)="menuOpen($event)">
+                    <icon-MenuCollapes></icon-MenuCollapes>
+                </div>
+                <div class="dropdown ms-3 project-btn project-select" *ngIf="isPermission && showProjectName">
+
+                    <ng-select [items]="projectDropdownData" bindLabel="name" bindValue="id"
+                        [(ngModel)]="selectedProject" [clearable]="false" (change)="onProjectChange($event)"
+                        placeholder="Select Project">
+                    </ng-select>
+                </div>
+
+            </div>
+            <div class="header-right-info d-flex gap-2">
+
+                <div class="dropdown" *ngIf="isCheckIn">
+                    <div class="theme-setting position-relative cursor" type="button" (click)="showCheckinoutRecord()"
+                        aria-expanded="false" mat-raised-button matTooltip="View Attandance" aria-label="Notifications">
+                        <icon-AttendanceHeader></icon-AttendanceHeader>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <div class="theme-setting position-relative cursor" type="button" (click)="showNotificationData()"
+                        aria-expanded="false" mat-raised-button matTooltip="Notifications"
+                        [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+                        aria-label="Notifications">
+                        <icon-notification></icon-notification>
+                        <span class="notify" *ngIf="notificationData.length > 0"></span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-setting position-relative cursor " mat-raised-button matTooltip="Theme Color"
+                    [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+                    aria-label="Theme Color">
+                    <div (click)="themeChanger($event)" class=" setting-icn">
+                        <icon-setting></icon-setting>
+                    </div>
+                    <div class="theme-color-setting position-absolute top-100 end-0 bg-white p-3">
+                        <p class="fw-medium pb-2 border-bottom">Theme Setting</p>
+                        <div class="py-3">
+                            <h6 class="pb-1">Solid Theme</h6>
+                            <ul class="theme-colors d-flex flex-wrap mb-0 list-style-none pb-2">
+                                <li class="theme-color theme-blue" (click)="setTheme('blue')">
+                                </li>
+                                <li class="theme-color theme-orange" (click)="setTheme('orange')">
+                                </li>
+                                <li class="theme-color theme-skyBlue" (click)="setTheme('skyBlue')"></li>
+                                <li class="theme-color theme-purple" (click)="setTheme('purple')"></li>
+                                <li class="theme-color theme-green" (click)="setTheme('green')"></li>
+                                <li class="theme-color theme-red" (click)="setTheme('red')"></li>
+                            </ul>
+                            <h6 class="mt-2 pb-1">Gradient Theme</h6>
+                            <ul class="theme-colors d-flex flex-wrap mb-0 list-style-none">
+                                <li class="theme-color theme-Turquoise_Blue" (click)="setTheme('Turquoise_Blue')">
+                                </li>
+                                <li class="theme-color theme-gradient" (click)="setTheme('gradient')"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Profile-info position-relative " aria-label="Theme Color">
+
+                    <div class="admin-img" mat-raised-button aria-label="Admin">
+                        <div (click)="openProfile($event)" class="setting-icn profile-header-icon">
+                            
+                            <ng-container *ngIf="!employeeData.profilePath || employeeData.profilePath === 'null'">
+                                <span class="admin-imgname-heder">{{ asName }}</span>
+                            </ng-container>
+                            <ng-container *ngIf="employeeData.profilePath && employeeData.profilePath !== 'null'">
+                                <img [src]="employeeData.profilePath" alt="" (error)="onImageError()">
+                            </ng-container>
+                        </div>
+                    </div>
+
+
+                    <div class="profile-setting position-absolute top-100 end-0 bg-white p-3">
+                        <div class="card mb-0">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center"><span
+                                        class="avatar avatar-lg me-2 avatar-rounded">
+                                        
+                                        <ng-container
+                                            *ngIf="employeeData.profilePath != '' && employeeData.profilePath != null && employeeData.profilePath != undefined &&  employeeData.profilePath != 'null'">
+                                            <img [src]="employeeData.profilePath" alt="">
+                                        </ng-container>
+                                        <ng-container
+                                            *ngIf="!employeeData.profilePath || employeeData.profilePath === 'null'">
+                                            <span class="admin-imgname-heder">
+                                                {{ firstName.charAt(0).toUpperCase() }}{{
+                                                name.charAt(0).toUpperCase() }}
+                                            </span>
+                                        </ng-container>
+                                    </span>
+                                    <div>
+                                        <p class="fs-12 fw-medium mb-0">{{firstName}} {{name}}</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <a class="dropdown-item d-inline-flex align-items-center p-0  px-3"
+                                    (click)="openChangePasswordModel()"><icon-lock></icon-lock> Change
+                                    Password</a>
+                                <div class="log-out  px-3" style="cursor: pointer;" (click)="logout()">
+                                    <icon-logout></icon-logout> Logout
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="admin-details ">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div bsModal #notificationModel="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content notify-dropdown">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <div class="dropdown-header  d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <p class="d-inline-block fw-medium">Notifications</p>
+                        <span class="ms-2 message-count">{{notificationData.length}}</span>
+                    </div>
+                </div>
+                <span (click)="notificationModel?.hide()">
+                    <icon-close></icon-close>
+                </span>
+            </div>
+            <div>
+                <div class="w-100 d-flex justify-content-end py-2 px-3">
+                    <span *ngIf="notificationData.length > 0" class="mark-all cursor" (click)="readMessage(0,{})">Mark
+                        all as read</span>
+                </div>
+            </div>
+            <ng-container *ngIf="notificationData.length > 0">
+                <div class="notification-div" *ngFor="let item of notificationData">
+                    <div class="notify-item py-3 gap-2 px-4 align-items-baseline">
+                        <div class="d-flex">
+                            <div>
+                                <span class="message-circle" style="margin-right: 10px !important;">
+                                    <icon-Message></icon-Message>
+                                </span>
+                            </div>
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                    <p class="title">{{item.title}}</p>
+                                    <span class="seen bg-danger cursor" (click)="readMessage(1,item)"></span>
+                                </div>
+                                <p>{{item.message}}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-1">
+                            <p class="date text-end">{{item.createdDate | date: 'dd-MMM-yyyy hh:mm a'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="notificationData.length <= 0">
+                <div class="d-flex justify-content-center align-items-center flex-wrap animation_notification mb-5">
+                    <div>
+                        <lottie-player src="../../../../../../assets/image/animationNo_data.json"
+                            background="transparent" speed="1" style="width: 240px; height: 240px;" loop autoplay
+                            class="lottie">
+                        </lottie-player>
+                        <p class="d-block w-100 text-center font-medium h5 text-secondary">No Notification Found
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div bsModal #changePasswordModel="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content notify-dropdown">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <div class="dropdown-header  d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <p class="d-inline-block fw-medium">Change Password</p>
+                    </div>
+                </div>
+                <span (click)="changePasswordModel?.hide()">
+                    <icon-close></icon-close>
+                </span>
+            </div>
+            <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+                <div class="forgot-form change-password-popup p-3">
+                    <div class="col-xl-12 col-lg-6 col-12 ">
+                        <div class="w-100">
+                            <div class="w-100 position-relative">
+                                <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                                    <mat-label>Current Password</mat-label>
+                                    <input matInput type="password" id="password" name="password"
+                                        formControlName="currentPassword" [type]="passwordHide ? 'password' : 'text'">
+                                  
+                                    <span class="position-absolute password-visibilty cursor-pointer ">
+                                        <ng-container *ngIf="passwordHide">
+                                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                (click)="passwordHide = !passwordHide"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px"
+                                                x="0" y="0" viewBox="0 0 512 512"
+                                                style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                                                <g>
+                                                    <g data-name="Layer 16">
+                                                        <path
+                                                            d="M419.72 419.72 92.26 92.27l-.07-.08a19 19 0 0 0-26.78 27l28.67 28.67a332.64 332.64 0 0 0-88.19 89 34.22 34.22 0 0 0 0 38.38C65.86 364 160.93 416 256 415.35a271.6 271.6 0 0 0 90.46-15.16l46.41 46.41a19 19 0 0 0 26.94-26.79zM256 363.74a107.78 107.78 0 0 1-98.17-152.18l29.95 29.95a69.75 69.75 0 0 0 82.71 82.71l29.95 29.95a107.23 107.23 0 0 1-44.44 9.57zM506.11 236.81C446.14 148 351.07 96 256 96.65a271.6 271.6 0 0 0-90.46 15.16l46 46a107.78 107.78 0 0 1 142.63 142.63l63.74 63.74a332.49 332.49 0 0 0 88.2-89 34.22 34.22 0 0 0 0-38.37z"
+                                                            fill="currentColor" opacity="1" data-original="#000000">
+                                                        </path>
+                                                        <path
+                                                            d="M256 186.26a69.91 69.91 0 0 0-14.49 1.52l82.71 82.7A69.74 69.74 0 0 0 256 186.26z"
+                                                            fill="currentColor" opacity="1" data-original="#000000">
+                                                        </path>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </ng-container>
+                                        <ng-container *ngIf="!passwordHide">
+                                            
+                                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                (click)="passwordHide = !passwordHide"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px"
+                                                x="0" y="0" viewBox="0 0 461.312 461.312"
+                                                style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                                                <g>
+                                                    <path
+                                                        d="M230.656 156.416c-40.96 0-74.24 33.28-74.24 74.24s33.28 74.24 74.24 74.24 74.24-33.28 74.24-74.24-33.28-74.24-74.24-74.24zm-5.632 52.224c-9.216 0-16.896 7.68-16.896 16.896h-24.576c.512-23.04 18.944-41.472 41.472-41.472v24.576z"
+                                                        fill="currentColor" opacity="1" data-original="#000000"
+                                                        class=""></path>
+                                                    <path
+                                                        d="M455.936 215.296c-25.088-31.232-114.688-133.12-225.28-133.12S30.464 184.064 5.376 215.296c-7.168 8.704-7.168 21.504 0 30.72 25.088 31.232 114.688 133.12 225.28 133.12s200.192-101.888 225.28-133.12c7.168-8.704 7.168-21.504 0-30.72zm-225.28 122.88c-59.392 0-107.52-48.128-107.52-107.52s48.128-107.52 107.52-107.52 107.52 48.128 107.52 107.52-48.128 107.52-107.52 107.52z"
+                                                        fill="currentColor" opacity="1" data-original="#000000"
+                                                        class=""></path>
+                                                </g>
+                                            </svg>
+                                        </ng-container>
+                                    </span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-6 col-12 mt-3">
+                        <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                            <mat-label>New Password</mat-label>
+                            <input matInput type="password" id="newpassword" name="newPassword"
+                                formControlName="newPassword" [type]="newPasswordHide ? 'password' : 'text'">
+                            
+
+                            <span class="position-absolute password-visibilty cursor-pointer ">
+                                <ng-container *ngIf="passwordHide">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        (click)="passwordHide = !passwordHide"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" x="0"
+                                        y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" class="">
+                                        <g>
+                                            <g data-name="Layer 16">
+                                                <path
+                                                    d="M419.72 419.72 92.26 92.27l-.07-.08a19 19 0 0 0-26.78 27l28.67 28.67a332.64 332.64 0 0 0-88.19 89 34.22 34.22 0 0 0 0 38.38C65.86 364 160.93 416 256 415.35a271.6 271.6 0 0 0 90.46-15.16l46.41 46.41a19 19 0 0 0 26.94-26.79zM256 363.74a107.78 107.78 0 0 1-98.17-152.18l29.95 29.95a69.75 69.75 0 0 0 82.71 82.71l29.95 29.95a107.23 107.23 0 0 1-44.44 9.57zM506.11 236.81C446.14 148 351.07 96 256 96.65a271.6 271.6 0 0 0-90.46 15.16l46 46a107.78 107.78 0 0 1 142.63 142.63l63.74 63.74a332.49 332.49 0 0 0 88.2-89 34.22 34.22 0 0 0 0-38.37z"
+                                                    fill="currentColor" opacity="1" data-original="#000000">
+                                                </path>
+                                                <path
+                                                    d="M256 186.26a69.91 69.91 0 0 0-14.49 1.52l82.71 82.7A69.74 69.74 0 0 0 256 186.26z"
+                                                    fill="currentColor" opacity="1" data-original="#000000">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="!passwordHide">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        (click)="passwordHide = !passwordHide"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" x="0"
+                                        y="0" viewBox="0 0 461.312 461.312" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" class="">
+                                        <g>
+                                            <path
+                                                d="M230.656 156.416c-40.96 0-74.24 33.28-74.24 74.24s33.28 74.24 74.24 74.24 74.24-33.28 74.24-74.24-33.28-74.24-74.24-74.24zm-5.632 52.224c-9.216 0-16.896 7.68-16.896 16.896h-24.576c.512-23.04 18.944-41.472 41.472-41.472v24.576z"
+                                                fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                            <path
+                                                d="M455.936 215.296c-25.088-31.232-114.688-133.12-225.28-133.12S30.464 184.064 5.376 215.296c-7.168 8.704-7.168 21.504 0 30.72 25.088 31.232 114.688 133.12 225.28 133.12s200.192-101.888 225.28-133.12c7.168-8.704 7.168-21.504 0-30.72zm-225.28 122.88c-59.392 0-107.52-48.128-107.52-107.52s48.128-107.52 107.52-107.52 107.52 48.128 107.52 107.52-48.128 107.52-107.52 107.52z"
+                                                fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                        </g>
+                                    </svg>
+                                </ng-container>
+                            </span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-12 col-lg-6 col-12 mt-3">
+                        <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                            <mat-label>Confirm New Password</mat-label>
+                            <input matInput type="password" id="conNewPasswordHide" name="conNewPasswordHide"
+                                formControlName="confirmPassword" [type]="conNewPasswordHide ? 'password' : 'text'">
+                            
+
+                            <span class="position-absolute password-visibilty cursor-pointer ">
+                                <ng-container *ngIf="passwordHide">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        (click)="passwordHide = !passwordHide"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" x="0"
+                                        y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" class="">
+                                        <g>
+                                            <g data-name="Layer 16">
+                                                <path
+                                                    d="M419.72 419.72 92.26 92.27l-.07-.08a19 19 0 0 0-26.78 27l28.67 28.67a332.64 332.64 0 0 0-88.19 89 34.22 34.22 0 0 0 0 38.38C65.86 364 160.93 416 256 415.35a271.6 271.6 0 0 0 90.46-15.16l46.41 46.41a19 19 0 0 0 26.94-26.79zM256 363.74a107.78 107.78 0 0 1-98.17-152.18l29.95 29.95a69.75 69.75 0 0 0 82.71 82.71l29.95 29.95a107.23 107.23 0 0 1-44.44 9.57zM506.11 236.81C446.14 148 351.07 96 256 96.65a271.6 271.6 0 0 0-90.46 15.16l46 46a107.78 107.78 0 0 1 142.63 142.63l63.74 63.74a332.49 332.49 0 0 0 88.2-89 34.22 34.22 0 0 0 0-38.37z"
+                                                    fill="currentColor" opacity="1" data-original="#000000">
+                                                </path>
+                                                <path
+                                                    d="M256 186.26a69.91 69.91 0 0 0-14.49 1.52l82.71 82.7A69.74 69.74 0 0 0 256 186.26z"
+                                                    fill="currentColor" opacity="1" data-original="#000000">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="!passwordHide">
+                                    
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        (click)="passwordHide = !passwordHide"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="22px" height="22px" x="0"
+                                        y="0" viewBox="0 0 461.312 461.312" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" class="">
+                                        <g>
+                                            <path
+                                                d="M230.656 156.416c-40.96 0-74.24 33.28-74.24 74.24s33.28 74.24 74.24 74.24 74.24-33.28 74.24-74.24-33.28-74.24-74.24-74.24zm-5.632 52.224c-9.216 0-16.896 7.68-16.896 16.896h-24.576c.512-23.04 18.944-41.472 41.472-41.472v24.576z"
+                                                fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                            <path
+                                                d="M455.936 215.296c-25.088-31.232-114.688-133.12-225.28-133.12S30.464 184.064 5.376 215.296c-7.168 8.704-7.168 21.504 0 30.72 25.088 31.232 114.688 133.12 225.28 133.12s200.192-101.888 225.28-133.12c7.168-8.704 7.168-21.504 0-30.72zm-225.28 122.88c-59.392 0-107.52-48.128-107.52-107.52s48.128-107.52 107.52-107.52 107.52 48.128 107.52 107.52-48.128 107.52-107.52 107.52z"
+                                                fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                        </g>
+                                    </svg>
+                                </ng-container>
+                            </span>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-xl-12 col-lg-6 col-12 mt-3">
+                        <div class="w-100">
+                            <button class="login-btn  fw-medium ">Save Password</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

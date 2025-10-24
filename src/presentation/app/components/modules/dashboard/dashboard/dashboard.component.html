@@ -1,0 +1,138 @@
+<div class="coming-soon d-flex justify-content-center align-items-center w-100" *ngIf="!isHo">
+    <lottie-player src="../../../../../../assets/image/animation.json" background="transparent" speed="1"
+        style="width: 300px; height: 300px;" loop autoplay>
+    </lottie-player>
+</div>
+
+
+<div class="container-fluid px-3 mb-4" *ngIf="isHo">
+    <div class="row mt-3 gx-3 dashborad-input">
+        <div class="col-xl-7 col-lg-6 col-12 chart-select">
+            <ng-select [items]="clientList" bindLabel="text" bindValue="value" multiple [(ngModel)]="selectedClientId"
+                (change)="onClientChange()" placeholder="Search & Select Client *" required>
+            </ng-select>
+        </div>
+
+        <div class="col-xl-2 col-lg-6 col-12">
+            <ng-select [items]="monthList" bindLabel="name" bindValue="id" [(ngModel)]="selectedMonth"
+                [clearable]="false" [ngModelOptions]="{standalone: true}" placeholder="Select Month">
+            </ng-select>
+        </div>
+        <div class="col-xl-2 col-lg-6 col-12">
+            <ng-select [items]="yearList" bindLabel="" bindValue="" [(ngModel)]="selectedYear" [clearable]="false"
+                [ngModelOptions]="{standalone: true}" placeholder="Select Year">
+                <ng-template ng-label-tmp let-item="item">{{item}}</ng-template>
+                <ng-template ng-option-tmp let-item="item">{{item}}</ng-template>
+            </ng-select>
+        </div>
+        <div class="col-xl-1 col-lg-6 col-12">
+            <button class="btn btn-primary w-100" (click)="getMatrixData()">Refresh</button>
+        </div>
+    </div>
+    <div class="row mt-3 gx-3 gy-3">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="main-borad h-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3>Profile View</h3>
+                    <div class="profile-icon">
+                        <icon-user></icon-user>
+                    </div>
+                </div>
+                <div class="my-3 mt-4 user-image">
+                    <ng-container
+                        *ngIf="employeeData.profilePath === ''|| employeeData.profilePath === null|| employeeData.profilePath === undefined || employeeData.profilePath === 'null'">
+                        <span class="admin-imgname">{{asName}}</span>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="employeeData.profilePath != '' && employeeData.profilePath != null && employeeData.profilePath != undefined &&  employeeData.profilePath != 'null'">
+                        <img [src]="employeeData.profilePath" alt="">
+                    </ng-container>
+                </div>
+                <h6 class="mb-2">{{greeting}}, {{employeeData.fullName}}</h6>
+                <h4>{{currentDateTime}}</h4>
+                <ng-container *ngIf="isCheckIn">
+                    <p class="text-center"
+                        *ngIf="byDateAttendance[0]?.outTime === null && byDateAttendance[0]?.inTime !== null  ">
+                        Punch In at {{ convertTo12HourFormat(byDateAttendance[0]?.inTime || '00:00:00') || 'N/A'}}
+                    </p>
+                    <p class="text-center"
+                        *ngIf="byDateAttendance[0]?.outTime !== null && byDateAttendance[0]?.inTime !== null  ">
+                        Punch In {{ convertTo12HourFormat(byDateAttendance[0]?.inTime || '00:00:00') || 'N/A'}}
+                        Out at {{ convertTo12HourFormat(byDateAttendance[0]?.outTime || '00:00:00') || 'N/A' }}
+                    </p>
+                    <button
+                        *ngIf="(byDateAttendance[0]?.inTime !== null && byDateAttendance[0]?.outTime !== null) || byDateAttendance.length === 0"
+                        class="btn mt-3 btn-primary  w-100" (click)="checkIn()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="me-2" version="1.1"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" x="0" y="0"
+                            viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                            <g>
+                                <path
+                                    d="M22 12.75a.75.75 0 0 1-.75-.75A9.25 9.25 0 0 0 5.459 5.459a9.427 9.427 0 0 0-.862.993.75.75 0 0 1-1.2-.9 11.235 11.235 0 0 1 1-1.15A10.75 10.75 0 0 1 22.75 12a.75.75 0 0 1-.75.75zM12 22.75A10.748 10.748 0 0 1 1.25 12a.75.75 0 0 1 1.5 0 9.25 9.25 0 0 0 15.791 6.541 9.331 9.331 0 0 0 .861-.992.751.751 0 0 1 1.2.9 11.087 11.087 0 0 1-1 1.151A10.684 10.684 0 0 1 12 22.75z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                <path
+                                    d="M20.485 21.235a.75.75 0 0 1-.75-.75v-2.078h-2.079a.75.75 0 0 1 0-1.5h2.829a.75.75 0 0 1 .75.75v2.828a.75.75 0 0 1-.75.75zM6.343 7.093H3.515a.75.75 0 0 1-.75-.75V3.515a.75.75 0 0 1 1.5 0v2.078h2.078a.75.75 0 0 1 0 1.5zM12 5.25A6.75 6.75 0 1 0 18.75 12 6.758 6.758 0 0 0 12 5.25zm2.5 7.5H12a.75.75 0 0 1-.75-.75V9a.75.75 0 0 1 1.5 0v2.25h1.75a.75.75 0 0 1 0 1.5z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </svg>
+                        Check In
+                    </button>
+                    <button *ngIf="byDateAttendance[0]?.inTime !== null && byDateAttendance[0]?.outTime === null"
+                        class="btn mt-3 btn-primary w-100" (click)="checkOut()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="me-2" version="1.1"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" x="0" y="0"
+                            viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                            <g>
+                                <path
+                                    d="M22 12.75a.75.75 0 0 1-.75-.75A9.25 9.25 0 0 0 5.459 5.459a9.427 9.427 0 0 0-.862.993.75.75 0 0 1-1.2-.9 11.235 11.235 0 0 1 1-1.15A10.75 10.75 0 0 1 22.75 12a.75.75 0 0 1-.75.75zM12 22.75A10.748 10.748 0 0 1 1.25 12a.75.75 0 0 1 1.5 0 9.25 9.25 0 0 0 15.791 6.541 9.331 9.331 0 0 0 .861-.992.751.751 0 0 1 1.2.9 11.087 11.087 0 0 1-1 1.151A10.684 10.684 0 0 1 12 22.75z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                                <path
+                                    d="M20.485 21.235a.75.75 0 0 1-.75-.75v-2.078h-2.079a.75.75 0 0 1 0-1.5h2.829a.75.75 0 0 1 .75.75v2.828a.75.75 0 0 1-.75.75zM6.343 7.093H3.515a.75.75 0 0 1-.75-.75V3.515a.75.75 0 0 1 1.5 0v2.078h2.078a.75.75 0 0 1 0 1.5zM12 5.25A6.75 6.75 0 1 0 18.75 12 6.758 6.758 0 0 0 12 5.25zm2.5 7.5H12a.75.75 0 0 1-.75-.75V9a.75.75 0 0 1 1.5 0v2.25h1.75a.75.75 0 0 1 0 1.5z"
+                                    fill="#fff" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </svg>
+                        Check Out
+                    </button>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="attendanceChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="payrollChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="salarySheetChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="pIInvoiceChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="gstInvoiceChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="utrSheetChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 390px; display: block;"></highcharts-chart>
+        </div>
+    </div>
+    <!-- <div class="row mt-3 gx-3">
+        <div class="col-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="pIInvoiceChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="gstInvoiceChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+        </div>
+        <div class="col-4">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="utrSheetChartOptions" [oneToOne]="true"
+                [update]="updateFlag" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+        </div>
+    </div> -->
+</div>

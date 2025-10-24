@@ -1,0 +1,342 @@
+<div class="dashborad-main mb-0">
+  <div class="container-fluid p-0">
+    <div class="row m-3 mb-0 ms-0">
+      <div class="col-12 ps-0 d-flex justify-content-between">
+        <app-breadcrumb></app-breadcrumb>
+      </div>
+    </div>
+    <div class="row pt-3 m-0">
+      <div class="col-12 p-0 m-0">
+        <div class="main-board form-borad overflow-auto">
+          <div
+            class="borad-header-create pb-3 pt-3 border-bottom d-flex justify-content-between align-items-center position-sticky top-0">
+            <p class="board-title">Job Create</p>
+            <div class="header-buttons d-flex">
+              <button type="submit" class="header-btn btn-cancel me-3" (click)="cancelButttonHandler()">
+                <p>Cancel</p>
+                <icon-CancelHead></icon-CancelHead>
+              </button>
+              <ng-container>
+                <button type="submit" class="header-btn btn-save" (click)="triggerFormSubmit()" *appIsGranted="'Write'">
+                  <p>Save</p>
+                  <icon-Save></icon-Save>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+          <div class="borad-body p-2 py-4 pt-0">
+            <form [formGroup]="jobPositionForm" (ngSubmit)="submitJobPositionForm()">
+              <div class="row gy-2 p-0 m-0 mt-3">
+                <div class="col-lg-4 col-12 col-md-6">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Job Title</mat-label>
+                      <input matInput formControlName="title" />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <div class="w-100">
+                    <ng-select [items]="designationList" bindLabel="name" bindValue="id"
+                      [(ngModel)]="selectedDesigantionId" formControlName="designationId" [clearable]="true"
+                      placeholder="Search & Select Designation*" class="w-100" [ngClass]="{
+                        'ng-invalid ng-touched': jobPositionForm.get('designationId')?.invalid && jobPositionForm.get('designationId')?.touched
+                      }" (search)="onDesignationSearch($event.term)" required>
+                    </ng-select>
+                    <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Designation</mat-label>
+                      <mat-select matInput formControlName="designationId">
+                        <mat-option *ngFor="let designation of designationList" [value]="designation.id">
+                          {{ designation.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Skills</mat-label>
+                      <input type="text" matInput formControlName="skills" (input)="onInputChange($event)" />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Department</mat-label>
+                    <mat-select matInput formControlName="departmentId">
+                      <mat-option *ngFor="let item of departmentArray; index as i" [value]="item.id">
+                        {{ item.departmentName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+                  <ng-select [items]="departmentArray" bindLabel="departmentName" bindValue="id"
+                    formControlName="departmentId" [(ngModel)]="selectedDepartmentId" [multiple]="false"
+                    [clearable]="true" placeholder="Search & Select Department*" class="w-100" required>
+                  </ng-select>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Role</mat-label>
+                    <mat-select matInput formControlName="role">
+                      <mat-option *ngFor="let item of roleArray; index as i" [value]="item.name">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>No Of Position</mat-label>
+                    <input type="number" matInput formControlName="noOfPosition" [min]="0" />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Minimum CTC</mat-label>
+                    <input type="number" matInput formControlName="ctcMin" [min]="0" />
+                    <span class="input-group-text">Lakhs</span>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Maximum CTC</mat-label>
+                    <input type="number" matInput formControlName="ctcMax" [min]="0" />
+                    <span class="input-group-text">Lakhs</span>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Experience Type</mat-label>
+                    <mat-select formControlName="experienceTypeId">
+                      <mat-option *ngFor="let item of experienceTypeArray; index as i" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Minimum Experience</mat-label>
+                    <input type="number" (input)="limitDigitsMin($event)" matInput formControlName="experienceMin"
+                      [min]="0" [max]="99" />
+                    <span class="input-group-text">Years</span>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Maximum Experience</mat-label>
+                    <input type="number" (input)="limitDigitsMin($event)" matInput formControlName="experienceMax"
+                      [min]="0" [max]="99" />
+                    <span class="input-group-text">Years</span>
+                  </mat-form-field>
+                  <div *ngIf="jobPositionForm.errors?.['experienceMinGreaterThanMax']">
+                    <mat-error><sub>Invalid</sub></mat-error>
+                  </div>
+                  <div *ngIf="jobPositionForm.errors?.['experienceMinexperienceMax']">
+                    <mat-error><sub>Not valid</sub></mat-error>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Hiring Manager Employee</mat-label>
+                    <mat-select matInput formControlName="hiringManagerEmployeeId">
+                      <mat-option *ngFor="let item of hiringManagerEmpArray; index as i" [value]="item.id">
+                        {{ item.fullName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+                  <ng-select [items]="hiringManagerEmpArray" bindLabel="fullName" bindValue="id"
+                    placeholder="Search & Select hiring manager*" formControlName="hiringManagerEmployeeId"
+                    [searchable]="true" [clearable]="true">
+                  </ng-select>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Position Status</mat-label>
+                    <mat-select matInput formControlName="status">
+                      <mat-option *ngFor="let item of positionStatusArray; index as i" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Mode</mat-label>
+                    <mat-select matInput formControlName="modeId">
+                      <mat-option *ngFor="let item of modeArray; index as i" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startdate" formControlName="startDate" [min]="today" />
+
+                        <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+                        <mat-datepicker #startdate></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="Enddate" formControlName="endDate"
+                          [min]="jobPositionForm.get('startDate')?.value" />
+                        <mat-datepicker-toggle matIconSuffix [for]="Enddate"></mat-datepicker-toggle>
+                        <mat-datepicker #Enddate></mat-datepicker>
+                        <!-- <mat-error
+                            *ngIf="jobPositionForm.errors?.['dateRangeInvalid']"
+                          >
+                            End Date cannot be earlier than Start Date.
+                          </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Location</mat-label>
+                    <input type="text" matInput formControlName="location" />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label> Minimum Age</mat-label>
+                    <input type="number" matInput formControlName="ageMin" [min]="0" [max]="100"
+                      (input)="agelimitDigitsMin($event)" />
+                    <span class="input-group-text">Years</span>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Maximum Age</mat-label>
+                    <input type="number" matInput formControlName="ageMax" [min]="0" [max]="100"
+                      (input)="agelimitDigitsMin($event)" />
+                    <span class="input-group-text">Years</span>
+                  </mat-form-field>
+                  <div *ngIf="jobPositionForm.errors?.['ageMinGreaterThanMax']">
+                    <mat-error><sub>Invalid</sub></mat-error>
+                  </div>
+                  <div *ngIf="jobPositionForm.errors?.['ageMinageMax']">
+                    <mat-error><sub>Not Valid</sub></mat-error>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Language</mat-label>
+                    <mat-select matInput formControlName="languages" multiple>
+                      <mat-option *ngFor="let item of languageArray; index as i" [value]="item.name">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <div class="row">
+                    <!-- <div class="col-6"> -->
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Duration</mat-label>
+                      <input type="number" matInput formControlName="duration" />
+                      <span class="input-group-text">Months</span>
+                    </mat-form-field>
+                    <!-- </div> -->
+                    <!-- <div class="col-6">
+                      <mat-form-field
+                        appearance="outline"
+                        class="w-100 custom-mat-form-field"
+                      >
+                        <mat-label>Qualification</mat-label>
+                        <mat-select
+                          type="text"
+                          matInput
+                          formControlName="qualifications"
+                          multiple
+                        >
+                          <mat-option
+                            *ngFor="let item of qualificationArray; index as i"
+                            [value]="item.name"
+                          >
+                            {{ item.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12 col-md-6">
+                  <!-- <div class="col-6"> -->
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>Qualification</mat-label>
+                    <mat-select type="text" matInput formControlName="qualifications" multiple>
+                      <mat-option *ngFor="let item of qualificationArray; index as i" [value]="item.name">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- </div> -->
+                  <!-- <mat-form-field
+                    appearance="outline"
+                    class="w-100 custom-mat-form-field"
+                  >
+                    <mat-label>Skill</mat-label>
+                    <mat-select
+                      type="text"
+                      matInput
+                      formControlName="skills"
+                      multiple
+                    > -->
+                  <!-- (selectionChange)="onSkillChange($event)" -->
+                  <!-- <mat-option
+                        *ngFor="let item of skillArray; index as i"
+                        [value]="item.name"
+                      >
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  -->
+                </div>
+                <!-- <div class="col-lg-4 col-12 col-md-6">
+                    <mat-form-field
+                      appearance="outline"
+                      class="w-100 custom-mat-form-field"
+                    >
+                      <mat-label>Position Status</mat-label>
+                      <mat-select matInput formControlName="positionStatus">
+                        <mat-option
+                          *ngFor="let item of positionStatusArray; index as i"
+                          [value]="item.id"
+                        >
+                          {{ item.enumItem }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div> -->
+                <div class="col-12">
+                  <!-- <mat-form-field appearance="outline" class="w-100 ">
+                                          <mat-label>Description</mat-label>
+                                          <textarea matInput formControlName="description" [rows]="5"></textarea>
+                                      </mat-form-field> -->
+                  <div class="w-100">
+                    <div class="editor">
+                      <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+                      </ngx-editor-menu>
+                      <ngx-editor [editor]="editor" formControlName="description" appearance="outline"
+                        placeholder="Description" (change)="onDescriptionChange($event)">
+                      </ngx-editor>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

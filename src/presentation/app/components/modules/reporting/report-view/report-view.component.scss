@@ -1,0 +1,13 @@
+@import '../../../../../../styles/styles.scss';
+
+* {
+
+    font-family: $fonts !important;
+}
+
+.main-borad {
+    background-color: #fff;
+    position: relative;
+    border-radius: 6px;
+    border: 1px solid #eaedf1;
+}

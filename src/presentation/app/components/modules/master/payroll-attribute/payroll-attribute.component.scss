@@ -1,0 +1,13 @@
+@import '../../../../../../styles/styles.scss';
+
+* {
+    font-family: $fonts !important;
+}
+
+.check-active {
+    color: var(--theme-color);
+}
+
+.close-false {
+    fill: #8F959D;
+}

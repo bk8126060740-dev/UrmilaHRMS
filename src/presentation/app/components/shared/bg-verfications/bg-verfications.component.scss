@@ -1,0 +1,19 @@
+@import '../../../../../styles/styles.scss';
+
+* {
+    font-family: $fonts !important;
+}
+
+.card-bg {
+    border: 1px solid $border-color;
+    border-radius: 6px;
+}
+
+// .borad-body {
+//     max-height: calc(100vh - 24vh);
+//     overflow: auto;
+// }
+
+.w-title {
+    width: 180px;
+}

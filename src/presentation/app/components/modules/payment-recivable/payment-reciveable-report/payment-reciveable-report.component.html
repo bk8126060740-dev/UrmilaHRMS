@@ -1,0 +1,341 @@
+<div class="dashborad-main payment-report">
+    <div class="container-fulid p-0">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 mt-3 ">
+            <div class="col p-0 m-0">
+                <div class="main-board-1  pb-0 position-relative z-9  ">
+                    <div
+                        class="borad-header-create pb-3 pt-3 border-bottom d-flex justify-content-between position-sticky top-0 align-items-center cursor-pointer">
+                        <p class="board-title">Payment Receivable Report</p>
+                        <div class="d-flex gap-3">
+                            <ng-container>
+                                <button type="button" (click)="downloadPaymentReceviableReport()"
+                                    class="edit-btn export-btn header-btn d-flex justify-content-center align-items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em"
+                                        viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M5.552 20.968a2.577 2.577 0 0 1-2.5-2.73c-.012-2.153 0-4.306 0-6.459a.5.5 0 0 1 1 0c0 2.2-.032 4.4 0 6.6c.016 1.107.848 1.589 1.838 1.589h12.463A1.55 1.55 0 0 0 19.825 19a3 3 0 0 0 .1-1.061v-6.16a.5.5 0 0 1 1 0c0 2.224.085 4.465 0 6.687a2.567 2.567 0 0 1-2.67 2.5Z" />
+                                        <path fill="currentColor"
+                                            d="M12.337 3.176a.46.46 0 0 0-.311-.138q-.021.002-.043-.006c-.022-.008-.027 0-.041.006a.46.46 0 0 0-.312.138L7.961 6.845a.5.5 0 0 0 .707.707l2.816-2.815v10.742a.5.5 0 0 0 1 0V4.737L15.3 7.552a.5.5 0 0 0 .707-.707Z" />
+                                    </svg>
+                                    <p>Export</p>
+                                </button>
+                            </ng-container>
+                            <button class="d-flex justify-content-center btn-theme align-items-center"
+                                style="width: 40px; padding: 0px !important;" (click)="showFilter = !showFilter"
+                                [attr.aria-label]="showFilter ? 'Hide filter' : 'Show filter'" type="button">
+                                <svg *ngIf="!showFilter" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                                </svg>
+                                <svg *ngIf="showFilter" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="borad-body p-4" *ngIf="showFilter">
+
+                        <!-- Form Details -->
+                        <form action="">
+                            <div class="row gy-3">
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Select Client</mat-label>
+                                        <mat-select [(ngModel)]="selectedClientId" [ngModelOptions]="{standalone: true}"
+                                            (selectionChange)="onClientChange()" required>
+                                            <mat-option *ngFor="let client of clientList" [value]="client.value">
+                                                {{ client.text }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field> -->
+                                    <ng-select [(ngModel)]="selectedClientId" [items]="clientList" bindLabel="text"
+                                        bindValue="value" (change)="onClientChange()"
+                                        placeholder="Search & Select Client *"
+                                        [class.ng-select-unselected]="isSubmitted && !selectedClientId"
+                                        [ngModelOptions]="{ standalone: true }" class="w-100" [required]="true">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Select Project</mat-label>
+                                        <mat-select multiple [(ngModel)]="selectedProjectId"
+                                            [ngModelOptions]="{standalone: true}" required>
+                                            <mat-option *ngFor="let project of projectList" [value]="project.id">
+                                                {{ project.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <ng-select [items]="projectList" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="selectedProjectId" [multiple]="true"
+                                        placeholder="Search & Select Project" [ngModelOptions]="{standalone: true}"
+                                        class="w-100">
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Payment Date</mat-label>
+                                        <input matInput [matDatepicker]="dobPicker" [(ngModel)]="paymentDate"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #dobPicker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Invoice Number</mat-label>
+                                        <input type="text" matInput [(ngModel)]="invoiceNumber"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Cheque Number</mat-label>
+                                        <input type="text" min="0" matInput [(ngModel)]="chequeNumber"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <!-- <span class="input-group-text">%</span> -->
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12">
+                                    <button class="d-flex justify-content-between btn-theme align-items-center"
+                                        (click)="paymentReceviableReport()">
+                                        <icon-filter></icon-filter>
+                                        <p class="mx-2">View Report</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouped Cards -->
+        <div class="cards-wrapper row m-0 mt-0 gap-3 p-0 record-box">
+            <div class="row m-0 mt-4 gap-3 p-0">
+                <!-- Total Invoice Card -->
+                <div class="col-12 col-md p-0">
+                    <div class="bg-white card border">
+                        <p><strong>Total Tax Invoice</strong></p>
+                        <h5>{{ totalTaxInvoiceAmount | number:'1.2-2' }}</h5>
+                    </div>
+                </div>
+                <!-- Outstanding Card -->
+                <div class="col-12 col-md p-0">
+                    <div class="bg-white card border sky">
+                        <p><strong>Total Gross Amount</strong></p>
+                        <h5>{{ totalGrossAmount | number:'1.2-2' }}</h5>
+                    </div>
+                </div>
+                <!-- Draft Card -->
+                <div class="col-12 col-md p-0">
+                    <div class="bg-white card border green">
+                        <p><strong>Total CGST Amount</strong></p>
+                        <h5>{{ totalCgstAmount | number:'1.2-2' }}</h5>
+                    </div>
+                </div>
+                <!-- Total Overdue Card -->
+                <div class="col-12 col-md p-0">
+                    <div class="bg-white card border red">
+                        <p><strong>Total Tax</strong></p>
+                        <h5>{{ totalTax | number:'1.2-2' }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-0 px-0">
+            <div class="dashborad-main m-4 mx-0 mt-3 p-0 mb-0 paymentreport">
+                <div class="container-fluid">
+
+                    <div class="row p-0">
+                        <div class="col borad-parent p-0">
+                            <div class="main-board-1 position-static px-0">
+                                <div class="board-content position-relative h-100 flex-wrap">
+                                    <div class="board-header d-flex justify-content-between px-4 py-3 flex-wrap">
+                                        <div class="board-title d-flex align-items-center">
+                                            Invoice Report
+                                        </div>
+                                    </div>
+                                    <div class="parent-container">
+                                        <div class="user-data">
+                                            <table class="w-100 position-relative  table table-accodian"
+                                                style="table-layout: fixed;">
+                                                <thead class="position-sticky top-0 bg-white"
+                                                    style="z-index: 2 !important; ">
+                                                    <tr class="table-header-row table-title">
+                                                        <th class="text-dark pe-2 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 90px !important;">
+                                                            Sr No.</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;    width: 190px !important;">
+                                                            Date</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 190px !important;">
+                                                            PI No.</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 160px !important;">
+                                                            Gross Amount</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 160px !important;">
+                                                            CGST (9%)</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 160px !important;">
+                                                            SGST (9%)</th>
+                                                        <!-- <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 0px !important;">
+                                                            Credit Note Amount</th> -->
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 160px !important;">
+                                                            Total Tax</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;  width: 160px !important;">
+                                                            Invoice Value</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;  width: 160px !important;">
+                                                            Tax Invoice Amount</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;  width: 190px !important;">
+                                                            Bank Name</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 190px !important;">
+                                                            Bank Account No</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important; width: 190px !important;">
+                                                            Cheque No</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            Cheque Date</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            GST Deduction</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            TDS Deduction</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            Hold Amount</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            Credit Note Amount</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            Credit Amount</th>
+                                                        <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                            style="padding: 12px 10px !important;width: 160px !important;">
+                                                            Balance</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tr *ngIf="paymentReceviableReportList.length === 0"
+                                                    class="text-center my-2">
+                                                    <td colspan="100%" class="text-center py-4"
+                                                        style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                        No data found
+                                                    </td>
+                                                </tr>
+
+                                                <tbody *ngFor="let group of paymentReceviableReportList">
+                                                    <!-- Client Row -->
+                                                    <tr (click)="toggleClient(group.clientName)" class="cursor">
+                                                        <td colspan="100%" class="text-start py-4"
+                                                            style="padding: 12px 10px !important;">
+                                                            <icon-dropdown
+                                                                [ngClass]="{ 'rotated': expandedClients[group.clientName] }"></icon-dropdown>
+                                                            {{ group.clientName }}
+                                                        </td>
+                                                    </tr>
+
+                                                    <!-- Project Rows (only if client expanded) -->
+                                                    <ng-container *ngIf="expandedClients[group.clientName]">
+                                                        <ng-container *ngFor="let project of group.projects">
+                                                            <tr (click)="toggleProject(group.clientName, project.projectName)"
+                                                                class="cursor">
+                                                                <td colspan="100%" class="text-start py-4"
+                                                                    style="padding: 12px 10px !important; padding-left: 40px !important;">
+                                                                    <icon-dropdown
+                                                                        [ngClass]="{ 'rotated': expandedProjects[group.clientName + '|' + project.projectName] }"></icon-dropdown>
+                                                                    {{ project.projectName }}
+                                                                    <span class="text-primary">
+                                                                        ({{ project.items.length || 0 }} Transaction{{
+                                                                        project.items.length > 1 ? 's' : '' }})
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr
+                                                                *ngIf="expandedProjects[group.clientName + '|' + project.projectName]">
+                                                                <td colspan="100%" class="p-0">
+                                                                    <table class="table mb-0">
+                                                                        <tr class="table-header-row report-inner-table"
+                                                                            *ngFor="let payment of project.items; let i = index">
+                                                                            <td style="width: 90px !important;">{{ i + 1
+                                                                                }}</td>
+                                                                            <td style="width: 190px !important;">{{
+                                                                                payment.paymentDate | date:'dd/MM/yyyy'
+                                                                                }}</td>
+                                                                            <td style=" width: 190px !important;">{{
+                                                                                payment.performaInvoice }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.grossAmount }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.cgstAmount }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.sgstAmount }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.totalTax }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.invoiceValue }}</td>
+                                                                            <td style="width: 160px !important;">{{
+                                                                                payment.taxInvoiceAmount }}</td>
+                                                                            <td style=" width: 190px !important;">{{
+                                                                                payment.bankName }}</td>
+                                                                            <td style=" width: 190px !important;">{{
+                                                                                payment.bankAccountNo }} </td>
+                                                                            <td style=" width: 190px !important;">{{
+                                                                                payment.chequeNumber }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.chequeDate | date:'dd/MM/yyyy'
+                                                                                }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.gstAndTDSAmount }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.itAndTDSAmount }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.holdAmount }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.creditNoteDeductionAmount }}
+                                                                            </td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.creditedAmount }}</td>
+                                                                            <td style=" width: 160px !important;">{{
+                                                                                payment.remainingBalanceAmount }}</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,792 @@
+.dashborad-main {
+    font-family: $fonts;
+    margin: 28px;
+    margin-top: 16px;
+
+    .main-board {
+        overflow: hidden;
+        background-color: $white-color;
+        border-radius: $border8;
+        border: 1px solid #eaedf1;
+        display: block;
+        width: 100%;
+        padding-top: 0 !important;
+
+        .parent-container {
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+    }
+
+}
+
+
+.borad-header-parent {
+    position: absolute;
+    width: 100%;
+    top: 0 !important;
+    padding: 0 24px;
+    background-color: transparent !important;
+    border-radius: 10px 10px 0px 0px;
+    z-index: 1;
+}
+
+.borad-header {
+    padding: 0px 24px;
+    background-color: $white-color;
+    z-index: 999;
+    margin-top: 70px !important;
+}
+
+.borad-header-create {
+    padding: 0px 24px;
+    background-color: $white-color;
+    z-index: 5;
+}
+
+
+// delete confimation popup
+.swal-modal {
+    border-radius: 20px;
+    padding-bottom: 10px;
+
+    .swal-button {
+        background-color: var(--theme-color);
+        font-weight: 400 !important;
+
+        &:focus {
+            background-color: var(--theme-color);
+        }
+    }
+
+    .swal-button:not([disabled]):hover {
+        background-color: var(--theme-color);
+    }
+
+    .swal-button--danger {
+        background-color: var(--theme-color);
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .swal-button--danger:not([disabled]):hover {
+        background-color: var(--theme-color);
+    }
+
+    .swal-button--cancel {
+        background-color: transparent !important;
+        border: 1px solid var(--theme-color) !important;
+        color: var(--theme-color) !important;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .swal-button--cancel:not([disabled]):hover {
+        background-color: transparent !important;
+    }
+}
+
+.card {
+    background-color: transparent !important;
+    border: none !important;
+
+    .client-cart {
+        background-color: $white-color;
+        padding: 16px 22px;
+        position: relative;
+        border-radius: $border6;
+        border: 1px solid #eaedf1;
+        cursor: pointer;
+
+        .d-flex {
+            gap: 8px !important;
+        }
+
+        svg {
+            height: 26px;
+            width: 26px;
+            z-index: 2;
+        }
+
+        .card-item {
+            padding: 10px;
+            // border-radius: 5px;
+            border-radius: 50px;
+            height: 46px !important;
+            width: 46px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+                height: 20px !important;
+                width: 20px !important;
+            }
+        }
+
+
+        .left-card-side {
+            p {
+                margin-bottom: 6px;
+                font-size: 12px;
+                font-weight: $font-medium;
+                text-transform: uppercase;
+                color: #00000066 !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .client-cart-number {
+                color: $black-color !important;
+                font-weight: $font-semibold !important;
+                font-size: 22px;
+            }
+        }
+
+        &.active {
+            border-color: var(--theme-color);
+        }
+    }
+
+    .cart-design .client-cart {
+        .left-card-side {
+            p {
+                // color: #38B9CC !important;
+            }
+
+            .client-cart-number {
+                color: $black-color !important;
+                font-weight: 700;
+            }
+        }
+
+        .card-item {
+            // background-color: #38B9CC;
+        }
+
+        &.active {
+            // border-color: ;
+        }
+    }
+}
+
+// .master-content .parent-container{
+//     height: 55vh !important;
+//   }
+
+.card-icon {
+    background-color: #ECF3FE;
+
+    svg {
+        color: #4285F4 !important;
+    }
+}
+
+.card-icn-bg {
+    z-index: 1;
+
+    svg {
+        z-index: 3 !important;
+    }
+}
+
+.card-icn-border {
+    z-index: 2;
+    border: 3px solid;
+    border-radius: 50px;
+    opacity: 0.5;
+}
+
+.card-status-opacity {
+    opacity: 0.1;
+}
+
+// icon changes in header
+// inner grid
+.grid-view {
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .grid-header {
+        .grid-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: $header-title;
+            line-height: 38px;
+        }
+
+
+    }
+
+
+}
+
+td>* {
+    color: $grey-text;
+}
+
+
+.borad-header-parent .board-title,
+.board-title {
+    font-size: 17px !important;
+    color: $header-title !important;
+    line-height: normal !important;
+    font-weight: $font-medium;
+    text-transform: uppercase;
+}
+
+
+// inner grid
+@media screen and (max-width:992px) {
+    .dashborad-main {
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+
+    .main-board {
+        height: auto !important;
+    }
+}
+
+@media only screen and (max-width:538px) {
+    .borad-header {
+        .board-title {
+            font-size: 16px !important;
+        }
+
+        .header-btn {
+            width: 40px !important;
+            height: 40px !important;
+            display: flex;
+            justify-content: center;
+
+            p {
+                display: none !important;
+            }
+
+            svg {
+                display: block !important;
+                height: 20px;
+                width: 20px;
+                align-self: center;
+
+            }
+        }
+
+        .btn-cancel {
+            margin-right: 5px !important;
+        }
+
+        .btn-invoice {
+            margin-right: 5px !important;
+        }
+    }
+
+    .borad-footer {
+        justify-content: center !important;
+    }
+}
+
+.card-proff {
+    border: 1px solid $border-color;
+    border-radius: $border6;
+
+    .card-header {
+        p {
+            font-size: 18px;
+            padding: 8px 15px;
+            font-weight: 700;
+            color: var(--theme-color);
+            background-color: var(--light-theme);
+        }
+    }
+}
+
+
+.add-grid {
+    svg {
+        color: var(--theme-color);
+        margin-right: 6px;
+        height: 18px;
+        width: 18px;
+    }
+
+    font-size: $fonts-content;
+    color: $grey-text;
+    padding: 6px;
+    border: 1px dashed $grey-text;
+    border-radius: $border6;
+    display: flex;
+    margin-top: 2px;
+    align-items: center;
+}
+
+.innerform-title {
+    i {
+        font-size: $fonts-content;
+        color: var(--theme-color);
+    }
+}
+
+
+.frm-title {
+    .mdc-checkbox {
+        height: 15px;
+        width: 15px;
+    }
+
+    .mdc-label {
+        text-wrap: nowrap;
+    }
+}
+
+
+// table
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        font-size: 15px;
+        // box-shadow: inset 0 -1px 0 $border-color, inset 0 1px 0 $border-color;
+        border-bottom: none !important;
+        text-transform: capitalize;
+    }
+
+    .table>:not(:last-child)>:last-child>* {
+        border-bottom-color: $border-color !important;
+    }
+
+    .table-title {
+        font-size: $fonts-content;
+        color: $grid-maintitle;
+
+        th {
+            background-color: $table-header !important;
+
+            span {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        // background-color: $dashborad-bgcolor;
+        span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        svg {
+            width: 10px !important;
+            height: 10px !important;
+            align-self: center !important;
+        }
+    }
+
+
+
+
+
+    th {
+        font-size: 13px;
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+        border-bottom: none !important;
+        text-transform: capitalize;
+    }
+
+    tr {
+        border-bottom: 1px solid $border-color !important;
+
+        td {
+            border-bottom: 0px !important;
+            text-wrap: nowrap;
+            white-space: nowrap;
+            font-size: 13px !important;
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+            border-top: 0px !important;
+
+            .align-items-center {
+                line-height: 44px;
+
+                .status-btn {
+                    line-height: 26px;
+                    margin-top: 10px;
+                    padding: 2px 8px;
+                    /* Reduced padding */
+                    border-radius: 5px;
+                    color: var(--theme-color);
+                    font-weight: $font-normal;
+                    // background-color: var(--light-theme);
+                    font-size: 12px;
+                    align-self: center;
+                    height: 24px;
+                    width: max-content;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: none !important;
+                }
+            }
+
+        }
+    }
+}
+
+table .first-child {
+    border-top: 1px solid $border-color !important;
+}
+
+
+
+.attributes-icon {
+    background-color: transparent;
+    text-align: center;
+    border-radius: 50%;
+    // border: 1px solid $border-color;
+    // color: var(--theme-color);
+    transition: .3s;
+    padding-top: 3px;
+
+    svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    a {
+        display: inline-flex;
+        text-decoration: none;
+    }
+
+}
+
+.card-design {
+    border: 1px solid $border-color;
+    border-radius: $border6;
+
+    .card-header {
+        font-size: 16px;
+        font-weight: $font-medium;
+        color: var(--theme-color);
+        background-color: var(--light-theme);
+    }
+
+    .card-body {
+        h4 {
+            font-family: $fonts;
+            font-size: 14px;
+            font-weight: $font-medium;
+        }
+
+        p {
+            color: $grey-text;
+            font-size: 12px;
+        }
+    }
+}
+
+.document-img {
+    max-width: 550px;
+    height: 250px;
+    border-radius: $border6;
+
+    img {
+        border-radius: $border6;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+
+.cdk-overlay-container {
+    z-index: 99999 !important;
+}
+
+@media screen and (max-width:767px) {
+    .document-img {
+        height: 100% !important;
+    }
+}
+
+
+// coming soon
+
+.coming-soon {
+    height: 80vh;
+}
+
+.toggle-btn {
+    padding-top: 8px;
+}
+
+// grid view table
+
+
+
+.grid-body {
+    tr {
+        th {
+            color: $grid-maintitle ;
+            font-weight: $font-medium !important;
+            // text-transform: capitalize;
+            // border-top: 1px solid $border-color;
+            border-bottom: 1px solid $border-color !important;
+            padding: 12px 12px 12px 20px !important;
+        }
+
+        td {
+            border-bottom: 1px solid $border-color !important;
+            padding: 13px !important;
+        }
+    }
+}
+
+.grid-view .first-child {
+    background-color: var(--light-theme) !important;
+}
+
+.grid-view .first-child:first-child th {
+    padding-left: 20px;
+}
+
+.ng-select .ng-clear-wrapper .ng-clear {
+    font-size: 22px !important;
+}
+
+.cancel:hover {
+    color: #FA6060 !important;
+}
+
+.swal2-confirm.swal2-styled {
+    background-color: var(--theme-color) !important;
+}
+
+// .master-content .parent-container{
+//     height: 59vh !important;
+//     max-height: 59vh !important;
+// }
+
+
+
+.fix-height .main-board {
+    height: calc(100vh - 140px) !important;
+}
+
+
+.fit-content .main-board {
+    height: 79vh;
+}
+
+.fit-content .main-board .parent-container {
+    height: 60vh !important;
+    max-height: 66vh !important;
+}
+
+.form-borad {
+    max-height: calc(100vh - 147px);
+    height: 84.4vh;
+    overflow-y: auto;
+}
+
+.height-manage .dashborad-main .main-board .parent-container {
+    height: 71vh !important;
+}
+
+.fix-height .main-board .parent-container,
+.fix-height-full .main-board .parent-container {
+    max-height: calc(100% - 136px) !important;
+    height: calc(100% - 136px) !important;
+    overflow: auto;
+}
+
+.fix-height-full .main-board {
+    height: calc(100vh - 110px);
+}
+
+.fix-height .main-board .user-data {
+    height: 100% !important;
+}
+
+.employee-fixHeight .main-board {
+    max-height: calc(100vh - 150px) !important;
+    height: calc(100vh - 150px);
+    overflow: auto;
+}
+
+.card-adjust .main-board {
+    height: calc(100vh - 250px) !important;
+    max-height: calc(100vh - 250px) !important;
+}
+
+.card-adjust .main-board .parent-container {
+    max-height: calc(100% - 130px) !important;
+    height: calc(100% - 130px) !important;
+}
+
+.manage-employee .main-board {
+    height: calc(100vh - 145px) !important;
+    max-height: calc(100vh - 145px) !important;
+}
+
+.manage-employee .main-board .parent-container {
+    height: calc(100% - 136px) !important;
+    max-height: calc(100% - 136px) !important;
+}
+
+.cart-design:last-child {
+    padding-right: 0px !important;
+}
+
+.manage-h .main-board {
+    max-height: calc(100vh - 265px) !important;
+    height: calc(100vh - 265px) !important;
+}
+
+.manage-h .parent-container {
+    height: calc(100% - 136px) !important;
+    max-height: calc(100% - 136px) !important;
+}
+
+.payroll-h .main-board {
+    max-height: calc(100vh - 256px) !important;
+    height: calc(100vh - 256px) !important;
+}
+
+.payroll-h .parent-container {
+    max-height: calc(100% - 140px) !important;
+    height: calc(100% - 140px) !important;
+    overflow: auto;
+}
+
+// .payroll-height .main-board {
+//     max-height: calc(100vh - 139px) !important;
+//     height: calc(100vh - 139px) !important;
+// }
+
+.payroll-height .parent-container {
+    max-height: calc(100vh - 280px) !important;
+    height: calc(100vh - 280px) !important;
+    overflow: auto;
+}
+
+.report-borad .parent-container {
+    height: calc(100vh - 285px);
+    max-height: calc(100vh - 285px);
+    overflow-y: auto;
+}
+
+.attendance-page .table-scroll {
+    height: calc(100vh - 275px);
+    max-height: calc(100vh - 275px);
+    overflow: auto;
+}
+
+.report-view .parent-container {
+    height: calc(100vh - 460px);
+    max-height: calc(100vh - 460px);
+    overflow-y: auto;
+}
+
+.report-create .parent-container {
+    height: calc(100vh - 400px);
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
+}
+
+// .paymentreport .parent-container {
+//     height: calc(100vh - 620px);
+//     max-height: calc(100vh - 620px);
+//     overflow-y: auto;
+// }
+
+.payment-reciveable .borad-body {
+    height: calc(100vh - 220px);
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+}
+
+.payment-recivable-dash .parent-container {
+    height: calc(100vh - 345px);
+    max-height: calc(100vh - 345px);
+    overflow-y: auto;
+}
+
+
+// table tbody tr:hover{
+//     background-color: $table-hover !important;
+// }
+
+.tr-table-hover>tbody>tr:hover td {
+    background-color: $table-hover !important;
+}
+
+.user-data {
+    height: 100% !important;
+}
+
+
+@media screen and (max-width:991px) {
+
+    .form-borad {
+        max-height: 100%;
+        height: 100%;
+    }
+
+}
+
+.fs-14 {
+    font-size: 14px !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label {
+    font-weight: $font-normal !important;
+}
+
+
+.grid-table-invoice {
+
+    .grid-body {
+        height: 340px;
+        max-height: 340px;
+        overflow-y: auto;
+        overflow-x: auto;
+        width: 100%;
+
+        table {
+
+            box-sizing: border-box;
+            max-width: 100%;
+            border: none !important;
+            border-collapse: collapse;
+
+            thead {
+                tr {
+                    // border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+                    border: 0px !important;
+
+                    th {
+                        background-color: var(--light-theme) !important;
+                        border: 0px !important;
+                        text-wrap: nowrap;
+                    }
+
+                }
+            }
+
+            td {
+
+                padding: 12px !important;
+            }
+        }
+    }
+}

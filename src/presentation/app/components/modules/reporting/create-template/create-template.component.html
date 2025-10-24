@@ -1,0 +1,190 @@
+<div class="dashborad-main report-create">
+    <div class="container-fluid p-0">
+        <div class="row m-4 mt-3 ms-0">
+            <div class="col-12 ps-0">
+                <!-- Breadcrumbs -->
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 main-borad px-0">
+            <form [formGroup]="reportTemplateForm" #formDirective="ngForm" (ngSubmit)="upsertReport()">
+
+                <div class="col-12 border-bottom mb-3 pb-3 px-4">
+                    <div class="borad-header-create d-flex border-bottom justify-content-between p-0 align-items-center flex-wrap"
+                        style="border:0px !important">
+                        <p class="board-title">Create Template</p>
+                        <div class="header-buttons d-flex">
+                            <button type="button" class="header-btn btn-cancel me-3" (click)="navigateToDashboard()">
+                                <p>Cancel</p>
+                                <icon-CancelHead></icon-CancelHead>
+                            </button>
+                            <button type="submit" class="header-btn btn-save">
+                                <p>Save</p>
+                                <icon-Save></icon-Save>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row p-0 m-0 px-3 ">
+                        <div class="col-12 col-lg-4 ">
+                            <!-- <label class="d-block Switch-font">Attribute</label> -->
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Enter Template Name</mat-label>
+                                <input matInput name="title" formControlName="title" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <!-- <label class="d-block Switch-font">Attribute</label> -->
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Select Data Source</mat-label>
+                                <mat-select formControlName="destinationSourceId" name="destinationSourceId" required>
+                                    <mat-option *ngFor="let aggregate of aggregateList ; index as i"
+                                        [value]="aggregate.id">
+                                        {{ aggregate.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-lg-4 ">
+                            <!-- <label class="d-block Switch-font">Attribute</label> -->
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Select Aggregate Source</mat-label>
+                                <mat-select formControlName="inputSourceId" name="inputSourceId" required>
+                                    <mat-option *ngFor="let input of inputList ; index as i" [value]="input.id">
+                                        {{ input.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row m-0 main-borad mt-3 px-0 pb-0">
+
+            <div class="col-12">
+                <div class="row  p-0">
+                    <div class="grid-header d-flex justify-content-between px-4">
+                        <p class="board-title d-flex align-items-center ">Report Columns</p>
+                        <div class="add-newBtn gap-1 d-flex justify-content-center align-items-center"
+                            (click)="openModel()">
+                            <icon-Add></icon-Add>
+                            Add New
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3 p-0">
+
+                        <div class="parent-container">
+                            <table class="mb-0 w-100 position-relative table tr-table-hover table ">
+                                <thead class="table-header-row table-title ">
+                                    <tr class="border-bottom">
+                                        <th class="w-25 ps-4 cursor fw-medium"
+                                            style="padding-top:12px !important; padding-bottom:12px !important;">Sr
+                                            No
+                                        </th>
+                                        <th class="w-25 text-start cursor fw-medium"
+                                            style="padding-top:12px !important; padding-bottom:12px !important;">
+                                            Column Name
+                                        </th>
+                                        <th class="w-25 text-start cursor fw-medium"
+                                            style="padding-top:12px !important; padding-bottom:12px !important;">
+                                            Display Name
+                                        </th>
+                                        <th class="text-end  pe-5 fw-medium"
+                                            style="padding-top:12px !important; padding-bottom:12px !important;">
+                                            Action
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+                                    <tr class="text-center" *ngIf="columnList.length === 0">
+                                        <td colspan="100%" class="text-center"
+                                            style="padding-top:12px !important; padding-bottom:12px !important;">
+                                            No data found
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center" *ngFor="let column of columnList" cdkDrag>
+                                        <td class="text-start ps-4" style="padding-top: 12px !important;">
+                                            #{{column.order}}
+                                        </td>
+                                        <td class="text-start" style="padding-top: 12px !important;">
+                                            {{column.builderTableColumnName}}
+                                        </td>
+                                        <td class="text-start" style="padding-top: 12px !important;">
+                                            {{column.customName}}</td>
+                                        <td class="d-flex align-items-center justify-content-end w-100 pe-4 edit-icns"
+                                            style="float: left">
+                                            <div class="d-flex gap-2 justify-content-center p-0"
+                                                (click)="deleteTemplateColumn(column)" style="width: 72px;">
+                                                <div
+                                                    class="delete-icon d-flex justify-content-center align-items-center action-icn cursor py-0">
+                                                    <span class="icn-bg bg-red" mat-raised-button mat-raised-button
+                                                        matTooltip="Delete" [matTooltipPosition]="'right'"
+                                                        [matTooltipShowDelay]="showDelay.value"
+                                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                                        <icon-delete></icon-delete>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #AddColumnForReport="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{backdrop: 'static'}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-3">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Column For Report</h5>
+                <span class="d-block" (click)="closeModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <form [formGroup]="templateColumnForm" #templateColumnFormDirective="ngForm"
+                    (ngSubmit)="addTemplateColumn()">
+                    <div class="row gy-3">
+                        <div class="col-12 p-0">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Enter Column Name</mat-label>
+                                <input matInput name="customName" formControlName="customName" required pattern="^\S*$"
+                                    (keypress)="noWhitespaceValidator($event)">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 p-0">
+                            <ng-select [items]="columnNameList" bindLabel="userProperty" bindValue="id"
+                                formControlName="builderTableColumnId" [clearable]="false"
+                                placeholder="Search or select Column Name" class="mt-1">
+                            </ng-select>
+
+                            <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Select Column Name</mat-label>
+                                <mat-select formControlName="builderTableColumnId" name="builderTableColumnId" required>
+                                    <mat-option *ngFor="let columnName of columnNameList ; index as i"
+                                        [value]="columnName.id">
+                                        {{ columnName.userProperty }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+                        </div>
+                        <button type="submit" (click)="addTemplateColumn()"
+                            class="d-flex justify-content-center align-items-center header-btn btn-save w-100">
+                            <p>Save</p>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

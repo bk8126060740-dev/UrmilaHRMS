@@ -1,0 +1,430 @@
+<div class="dashborad-main">
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <app-breadcrumb></app-breadcrumb>
+      </div>
+    </div>
+    <div class="row pt-3 m-0">
+      <div class="col-12 p-0 m-0">
+        <div class="main-board form-borad overflow-auto">
+          <div class="borad-header-create pb-3 d-flex border-bottom justify-content-between pt-3 align-items-center">
+            <p class="board-title">Client</p>
+            <div class="header-buttons d-flex">
+              <button type="submit" class="header-btn btn-cancel me-3" (click)="cancleCreate(clientForm)">
+                <p>Cancel</p>
+                <icon-CancelHead></icon-CancelHead>
+              </button>
+              <ng-container *appIsGranted="'Write'">
+                <button type="button" class="header-btn btn-save" (click)="triggerFormSubmit(clientForm)"
+                  *ngIf="this.clientDataModel.id === 0">
+                  <p>Save</p>
+                  <icon-Save></icon-Save>
+                </button>
+              </ng-container>
+              <ng-container *appIsGranted="'Update'">
+                <button type="button" class="header-btn btn-save" (click)="triggerFormSubmit(clientForm)"
+                  *ngIf="this.clientDataModel.id != 0">
+                  <p>Update</p>
+                  <icon-Update></icon-Update>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+          <div class="borad-body p-3 pt-2">
+            <form action="" #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)">
+              <div class="row g-3 p-0 m-0 gy-2">
+                <div class="col-xl-4 col-lg-6 col-12 ">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Client Name</mat-label>
+                      <input matInput name="clientName" [(ngModel)]="clientDataModel.name" #clientName="ngModel"
+                        appAllowOnlyChars required />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 ">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Client Address</mat-label>
+                      <input matInput name="address" [(ngModel)]="clientDataModel.address" #address="ngModel"
+                        required />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 ">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>GSTIN/UIN No.</mat-label>
+                      <input matInput #gstin_uin="ngModel" id="daumGstin_uin" name="gstin_uin"
+                        [(ngModel)]="clientDataModel.gstinOrUIN"
+                        pattern="^[0-9]{2}[a-zA-Z]{4}[a-zA-Z0-9]{1}[0-9]{4}[a-zA-Z]{1}[a-zA-Z0-9]{3}$"
+                        #gstinUin="ngModel" (input)="onGstinInput(gstinUin)"
+                        oninput="this.value = this.value.toUpperCase()" required />
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>PAN/IT No.</mat-label>
+                      <input matInput #panIt="ngModel" (input)="onPANinInput(panIt)" id="daumPan_it" name="panIt"
+                        [(ngModel)]="clientDataModel.panOrIT" pattern="^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}$"
+                        oninput="this.value = this.value.toUpperCase()" />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>State Name</mat-label>
+                    <mat-select name="stateId" [(ngModel)]="clientDataModel.stateId" required #stateId="ngModel">
+                      <mat-option *ngFor="let state of stateData" [value]="state.id">
+                        {{ state.stateName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Email Address</mat-label>
+                      <input matInput #email="ngModel" id="email" name="email" [(ngModel)]="clientDataModel.email"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" type="email" required />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Contact No.</mat-label>
+                      <input matInput #contact="ngModel" id="contact" name="contact" appRestrictInput [maxChars]="10"
+                        [(ngModel)]="clientDataModel.contactNumber" pattern="^\d{10}$" type="number" required />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>TAN No.</mat-label>
+                      <input matInput #tannumber="ngModel" id="contact" name="tannumber" pattern="^[A-Za-z0-9]{10}$"
+                        oninput="this.value = this.value.toUpperCase()" [(ngModel)]="clientDataModel.tanNumber"
+                        type="text" required />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="input-group choose-file">
+                    <span class="input-group-text mac-lbl">MSA</span>
+                    <div class="col">
+                      <ng-container *ngIf="selectedFile">
+                        <i *ngIf="selectedFile.name.includes('.pdf')" class="fas fa-file-pdf icon"
+                          style="color: #FA6060"></i>
+                        <i *ngIf="selectedFile.name.includes('.doc') || selectedFile.name.includes('.docx')"
+                          class="fas fa-file-word icon" style="color: #4285F4"></i>
+                        <i *ngIf="selectedFile.name.includes('.png') || selectedFile.name.includes('.jpg') || selectedFile.name.includes('.jpeg')"
+                          class="fas fa-file-image icon" style="color: #59AAAA"></i>
+                      </ng-container>
+                      <ng-container *ngIf="fileName">
+                        <i *ngIf="fileName.includes('.pdf')" class="fas fa-file-pdf icon" style="color: #FA6060"></i>
+                        <i *ngIf="fileName.includes('.doc') || fileName.includes('.docx')" class="fas fa-file-word icon"
+                          style="color: #4285F4"></i>
+                        <i *ngIf="fileName.includes('.png') || fileName.includes('.jpg') || fileName.includes('.jpeg')"
+                          class="fas fa-file-image icon" style="color: #59AAAA"></i>
+                      </ng-container>
+
+                      <span class="file-label">
+                        {{ selectedFile ? selectedFile.name : fileName ? fileName : 'Upload Document' }}
+                      </span>
+                      <input type="file" class="form-control" id="inputFile" (change)="getFileFromInput($event)"
+                        accept=".pdf, .doc, .docx" />
+                    </div>
+                    <div class="file-upload-action d-flex">
+                      <div class="close-doc">
+                        <i class="fa-regular fa-circle-xmark" *ngIf="selectedFile || fileName"
+                          (click)="removefile()"></i>
+                      </div>
+                      <div class="download-doc" *ngIf="fileDownloadUrl" mat-raised-button matTooltip="Download"
+                        [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                        [matTooltipHideDelay]="hideDelay.value" aria-label="Download">
+                        <i class="fa-solid fa-download" (click)="DownloadFile()"></i>
+                      </div>
+                    </div>
+                    <!-- <div class="close-doc">
+                                            <i class="fa-regular fa-circle-xmark " *ngIf="selectedFile"
+                                                (click)="removefile()"></i>
+                                        </div> -->
+                  </div>
+                  <div *ngIf="fileSizeError" class="text-danger mt-1">
+                    {{ fileSizeError }}
+                  </div>
+                  <!-- <i *ngIf="fileDownloadUrl">
+                                        <a [attr.href]="fileDownloadUrl" download>Download File</a>
+                                    </i> -->
+                </div>
+                <!-- <h3 class="mt-2 fw-medium mt-3">Leader 1</h3>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput name="L1Name" [(ngModel)]="leader1.name">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 col-md-6 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Designation</mat-label>
+                                            <input matInput name="L1Designation" [(ngModel)]="leader1.designation">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="col-12">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput name="L1Email" [(ngModel)]="leader1.email">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Contact</mat-label>
+                                                    <input matInput name="L1Contact" type="number" pattern="^\d{10}$"
+                                                        [(ngModel)]="leader1.contactNumber">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <h3 class="mt-2 fw-medium">Leader 2</h3>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput name="L2Name" [(ngModel)]="leader2.name">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 col-md-6 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Designation</mat-label>
+                                            <input matInput name="L2Designation" [(ngModel)]="leader2.designation">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="col-12">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput name="L2Email" [(ngModel)]="leader2.email">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Contact</mat-label>
+                                                    <input matInput name="L2Contact" type="number" pattern="^\d{10}$"
+                                                        [(ngModel)]="leader2.contactNumber"> 
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                <!-- <h3 class="mt-2 fw-medium">L3</h3>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput name="L3Name" [(ngModel)]="leader3.name">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 col-md-6 mt-3 ">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>Designation</mat-label>
+                                            <input matInput name="L3Designation" [(ngModel)]="leader3.designation">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-12 mt-3 ">
+                                    <div class="col-12">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput name="L3Email" [(ngModel)]="leader3.email">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <mat-form-field appearance="outline"
+                                                    class="w-100 custom-mat-form-field">
+                                                    <mat-label>Contact</mat-label>
+                                                    <input matInput name="L3Contact" type="number"
+                                                        [(ngModel)]="leader3.contactNumber">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="download-files d-flex cursor justify-content-center" (click)="uploadAttendance()">
+                    <icon-BrowsFile></icon-BrowsFile>
+                    <p>Upload Attendance</p>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12">
+                  <div class="w-100">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                      <mat-label>Attendance Type</mat-label>
+                      <mat-select name="attendanceType">
+                        <mat-option *ngFor="let item of projectAttendanceTypeArray; index as i" [value]="item.id">
+                          {{ item.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!---INSERT TABLE HERE-->
+            <div class="grid-view mt-5">
+              <div class="row">
+                <div class="col-12">
+                  <div class="grid-header d-flex justify-content-between">
+                    <p class="grid-title">Leaders</p>
+                    <div class="add-newBtn cursor" (click)="addLeader()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M5 12h14m-7 7V5" />
+                      </svg>
+                      Add New
+                    </div>
+                  </div>
+                  <div class="grid-body mt-3 border rounded-2 overflow-hidden position-relative">
+                    <table class="table w-100 m-0 p-0 ">
+                      <thead class="position-sticky top-0 bg-white">
+                        <tr class=" first-child table-title " style="border:none !important;">
+                          <th class="w-20 py-3 fw-medium">Name</th>
+                          <th class="w-20 text-start fw-medium">Designation</th>
+                          <th class="w-20 text-start fw-medium">Email</th>
+                          <th class="w-20 text-center fw-medium">Contact Number</th>
+                          <th class="w-20 py-3 text-center fw-medium">Level</th>
+                          <th class="w-20 py-3 text-end fw-medium" style="padding-right: 34px !important;">Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngIf="assignedLeadersForClient.length === 0" class="text-center ">
+                          <td colspan="100%" class="text-center py-3">No data found</td>
+                        </tr>
+                        <tr class="" *ngFor="let enumdata of assignedLeadersForClient; let i = index">
+                          <td>
+                            {{ enumdata.name }}
+                          </td>
+                          <td>
+                            {{ enumdata.designation }}
+                          </td>
+                          <td>
+                            {{ enumdata.email }}
+                          </td>
+                          <td class="text-center">
+                            {{ enumdata.contactNumber }}
+                          </td>
+                          <td class="text-center">
+                            {{ enumdata.leaderLevel }}
+                          </td>
+                          <td class="d-flex gap-2 align-items-center justify-content-end pe-3 edit-icns actions"
+                            style="padding-top: 0px !important; padding-bottom: 0px !important;">
+                            <div
+                              class="edit-icon d-flex justify-content-center align-items-center action-icn me-2 cursor"
+                              (click)="editLeader(i)"
+                              style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                              <span class="icn-bg bg-skyblue" mat-raised-button mat-raised-button matTooltip="Edit"
+                                [matTooltipPosition]="'left'" [matTooltipShowDelay]="showDelay.value"
+                                [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                <icon-edit></icon-edit>
+                              </span>
+                            </div>
+                            <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                              (click)="deleteLeader(i)"
+                              style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                              <span class="icn-bg bg-red" mat-raised-button mat-raised-button matTooltip="Delete"
+                                [matTooltipPosition]="'left'" [matTooltipShowDelay]="showDelay.value"
+                                [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                <icon-delete></icon-delete>
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #clientModal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog popup-design right-sidebar-panel">
+    <div class="modal-content px-2">
+      <div class="modal-header popup-header justify-content-between d-flex">
+        <h5 class="modal-title" id="exampleModalLabel">Leaders Details</h5>
+        <span class="d-block" (click)="closeLeader()">
+          <icon-ModalClose></icon-ModalClose>
+        </span>
+      </div>
+      <div class="modal-body bg-white py-4">
+        <form [formGroup]="addLeadersInClientForm" #formDirective="ngForm" (ngSubmit)="AddLeader()">
+          <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" appAllowOnlyChars />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100 mt-3 custom-mat-form-field">
+            <mat-label>Designation</mat-label>
+            <input matInput formControlName="designation" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100 mt-3 custom-mat-form-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" appEmailInput />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100 mt-3 custom-mat-form-field">
+            <mat-label>Contact Number</mat-label>
+            <input matInput type="number" formControlName="contactNumber" appRestrictInput [maxChars]="10" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100 mt-3 custom-mat-form-field">
+            <mat-label>Leader Level</mat-label>
+            <mat-select formControlName="leaderLevel">
+              <mat-option *ngFor="let item of leaders" [value]="item.id">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button type="submit" class="btn btn-save mx-0 p-footerbtns w-100 my-2 mt-3">Save</button>
+          <!-- <div class="modal-footer popup-footer px-0 d-flex"></div> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

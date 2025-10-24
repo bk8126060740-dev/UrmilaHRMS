@@ -1,0 +1,76 @@
+@import '../../../../../../styles/styles.scss';
+
+
+
+.card-design {
+    border: 1px solid $border-color;
+    border-radius: $border6;
+
+    .card-body {
+        .select-details {
+            font-family: $fonts;
+            font-weight: $font-medium;
+            font-size: 16px;
+        }
+
+        h4 {
+            font-family: $fonts;
+            font-weight: $font-medium;
+            font-size: 16px;
+        }
+
+        p {
+            color: $grey-text;
+        }
+    }
+}
+
+.left-card-side {
+    .card-title {
+        width: 180px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.offersend-model.popup-design.modal-dialog.right-sidebar-panel {
+    max-width: 1000px !important;
+}
+
+.select-box {
+    border: 1px solid $border-light !important;
+    border-radius: 5px;
+    width: 180px !important;
+
+    mat-form-field {
+        box-shadow: none !important;
+    }
+}
+
+.table-offersend {
+    max-height: calc(100vh - 180px) !important;
+    overflow-y: auto;
+    height: calc(100vh - 180px) !important;
+
+    th {
+        background-color: var(--light-theme) !important;
+        font-weight: $font-medium !important;
+    }
+
+    td {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+
+        mat-form-field {
+            height: 20px !important;
+        }
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .select-box {
+        width: 90px !important;
+    }
+}

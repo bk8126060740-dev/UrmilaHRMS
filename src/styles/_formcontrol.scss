@@ -1,0 +1,750 @@
+form * {
+  font-family: $fonts;
+}
+
+input {
+  caret-color: $icon-color !important;
+}
+
+mat-label {
+  font-size: 13px !important;
+}
+
+.mdc-floating-label.mat-mdc-floating-label mat-label {
+  color: #888;
+}
+
+.mat-focused.ng-dirty.ng-valid .mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above mat-label,
+.mdc-text-field--focused .mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above mat-label {
+  color: var(--theme-color);
+}
+
+.mdc-text-field--invalid .mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above mat-label {
+  color: $error-color;
+}
+
+.mat-datepicker-input {
+  font-size: 13px !important;
+}
+
+mat-form-field.mat-form-field.mat-white {
+  &.mat-focused {
+    .mat-form-field-label {
+      color: var(--theme-color) !important;
+    }
+  }
+}
+
+// label color
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label {
+  color: var(--theme-color) !important;
+}
+
+div.mat-mdc-select-panel {
+  background-color: $white-color !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+  background-color: var(--light-theme) !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: transparent !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+  color: $black-color !important;
+}
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+  color: var(--theme-color) !important;
+}
+
+input:-internal-autofill-selected {
+  background-color: $white-color !important;
+}
+
+.mat-mdc-option {
+  font-family: $fonts !important;
+  font-size: 13px !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  height: 0px;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field {
+  // border-color: transparent !important;,
+  border-left-color: transparent !important;
+}
+
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: $black-color;
+}
+
+
+
+// erroe message
+mat-error {
+  margin-top: -13px;
+  font-weight: 600 !important;
+}
+
+.mat-mdc-form-field-error-wrapper {
+  padding-left: 0 !important;
+}
+
+.mat-mdc-form-field-error {
+  color: $error-color !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-floating-label {
+  color: $black-color !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-floating-label.mdc-floating-label--float-above {
+  color: $error-color !important;
+}
+
+// eye icon
+::ng-deep .mat-mdc-form-field-icon-suffix {
+  display: flex;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.mat-mdc-select-arrow-wrapper {
+  margin-top: -6px;
+}
+
+.custom-mat-form-field {
+  height: 40px;
+  /* Adjust height */
+  line-height: 5px !important;
+  margin-bottom: 5px;
+}
+
+// / Include the rest of the CSS adjustments targeting the custom class /
+::ng-deep .custom-mat-form-field .mdc-notched-outline,
+.custom-mat-form-field .mat-mdc-notch-piece,
+.custom-mat-form-field .mdc-notched-outline__notch,
+.custom-mat-form-field .mat-mdc-input-element,
+.custom-mat-form-field .mat-mdc-form-field-infix,
+.custom-mat-form-field .mat-mdc-form-field-label,
+.custom-mat-form-field .mat-mdc-form-field-prefix,
+.custom-mat-form-field .mat-mdc-form-field-suffix,
+.custom-mat-form-field .mat-mdc-form-field-icon-suffix,
+.custom-mat-form-field .mat-mdc-form-field-hint {
+  // / Adjust heights as described above /
+  height: 40px;
+  line-height: 25px !important;
+}
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: calc((var(--mat-form-field-container-height) / 2) - 9px) !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  --mat-mdc-form-field-label-transform: translateY(calc(calc(6.75px + (var(--mat-form-field-container-height) / 2.5) - 4px) * -1)) scale(var(--mat-mdc-form-field-floating-label-scale, 1)) !important;
+  transform: var(--mat-mdc-form-field-label-transform) !important;
+}
+
+.mdc-text-field--outlined .mat-mdc-form-field-infix,
+.mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding-top: calc(var(--mat-form-field-container-vertical-padding) - 5px) !important;
+
+}
+
+.custom-mat-form-field input,
+.custom-mat-form-field .mat-mdc-select-value {
+  font-size: 13px !important;
+}
+
+
+// login form custom 
+
+.custom-form-field {
+  height: 40px !important;
+  /* Adjust height */
+  line-height: 5px !important;
+  margin-bottom: 5px;
+}
+
+.custom-form-field .mdc-notched-outline,
+.custom-form-field .mat-mdc-notch-piece,
+.custom-form-field .mdc-notched-outline__notch,
+.custom-form-field .mat-mdc-input-element,
+.custom-form-field .mat-mdc-form-field-infix,
+.custom-form-field .mat-mdc-form-field-label,
+.custom-form-field .mat-mdc-form-field-prefix,
+.custom-form-field .mat-mdc-form-field-suffix,
+.custom-form-field .mat-mdc-form-field-icon-suffix,
+.custom-form-field .mat-mdc-form-field-hint {
+  // / Adjust heights as described above /
+  height: 40px !important;
+  line-height: 25px !important;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: calc((var(--mat-form-field-container-height) / 3) - 1px) !important;
+  left: 10px;
+}
+
+.custom-form-field .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  --mat-mdc-form-field-label-transform: translateY(calc(calc(6.75px + (var(--mat-form-field-container-height) / 2.5) - 4px) * -1)) scale(var(--mat-mdc-form-field-floating-label-scale, 1)) !important;
+  transform: var(--mat-mdc-form-field-label-transform) !important;
+}
+
+::ng-deep .custom-form-field .mdc-text-field--outlined .mat-mdc-form-field-infix,
+.mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding-top: calc(var(--mat-form-field-container-vertical-padding) - 3px) !important;
+
+}
+
+.custom-form-field .mat-mdc-form-field-infix {
+  padding-top: 2px !important;
+}
+
+.custom-form-field input,
+.custom-form-field .mat-mdc-select-value {
+  font-size: 13px;
+}
+
+.custom-form-field input::placeholder {
+  color: #64748bcc !important;
+}
+
+
+.custom-form-field input {
+  border-radius: $border6 !important;
+}
+
+// remove double border
+
+.mat-mdc-notch-piece.mdc-notched-outline__leading,
+.mat-mdc-notch-piece.mdc-notched-outline__notch,
+.mat-mdc-notch-piece.mdc-notched-outline__trailing {
+  border: none !important;
+}
+
+.mdc-notched-outline.mdc-notched-outline--upgraded {
+  outline: 1px solid $border-light;
+  border-radius: 6px;
+}
+
+.mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above {
+  background-color: $white-color !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  margin-top: -1px !important;
+  margin-left: -4px !important;
+}
+
+// Change the border focused color 
+.mat-mdc-form-field.mat-focused .mdc-notched-outline.mdc-notched-outline--upgraded {
+  outline-color: var(--theme-color) !important;
+}
+
+.mdc-text-field--invalid .mdc-notched-outline.mdc-notched-outline--upgraded {
+  outline-color: $error-color !important;
+}
+
+.mdc-text-field--invalid.mdc-text-field--invalid .mdc-notched-outline.mdc-notched-outline--upgraded {
+  outline-color: $error-color !important;
+}
+
+.mat-mdc-form-field.ng-valid {
+  outline-color: var(--theme-color) !important;
+}
+
+:focus-visible {
+  outline: none !important;
+}
+
+.document-modal .mdc-text-field--outlined .mat-mdc-form-field-infix,
+.mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding-top: 0px !important;
+}
+
+
+// toggle btn
+.toggle-btn {
+  input {
+    display: none;
+  }
+
+  .bg-toggle-off {
+    display: block;
+    height: 24px;
+    width: 40px;
+    background-color: $toggle-off;
+    position: relative;
+    border-radius: 50px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      background-color: $white-color;
+      border-radius: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 1px;
+      transition: .3s;
+    }
+  }
+
+  .bg-toggle-on {
+    background-color: $toggle-on;
+    display: block;
+    height: 24px;
+    width: 40px;
+    position: relative;
+    border-radius: 50px;
+
+    &::after {
+      left: auto;
+      right: 1px;
+      content: '';
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      background-color: $white-color;
+      border-radius: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: .3s;
+    }
+  }
+}
+
+.mdc-list-item__primary-text {
+  font-size: small !important;
+}
+
+
+// innerform 
+
+.innerform-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  font-family: $fonts !important;
+  color: $header-title;
+}
+
+.profile-error {
+  border-color: $error-color;
+}
+
+.editor {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  height: 200px;
+
+  .NgxEditor__MenuBar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .NgxEditor {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none;
+  }
+
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+    margin-bottom: 0.7rem;
+
+    pre {
+      white-space: pre !important;
+    }
+  }
+}
+
+.dragdrop-file {
+  padding: 26px 10px;
+  height: auto !important;
+
+  svg {
+    height: 44px;
+    width: 44px;
+    color: $grey-text;
+    fill: $grey-text;
+  }
+
+  i {
+    color: $grey-text;
+  }
+
+  p {
+    font-size: 16px;
+    color: $grey-text;
+    font-weight: 500;
+  }
+
+  span {
+    font-size: 13px;
+    color: $grey-text;
+    font-weight: 500;
+  }
+
+  .browse-btn {
+    padding: 5px 14px;
+    border-radius: 6px !important;
+    border: none !important;
+    outline: none;
+    background-color: var(--theme-color);
+    color: $white-color;
+    font-size: 13px;
+  }
+}
+
+
+
+// document choose file
+.choose-file {
+  // margin-top: 2px !important;
+  border: 1px dashed #999 !important;
+  border-radius: 5px;
+  padding: 9px 12px;
+  padding-left: 16px;
+  display: flex;
+  height: 40px;
+  // background-color: transparent !important;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.3s;
+  width: 100%;
+
+  &:hover {
+    border-color: var(--theme-color) !important;
+  }
+
+  .icon {
+    color: $icon-color;
+    font-size: 18px;
+    margin-right: 15px;
+    align-self: center;
+    top: 50%;
+    position: relative;
+    transform: translateY(-90%);
+    left: 66px;
+  }
+
+  .file-label {
+    font-size: 13px;
+    color: $theme-secondarycolor;
+    margin-right: 5px;
+    align-self: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 360px;
+    display: inline-block;
+  }
+
+  .file-label-right {
+    font-size: 16px;
+    color: $theme-secondarycolor;
+    margin-right: 5px;
+    align-self: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 450px;
+    display: inline-block;
+  }
+
+  .placeholder {
+    font-size: 13px;
+    color: #64748bcc !important;
+    margin-left: 20px;
+    flex-grow: 1;
+    text-align: center;
+    background: transparent;
+    align-self: center;
+    cursor: pointer !important;
+    text-align: left;
+  }
+
+  input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+  }
+
+}
+
+.choose-single {
+  display: flex;
+
+  i {
+    display: contents;
+  }
+
+  span {
+    padding-left: 28px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.mat-mdc-form-field-icon-suffix {
+  margin-bottom: 9px;
+  height: 30px;
+}
+
+.file-upload-action {
+  position: absolute;
+  top: 50%;
+  right: 6px !important;
+  transform: translate(0, -50%);
+  font-size: 18px;
+
+  i {
+    color: var(--theme-color);
+    padding: 0px 5px;
+  }
+}
+
+
+.editor {
+  border: 1px solid $border-color !important;
+}
+
+.NgxEditor__MenuBar {
+  border-bottom: 1px solid $border-color !important;
+}
+
+.ng-dropdown-panel.ng-select-bottom {
+  top: 35px !important;
+}
+
+.cdk-overlay-pane {
+  margin-top: -14px !important;
+}
+
+.login-container .mat-mdc-form-field-icon-suffix {
+  margin-bottom: 0px !important;
+}
+
+
+// filename
+
+.file-name {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.input-group-text {
+  background: var(--light-theme) !important;
+  border: none !important;
+  position: absolute;
+  top: 0px;
+  right: -16px;
+  margin-top: 0px;
+  padding-bottom: 9.5px !important;
+  padding-top: 9.5px !important;
+  border-radius: 6px 6px 6px 6px !important;
+  font-size: 14px !important;
+}
+
+
+// calender
+
+.mat-datepicker-content .mat-calendar {
+  height: 100% !important;
+}
+
+.mat-calendar-table {
+  min-height: 265px !important;
+}
+
+
+.mat-calendar-table-header-divider {
+  display: none !important;
+}
+
+
+.custom-mat-form-field .mat-mdc-form-field-infix:has(mat-select) {
+  padding-top: 8px !important;
+}
+
+
+// select dropdown
+
+.select-dropdown.custom-mat-form-field {
+  position: relative;
+  top: 4px;
+}
+
+.select-dropdown .mat-mdc-select-min-line {
+  font-size: 12px !important;
+}
+
+.select-dropdown.custom-mat-form-field .mdc-list-item__primary-text {
+  font-size: 12px !important;
+}
+
+.select-dropdown .mat-mdc-form-field-infix:has(mat-select) {
+  padding-top: 5px !important;
+}
+
+.br-6 {
+  border-radius: 6px;
+}
+
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.swal-modal {
+  font-family: $fonts;
+}
+
+.swal-overlay--show-modal .swal-modal {
+  opacity: 1 !important;
+}
+
+.swal-title {
+  color: rgb(68, 68, 68) !important;
+  font-weight: $font-medium;
+  font-size: 24px;
+}
+
+.swal-text {
+  color: #555 !important;
+  font-size: 14px !important;
+}
+
+
+.mac-lbl {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: fit-content;
+  background: var(--light-theme);
+}
+
+.file-label {
+  padding-left: 62px;
+}
+
+
+.download-files {
+  border: 1px dashed #999;
+  padding: 9px 12px;
+  border-radius: 5px;
+  transition: .3s;
+
+  svg {
+    color: $icon-color;
+    height: 18px !important;
+    width: 18px !important;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    border-color: var(--theme-color);
+    color: var(--theme-color);
+
+    svg {
+      color: var(--theme-color);
+    }
+  }
+}
+
+.mdc-checkbox:hover .mdc-checkbox__ripple {
+  background-color: transparent !important;
+}
+
+@media screen and (max-width:1366px) {
+  .file-label {
+    width: 250px;
+  }
+}
+
+.mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background {
+  background-color: var(--theme-color) !important;
+  border-color: var(--theme-color) !important;
+}
+
+.mdc-checkbox__ripple,
+.mat-ripple,
+.mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__ripple,
+.mat-mdc-checkbox-touch-target,
+.mat-mdc-button-persistent-ripple {
+  background-color: transparent !important;
+  display: none !important;
+}
+
+.lbl-form.input-group-text {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.formWrapper .mat-mdc-form-field {
+  height: 40px !important;
+}
+
+
+.change-password-popup .custom-form-field .mdc-text-field--outlined .mat-mdc-form-field-infix,
+.form-design .custom-form-field .mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 2px !important;
+}
+
+.change-password-popup .mdc-text-field--outlined .mat-mdc-form-field-infix,
+.form-design .mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 13px !important;
+}
+
+.change-password-popup .mat-mdc-form-field-icon-suffix,
+.form-design .mat-mdc-form-field-icon-suffix {
+  position: relative;
+  top: -3px;
+}
+
+.select-status .mdc-notched-outline.mdc-notched-outline--no-label {
+  border: 1px solid #eee !important;
+  border-radius: 4px !important;
+}
+
+.serach-box .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  top: 7.5px !important;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+  box-shadow: none !important;
+}
+
+.payment-report .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  top: 8px !important;
+}

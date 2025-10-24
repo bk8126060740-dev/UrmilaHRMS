@@ -1,0 +1,24 @@
+<!-- master content start -->
+<div class="master-content  client-page">
+    <div class="container-fuild">
+        <div class="row m-4 mt-3 mb-0 ms-0 ms-lg-4">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <ng-container *appIsGranted="'Read'">
+
+            <div class="row m-0 p-0 fix-height">
+                <div class="col p-0 m-0">
+                    <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                        (edit)="onEdit($any($event))" (delete)="onDelete($any($event))" (insert)="addClient()"
+                        (pageNumber)="onPageChange($event)" (buttonClick)="onAddProject($event)"
+                        (recodeValueChange)="onTotalClientPerPageValueChange($event)" (searchTearm)="onSearch($event)"
+                        [isBreadCurmbsShow]="false" [title]="'Clients'" [filterData]="filterData"
+                        (orderBy)="orderBy($event)" (export)="export()">
+                    </tg-grid>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

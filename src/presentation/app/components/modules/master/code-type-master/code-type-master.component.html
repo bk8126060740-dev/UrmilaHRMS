@@ -1,0 +1,62 @@
+<div class="container-fuild p-0 m-0">
+    <div class="row m-0 p-0">
+        <div class="col p-0 m-0">
+            <div class="row p-0 m-0 mx-4 pt-4">
+                <div class="col p-0 m-0">
+                    <app-breadcrumb></app-breadcrumb>
+                </div>
+            </div>
+            <div class="row p-0 m-0">
+                <div class="col p-0 m-0 fix-height">
+                    <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                        (edit)="onEdit($any($event))" (delete)="onDelete($any($event))" (insert)="addCodeType()"
+                        (pageNumber)="onPageChange($event)" (recodeValueChange)="onTotalCodetypePerPageChange($event)"
+                        (pageNumber)="onPageChange($event)" (searchTearm)="onSearch($event)" [title]="'Code Type'"
+                        [isBreadCurmbsShow]="false" (orderBy)="orderBy($event)">
+                    </tg-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #codemodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    data-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Add/Edit Code Type</h5>
+                <span class="d-block" (click)="closeModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form #codeTypeForm="ngForm" (ngSubmit)="onSubmit(codeTypeForm)">
+                <div class="modal-body bg-white pt-4 pb-3">
+                    <div class="w-100 mb-3 pb-2">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" [(ngModel)]="codeTypeDataModel.name" name="name"
+                                #name="ngModel" required>
+                            <!-- <mat-error *ngIf="name.invalid && name.touched">
+                                Name is required
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="w-100 mt-3 mb-2">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Enum Name</mat-label>
+                            <input matInput placeholder="Enum Name" [(ngModel)]="codeTypeDataModel.enumItem"
+                                name="enumName" #enumName="ngModel" required>
+                            <!-- <mat-error *ngIf="enumName.invalid && enumName.touched">
+                                Enum Name is required
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="modal-footer popup-footer d-flex">
+                    <button type="submit" class="btn btn-save p-footerbtns">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

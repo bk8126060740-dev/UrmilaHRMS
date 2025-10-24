@@ -1,0 +1,251 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row mx-0 my-3  mx-md-4">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="card mx-0 mx-md-4 mb-0">
+            <div class="row m-0 p-0 show-grid">
+                <div class="col-12 col-sm-3 col-md-3 col-lg ps-0 cart-design gy-3 gy-lg-0"
+                    *ngFor="let status of grievanceStatus">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)"
+                        [ngStyle]="{'border-color' : selectedStatus.name === status.name ? status.colorCode : '' }">
+                        <div class="align-items-center justify-content-between main-client-card">
+                            <div class="left-card-side card-icon1">
+                                <p class="mb-2">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Open'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+
+                                <icon-Open></icon-Open>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon2 overflow-hidden position-relative"
+                                *ngIf="status.name === 'In Progress'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-InProgress></icon-InProgress>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Resolved'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-ReSloved></icon-ReSloved>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item overflow-hidden position-relative"
+                                *ngIf="status.name === 'Rejected'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+
+                                <icon-Reject></icon-Reject>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Reopened'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-ReOpen></icon-ReOpen>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Cancelled'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Cancel></icon-Cancel>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 overflow-hidden position-relative"
+                                *ngIf="status.name === 'Pending'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Pending></icon-Pending>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-4 mt-0" *appIsGranted="'Read'">
+            <div class="col p-0 m-0 card-adjust">
+                <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                    [title]="'Grievance'" [isAssignTicket]="true" (assignTicket)="assignTicket()"
+                    (orderBy)="orderBy($event)" (insert)="onAddTicket()"
+                    [isCheckBox]="rowData.length > 0 && hasNonResolvedGrievances()" [isVisibleDisplayedColoum]="true"
+                    (recodeValueChange)="onTotalGriveanceValueChange($event)" (searchTearm)="onSearch($event)"
+                    (pageNumber)="onPageChange($event)" (viewClick)="viewRecord($any($event))" [exportVisibility]="false"
+                    [isAssignTicketVisible]="permission" [isAction]="false">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #AssignTicket="bs-modal" id="AssignTicket" class="modal fade " tabindex="-1" [config]="{backdrop:'static'}"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2 " id="exampleModalLabel">Assign Ticket</h5>
+                <span class="d-block" (click)="AssignTicket?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="assignForm" #formDirective="ngForm" (ngSubmit)="onAssignTicket()">
+                <div class="filter-menu mb-3">
+                    <div class="form-controls">
+                        <mat-form-field appearance="outline" class="w-100 my-2 custom-mat-form-field mb-2">
+                            <mat-label>Select Employee</mat-label>
+                            <mat-select placeholder="Select Employee" [(ngModel)]="selectedUserId"
+                                formControlName="selectedUserId">
+                                <div class="search-field">
+                                    <input class="w-100" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="onSearchAssignEmployee($event)" aria-label="Search Employee"
+                                        placeholder="Search Employee" />
+                                </div>
+                                <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                                    {{user.fullName}}
+                                </mat-option>
+                                <mat-option *ngIf="filteredUsers.length === 0">No data found
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="submenu-btn gap-3 d-flex mt-2 bg-white position-sticky bottom-0 bg-white pb-3 pt-2">
+                        <button type="submit"
+                            class="btn btn-save p-footerbtns w-100 d-flex justify-content-center align-items-center">Assign
+                            Ticket
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Create Ticket Modal -->
+<div bsModal #CreateTicket="bs-modal" id="CreateTicket" class="modal fade" tabindex="-1" [config]="{backdrop:'static'}"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Create New Ticket</h5>
+                <span class="d-block" (click)="CreateTickets()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="GrievanceForm" #formDirective="ngForm" (ngSubmit)="submitTicket()">
+                    <!-- Project ID Name Input -->
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field mb-2">
+                            <mat-label>Select Project</mat-label>
+                            <mat-select placeholder="Select Project Name" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="defaultProjectId" (ngModelChange)="fetchEmployeesWithProject()"
+                                formControlName="defaultProjectId" name="defaultProjectId">
+                                <mat-option *ngFor="let project of projectIdData" [value]="project.id">
+                                    {{ project.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Employee ID Input -->
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" class="w-100 my-2 custom-mat-form-field mb-2">
+                            <mat-label>Select Employee</mat-label>
+                            <mat-select formControlName="employeeId" name="employeeId">
+                                <div class="search-field">
+                                    <input class="w-100" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="onSearchChange($event)"
+                                        aria-label="search employee or employee code"
+                                        placeholder="search employee or employee code" />
+                                </div>
+                                <mat-option *ngFor="let employee of filteredEmployeeList" [value]="employee.id">
+                                    {{ employee.fullName }} <ng-container *ngIf="employee.employeeCode">(&nbsp;{{
+                                        employee.employeeCode }}&nbsp;)</ng-container>
+                                    <!-- (&nbsp;{{ employee.employeeCode }}&nbsp;) -->
+                                </mat-option>
+                                <mat-option *ngIf="filteredEmployeeList.length === 0">No data found
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Input Type Dropdown -->
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" class="w-100 my-2 custom-mat-form-field mb-2">
+                            <mat-label>Select Input Type</mat-label>
+                            <mat-select placeholder="Select Input Type" formControlName="inputTypeId"
+                                [(ngModel)]="inputTypeId" name="inputTypeId">
+                                <mat-option *ngFor="let type of inputTypes" [value]="type.id">
+                                    {{ type.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Classification Type Dropdown -->
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" class="w-100 my-2 custom-mat-form-field mb-2">
+                            <mat-label>Select Classification Type</mat-label>
+                            <mat-select placeholder="Select Classification Type" formControlName="classificationTypeId"
+                                (selectionChange)="onClassificationIdChange()" [(ngModel)]="classificationId "
+                                name="classificationTypeId">
+                                <mat-option *ngFor="let type of classificationTypes" [value]="type.id">
+                                    {{ type.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Sub Classification Dropdown -->
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" class="w-100 my-2 custom-mat-form-field mb-2">
+                            <mat-label>Select Sub Classification</mat-label>
+                            <mat-select placeholder="Select Sub Classification" formControlName="subClassificationId"
+                                [(ngModel)]="subClassificationId" name="subClassificationId">
+                                <mat-option *ngFor="let subType of subClassifications" [value]="subType.id">
+                                    {{ subType.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Description Field -->
+                    <div class="form-group mt-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput rows="3" placeholder="Enter description" formControlName="description"
+                                [(ngModel)]="description" name="description" col></textarea>
+                        </mat-form-field>
+                    </div>
+                    <button type="submit"
+                        class="btn btn-save p-footerbtns w-100 mt-3 d-flex justify-content-center align-items-center"
+                        *appIsGranted="'Write'">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="coming-soon d-flex justify-content-center align-items-center w-100">
+    <lottie-player src="../../../../../../assets/image/animation.json" background="transparent" speed="1"
+        style="width: 300px; height: 300px;" loop autoplay>
+    </lottie-player>
+</div> -->

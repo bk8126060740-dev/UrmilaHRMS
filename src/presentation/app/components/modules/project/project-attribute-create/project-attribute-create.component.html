@@ -1,0 +1,381 @@
+<div class="m-4">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-12 p-0 m-0">
+                <div class=" bg-white main-borad p-0" style="z-index:2 !important; position: relative !important;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div
+                                class="borad-header-create pb-3 pt-3 border-bottom position-sticky top-0 align-items-center">
+                                <div class=" popup-header justify-content-between d-flex flex-wrap">
+                                    <h5 class="modal-title pt-2 fw-medium " id="exampleModalLabel">
+                                        {{this.projectRowData.name |
+                                        uppercase}} -
+                                        Attribute</h5>
+                                    <div class="header-buttons  d-flex">
+                                        <button type="submit" class="header-btn btn-cancel me-3"
+                                            (click)="navigateToDashboard()">Cancel</button>
+                                        <button type="submit" class="btn header-btn btn-save "
+                                            (click)="createFormula()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-start d-flex flex-wrap gy-3 p-4 pb-0">
+                        <div class="col-lg-4 col-12">
+                            <!-- <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                        <mat-label>Attribute</mat-label>
+                        <mat-select placeholder="Attributes" (selectionChange)="onAttributeChange($event)"
+                            [(ngModel)]="payrollAttributeId">
+                            <mat-option *ngFor="let attribute of attributeDropdownArray" [value]="attribute.id">
+                                {{ attribute.name }}
+                            </mat-option>
+                        </mat-select>
+        
+                    </mat-form-field> -->
+                            <label class="d-block Switch-font">Attribute</label>
+                            <ng-select [items]="attributeDropdownArray" bindLabel="name" bindValue="id"
+                                [(ngModel)]="selectedAttributes" (change)="onAttributeChange($event)"
+                                [clearable]="false" placeholder="Search or select an attribute" *ngIf="!IsEditable"
+                                class="mt-1">
+                            </ng-select>
+                            <ng-select [items]="disableAttributeDropdownArray" bindLabel="name" bindValue="id"
+                                [(ngModel)]="selectedAttributes" (change)="onAttributeChange($event)"
+                                [clearable]="false" placeholder="Search or select an attribute" [disabled]="IsEditable"
+                                *ngIf="IsEditable">
+                            </ng-select>
+
+                        </div>
+                        <div class="col-lg-3 text-start pe-0 col-12 col-md-5">
+                            <div class="form-check form-switch p-0">
+                                <div class="d-flex  gx-4 align-items-center flex-row flex-wrap">
+                                    <h4 class="Switch-font me-2 w-100">Allow Override</h4>
+                                    <label class="switch mt-1">
+                                        <input type="checkbox" [(ngModel)]="requestBody.allowOverride"
+                                            name="allowOverride" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-10 col-md-6">
+                            <div class="d-flex align-items-center  justify-content-end flex-wrap">
+                                <h4 class="d-block Switch-font w-100">Value</h4>
+                                <div class="w-100 mt-1 ms-1">
+                                    <input type="checkbox" class="toggle" id="toggle" (change)="onSwitchChange($event)"
+                                        [checked]="isCalculated" />
+                                    <label for="toggle" class="toogle-switch"
+                                        [ngClass]="{'calculated': isCalculated, 'default': !isCalculated}">
+                                        <span class="on"> Default</span>
+                                        <span class="off"> Calculated</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-4 pt-0">
+                        <div class="col-12 mt-4" *ngIf="!isCalculated">
+                            <div class="input-box">
+                                <!-- <input type="number" class="form-control" placeholder="Default Value"
+                            [(ngModel)]="requestBody.defaultValue"> -->
+                                <div class="col-12">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Default Value</mat-label>
+                                        <input matInput name="name" type="number" [(ngModel)]="requestBody.defaultValue"
+                                            [min]="0" (blur)="requestBody.defaultValue = requestBody.defaultValue || 0">
+                                        <!-- <mat-error *ngIf="name.invalid && name.touched">
+                                                                        Name is required
+                                                                    </mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-4 mt-0 calculated-modal" *ngIf="isCalculated">
+                        <div class="col-xl-6">
+                            <div class="Formula-bg">
+                                <h3>Formula</h3>
+                                <div class="formula my-2" *ngIf="!IsEditMode">
+                                    <!-- <textarea class="formula-input position-relative border-0 w-100" readonly
+                                        rows="4"></textarea> -->
+                                    <div class="d-flex align-items-center flex-wrap gap-1 py-2 for-col"
+                                        #scrollContainer>
+                                        <div *ngFor="let item of formula; index as i"
+                                            class="bg-white formula-box d-flex align-items-center justify-content-center">
+                                            <h5 *ngIf="item.isAttribute || item.isOperator">{{ item.name }}</h5>
+                                            <h5 *ngIf="item.isDefault">{{ item.defaultValue }}</h5>
+                                            <!-- <i class="fa-regular fa-circle-xmark ms-3"></i> -->
+                                            <svg (click)="removeItem(i)" xmlns="http://www.w3.org/2000/svg"
+                                                version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
+                                                height="18px" x="0" y="0" viewBox="0 0 32 32"
+                                                style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                                class="ms-2">
+                                                <g>
+                                                    <path
+                                                        d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z"
+                                                        data-name="Layer 22" fill="#000000" opacity="1"
+                                                        data-original="#000000" class=""></path>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="formula my-2 mb-3" *ngIf="IsEditMode">
+                                    <textarea class="formula-input position-relative border-0 w-100"
+                                        rows="4"></textarea>
+                                    <div class="d-flex formula-icon align-items-center flex-wrap gy-2 py-2"
+                                        #scrollContainer>
+                                        <div *ngFor="let item of formula; index as i" style="margin-left: 15px;">
+                                            <h5 *ngIf="item.isAttribute || item.isOperator">{{ item.name }}</h5>
+                                            <h5 *ngIf="item.isDefault">{{ item.defaultValue }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <ng-select [items]="[]" [addTag]="true" [multiple]="true" [selectOnTab]="true"
+                                    [isOpen]="false" [placeholder]="'Placeholder Text'" [(ngModel)]="formula">
+                                </ng-select> -->
+
+
+                                <!-- This acts like an input, but allows child elements -->
+                                <!-- <span *ngFor="let item of formula; index as i" class="formula-box">
+                                    <h5 *ngIf="item.isAttribute || item.isOperator">{{ item.name }}</h5>
+                                    <h5 *ngIf="item.isDefault">{{ item.defaultValue }}</h5>
+                                    <i class="fa-solid fa-xmark ms-3" (click)="removeItem(i)"></i>
+                                </span> -->
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <button class="btn btn-reset px-4" (click)="IsEditMode = !IsEditMode">Edit</button>
+                                    <button class="btn btn-reset mx-2" (click)="resetAll()">Reset</button>
+                                    <button class="btn btn-reset" (click)="evaluate()">Validate</button>
+                                </div>
+                                <div [ngClass]="resultFormula ? 'valid-message' : 'invalid-message'">
+                                    {{ validationMessage }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="Formula-bg">
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <h3>Select Attributes For Formula</h3>
+                                        <div class="bg-white rounded p-2 mt-3">
+                                            <div class="input-box">
+                                                <input type="text" class="form-control" placeholder="Search by name"
+                                                    [(ngModel)]="searchText" (input)="filterAttributes()">
+                                                <!-- <i class="fa fa-search"></i> -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="16px"
+                                                    height="16px" x="0" y="0" viewBox="0 0 56.966 56.966"
+                                                    style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                                    class="">
+                                                    <g>
+                                                        <path
+                                                            d="M55.146 51.887 41.588 37.786A22.926 22.926 0 0 0 46.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 0 0 .083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z"
+                                                            fill="#9999" opacity="1" data-original="#000000" class="">
+                                                        </path>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <div class="option-tab g-4 position-relative mt-2">
+                                                <ng-container *ngIf="filteredAttributes.length == 0">
+                                                    <h4 style="justify-self: center;">No Data Found</h4>
+                                                </ng-container>
+                                                <ng-container *ngFor="let attribute of filteredAttributes">
+                                                    <div class="option-bg-tab" (click)="onAttributeSelect(attribute)">
+                                                        <h4>{{ attribute.payrollAttributeName }}</h4>
+                                                    </div>
+                                                </ng-container>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <h3>Operations</h3>
+                                        <div class="icon-color mt-3">
+                                            <div class="row g-2">
+                                                <!-- /// Operator Buttons -->
+                                                <div class="col-4" *ngFor="let operator of operators">
+                                                    <div class="bg-white px-3 py-2 rounded icn-box"
+                                                        (click)="onOperatorSelect(operator)">
+                                                        <div class="d-flex align-items-center justify-content-center">
+                                                            <!-- //Handle different operator types -->
+                                                            <ng-container [ngSwitch]="operator">
+                                                                <!-- <i *ngSwitchCase="'+'" class="fa-solid fa-plus"></i> -->
+                                                                <svg *ngSwitchCase="'+'"
+                                                                    xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="10px" height="10px" x="0" y="0"
+                                                                    viewBox="0 0 426.667 426.667"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve">
+                                                                    <g>
+                                                                        <path
+                                                                            d="M405.332 192H234.668V21.332C234.668 9.559 225.109 0 213.332 0 201.559 0 192 9.559 192 21.332V192H21.332C9.559 192 0 201.559 0 213.332c0 11.777 9.559 21.336 21.332 21.336H192v170.664c0 11.777 9.559 21.336 21.332 21.336 11.777 0 21.336-9.559 21.336-21.336V234.668h170.664c11.777 0 21.336-9.559 21.336-21.336 0-11.773-9.559-21.332-21.336-21.332zm0 0"
+                                                                            fill="currentColor" opacity="1"
+                                                                            data-original="#000000">
+                                                                        </path>
+                                                                    </g>
+                                                                </svg>
+                                                                <!-- <i *ngSwitchCase="'-'" class="fa-solid fa-minus"></i> -->
+                                                                <svg *ngSwitchCase="'-'"
+                                                                    xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="10px" height="10px" x="0" y="0"
+                                                                    viewBox="0 0 121.805 121.804"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve" class="">
+                                                                    <g>
+                                                                        <path
+                                                                            d="M7.308 68.211h107.188a7.309 7.309 0 0 0 7.309-7.31 7.308 7.308 0 0 0-7.309-7.309H7.308a7.31 7.31 0 0 0 0 14.619z"
+                                                                            fill="currentColor" opacity="1"
+                                                                            data-original="#000000" class=""></path>
+                                                                    </g>
+                                                                </svg>
+                                                                <!-- <i *ngSwitchCase="'*'" class="fa-solid fa-xmark"></i> -->
+                                                                <svg *ngSwitchCase="'*'"
+                                                                    xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="10px" height="10px" x="0" y="0"
+                                                                    viewBox="0 0 512 512"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve" class="">
+                                                                    <g>
+                                                                        <path
+                                                                            d="M461.231 322.529 345.999 256l115.232-66.529c21.523-12.426 28.897-39.947 16.471-61.471-12.426-21.522-39.946-28.899-61.471-16.471L301 178.058V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v133.058L95.769 111.529C74.243 99.102 46.723 106.477 34.297 128s-5.052 49.045 16.471 61.471L166.001 256 50.769 322.529C29.246 334.955 21.871 362.477 34.297 384c8.335 14.438 23.46 22.508 39.013 22.508a44.79 44.79 0 0 0 22.458-6.037L211 333.942V467c0 24.853 20.147 45 45 45s45-20.147 45-45V333.942l115.231 66.529a44.788 44.788 0 0 0 22.458 6.037c15.552 0 30.679-8.072 39.013-22.508 12.427-21.523 5.052-49.045-16.471-61.471z"
+                                                                            fill="currentColor" opacity=" 1"
+                                                                            data-original="#000000" class=""></path>
+                                                                    </g>
+                                                                </svg>
+                                                                <!-- <svg *ngSwitchCase="'/'" xmlns="http://www.w3.org/2000/svg"
+                                                                    width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2" d="M17 5L7 19" />
+                                                                </svg> -->
+                                                                <svg *ngSwitchCase="'/'"
+                                                                    xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="512" height="512" x="0" y="0"
+                                                                    viewBox="0 0 113.28 113.281"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve" class="">
+                                                                    <g>
+                                                                        <path
+                                                                            d="m80.872 3.471-60.903 98.662a7.305 7.305 0 0 0 2.38 10.057 7.3 7.3 0 0 0 10.059-2.38l60.903-98.663A7.304 7.304 0 0 0 90.93 1.091a7.308 7.308 0 0 0-10.058 2.38z"
+                                                                            fill="currentColor" opacity=" 1"
+                                                                            data-original="#000000" class=""></path>
+                                                                    </g>
+                                                                </svg>
+                                                                <!-- <i *ngSwitchCase="'%'" class="fa-solid fa-percent"></i> -->
+                                                                <svg *ngSwitchCase="'%'"
+                                                                    xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="10px" height="10px" x="0" y="0"
+                                                                    viewBox="0 0 512 512"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve" class="hovered-paths">
+                                                                    <g>
+                                                                        <path
+                                                                            d="M105.751 245.339a105.667 105.667 0 1 0-74.776-30.923 105.44 105.44 0 0 0 74.776 30.923zM76.229 110.117A41.749 41.749 0 1 1 64 139.639a41.473 41.473 0 0 1 12.229-29.522zM406.25 266.611a105.752 105.752 0 1 0 74.776 30.974 105.052 105.052 0 0 0-74.776-30.974zm29.521 135.272a41.75 41.75 0 0 1-59.043-59.043 41.75 41.75 0 1 1 59.042 59.044zm32.968-358.622a32 32 0 0 1 0 45.255L88.517 468.739a32 32 0 0 1-45.254-45.255L423.485 43.261a32 32 0 0 1 45.254 0z"
+                                                                            fill="currentColor" opacity="1"
+                                                                            data-original="#000000"
+                                                                            class="hovered-path">
+                                                                        </path>
+                                                                    </g>
+                                                                </svg>
+                                                                <svg *ngSwitchCase="'√'" width="22.75px" height="17px"
+                                                                    viewBox="0 0 24 24" fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M13.6191 3C11.3776 5.33579 10 8.50702 10 12C10 15.493 11.3776 18.6642 13.6191 21"
+                                                                        stroke="#013366" stroke-width="2"
+                                                                        stroke-linecap="round"></path>
+                                                                </svg>
+                                                                <svg *ngSwitchCase="'∛'" width="22.75px" height="19px"
+                                                                    viewBox="0 0 24 24" fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    transform="rotate(180)">
+                                                                    <path
+                                                                        d="M13.6191 3C11.3776 5.33579 10 8.50702 10 12C10 15.493 11.3776 18.6642 13.6191 21"
+                                                                        stroke="#013366" stroke-width="2"
+                                                                        stroke-linecap="round"></path>
+                                                                </svg>
+                                                                <svg *ngSwitchCase="','" width="22.75px" height="14px"
+                                                                    class="comma" viewBox="0 0 24 24"
+                                                                    fill="currentColor" id="Layer_1" data-name="Layer 1"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 90.51 122.88">
+                                                                    <title>comma</title>
+                                                                    <path
+                                                                        d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z" />
+                                                                </svg>
+
+                                                                <svg *ngSwitchCase="'IF'" fill="currentColor"
+                                                                    style="vertical-align: middle; overflow: hidden;"
+                                                                    width="1024" height="1024" viewBox="0 0 1024 1024"
+                                                                    fill="currentColor"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M888.725 102.029C885.717 131.597 842.453 128.525 830.997 128.525C761.173 128.525 685.333 92.3008 644.629 241.485L625.621 335.053H721.749C739.349 335.053 753.749 349.389 753.749 367.053C753.749 384.717 739.349 399.053 721.749 399.053H611.989L525.589 823.437C525.589 823.437 517.269 891.661 475.349 889.037C427.349 886.029 449.365 817.741 449.365 817.741L534.997 399.053H468.949C452.245 399.053 438.933 386.189 437.525 369.805C438.933 339.853 452.245 335.053 468.949 335.053H548.757L568.789 239.565C582.997 171.917 612.309 115.085 663.381 82.0608C714.389 49.0368 798.357 55.0528 838.485 59.5968C855.381 61.5168 892.501 64.9728 888.725 102.029ZM372.821 369.677C376.661 352.333 365.781 335.373 348.437 331.533C331.157 327.693 314.133 338.637 310.293 355.917L201.365 845.773C197.717 862.093 199.701 876.173 228.565 883.981C244.885 886.093 260.373 875.853 263.893 859.597L372.821 369.677ZM436.949 374.413C436.949 372.493 437.397 371.533 437.525 369.805C437.333 368.845 436.949 368.013 436.949 367.053V374.413ZM375.317 164.749C348.821 164.749 327.317 186.253 327.317 212.749C327.317 239.245 348.821 260.749 375.317 260.749C401.941 260.749 423.317 239.245 423.317 212.749C423.317 186.253 401.941 164.749 375.317 164.749Z"
+                                                                        fill="currentColor" />
+                                                                </svg>
+
+                                                                <div *ngSwitchCase="'('">
+                                                                    <span class="operator-bracket">(</span>
+                                                                </div>
+                                                                <div *ngSwitchCase="')'">
+                                                                    <span class="operator-bracket">)</span>
+                                                                </div>
+                                                                <div *ngSwitchDefault>
+                                                                    <span class="oprator-ex">{{ operator }}</span>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 mt-lg-3">
+                                                <div class="input-box">
+                                                    <input type="text" class="form-control border-0"
+                                                        placeholder="Fix Value" [(ngModel)]="formulaDefualtValue"
+                                                        name="defaultValue">
+                                                    <span class="add-btn" (click)="addDefualtValue()">ADD</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Tagsinput (Angular Directive) -->
+    <!-- <div class="form-group mt-3">
+        <label class="form-label">Tags Input</label>
+        <input type="text" class="form-control" bootstrapTagsinput [(ngModel)]="selectedTags"
+            placeholder="Type and press Enter to add tags" [options]="{ maxTags: 10, trimValue: true }"
+            (ngModelChange)="onTagsChange($event)" />
+        <small class="form-text text-muted">
+            Selected tags: {{ getSelectedTagsText() }}
+        </small>
+    </div> -->
+
+    <!-- Object-based Tags Input -->
+    <!-- <div class="form-group mt-3">
+        <label class="form-label">Skills Tags (with objects)</label>
+        <input type="text" class="form-control" bootstrapTagsinput [(ngModel)]="selectedSkills"
+            [options]="{ itemValue: 'id', itemText: 'name', maxTags: 5 }" [typeaheadSource]="availableSkills"
+            placeholder="Type to search and select skills" (ngModelChange)="onSkillsChange($event)" />
+        <small class="form-text text-muted">
+            Selected skills: {{ getSelectedSkillsText() }}
+        </small>
+    </div> -->
+
+</div>

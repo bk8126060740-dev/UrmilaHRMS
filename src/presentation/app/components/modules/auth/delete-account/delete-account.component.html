@@ -1,0 +1,16 @@
+<div class="delete-account-container">
+    <form #deleteForm="ngForm" (ngSubmit)="onSubmit(deleteForm)" *ngIf="!requestSubmitted" novalidate>
+        <label for="identifier">Username or Email</label>
+        <input id="identifier" name="identifier" [(ngModel)]="identifier" required #identifierField="ngModel"
+            placeholder="Enter your username or email" [pattern]="emailOrUsernamePattern" />
+        <div class="error" *ngIf="identifierField.invalid && (identifierField.dirty || identifierField.touched)">
+            <span *ngIf="identifierField.errors?.['required']">This field is required.</span>
+            <span *ngIf="identifierField.errors?.['pattern']">Enter a valid email or username.</span>
+        </div>
+        <button type="submit" class="delete-btn" [disabled]="deleteForm.invalid">Delete Account</button>
+    </form>
+    <div *ngIf="requestSubmitted" class="confirmation-message">
+        <p>Your request has been submitted for administrator review. All your data will be deleted within 4-7 working
+            days.</p>
+    </div>
+</div>

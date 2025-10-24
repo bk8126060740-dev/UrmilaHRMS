@@ -1,0 +1,121 @@
+<!-- <div class="coming-soon d-flex justify-content-center align-items-center w-100">
+    <lottie-player src="../../../../../../assets/image/animation.json" background="transparent" speed="1"
+        style="width: 300px; height: 300px;" loop autoplay>
+    </lottie-player>
+</div> -->
+
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row mx-0 my-3  mx-md-4">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <!-- <div class="row m-0 p-0 mb-4"> -->
+        <div class="col p-0 m-0 borad report-borad" *appIsGranted="'Read'">
+            <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [recodeCount]="12"
+                (buttonClick)="generate($event)" [title]="'Report List'" [exportVisibility]="false"
+                (delete)="onDelete($any($event))" (edit)="onEdit($any($event))" (pageNumber)="onPageChange($any($event))"
+                (insert)="onInsert()" (orderBy)="orderBy($event)" (recodeValueChange)="onRecordValueChange($event)"
+                (searchTearm)="onSearch($event)">
+            </tg-grid>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+<!-- 
+<button type="button" class="btn btn-outline-primary" (click)="openModelReport()">Open</button>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Destination Source</th>
+            <th>Input Source</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <tr *ngFor="let item of data; let i = index" cdkDrag>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.destinationSourceName }}</td>
+            <td>{{ item.inputSourceName }}</td>
+            <button type="button" class="btn btn-outline-primary" (click)="onEdit(item)">Edit</button>
+            <button type="button" class="btn btn-outline-danger" (click)="onDelete(item)">Delete</button>
+        </tr>
+    </tbody>
+</table> -->
+
+<!-- Model Reporting -->
+<!-- <div bsModal #reportmodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Add/Edit Report</h5>
+                <svg class="" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="22px" height="22px"
+                    viewBox="0 0 24 24" (click)="reportmodel?.hide()">
+                    <g fill="none" fill-rule="evenodd">
+                        <path
+                            d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                        <path fill="currentColor"
+                            d="m12 13.414l5.657 5.657a1 1 0 0 0 1.414-1.414L13.414 12l5.657-5.657a1 1 0 0 0-1.414-1.414L12 10.586L6.343 4.929A1 1 0 0 0 4.93 6.343L10.586 12l-5.657 5.657a1 1 0 1 0 1.414 1.414z" />
+                    </g>
+                </svg>
+            </div>
+            <form [formGroup]="reportingForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Title</mat-label>
+                    <input matInput formControlName="title" placeholder="Title">
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Destination Source</mat-label>
+                    <mat-select formControlName="destinationSourceId">
+                        <mat-option *ngFor="let source of reportdestinationSourceData" [value]="source.id">
+                            {{ source.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Input Source</mat-label>
+                    <mat-select formControlName="inputSourceId">
+                        <mat-option *ngFor="let source of reportinputSourceData" [value]="source.id">
+                            {{ source.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <div formArrayName="customColumns">
+                    <div *ngFor="let column of customReportColumnTableList.controls; let i = index" [formGroupName]="i">
+
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Builder Table Column </mat-label>
+                            <mat-select placeholder="Select Custom Name" formControlName="builderTableColumnId"
+                                name="builderTableColumnId">
+                                <mat-option *ngFor="let report of userPropertyData" [value]="report.id">
+                                    {{ report.userProperty }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Custom Name</mat-label>
+                            <input matInput placeholder="custom Name" name="customName" formControlName="customName"
+                                required appAllowOnlyChars>
+                        </mat-form-field>
+
+                        <button type="button" (click)="removeCustomColumn(i)" class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
+                <button type="button" *ngIf="!isEditMode" (click)="addCustomColumn()" class="btn btn-primary">Add Custom
+                    Column</button>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
+    </div>
+</div> -->

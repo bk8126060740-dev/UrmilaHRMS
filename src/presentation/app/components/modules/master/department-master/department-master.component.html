@@ -1,0 +1,53 @@
+<div class="fix-height-full" *appIsGranted="'Read'">
+    <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [title]="'Department Master'"
+        [isBreadCurmbsShow]="false" (insert)="onAddDepartment()" (orderBy)="orderBy($event)"
+        (edit)="onEditClicked($any($event))" [exportVisibility]="false" (delete)="onDelete($any($event))"
+        (searchTearm)="onSearch($event)" (pageNumber)="onPageChange($event)"
+        (recodeValueChange)="onTotalDepartmentMasterValueChange($event)" [isVisibleDisplayedColoum]="false">
+    </tg-grid>
+</div>
+
+<div bsModal #departmentmodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Add/Edit Department Master</h5>
+                <span class="d-block" (click)="departmentmodel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="departmentForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                    <div class="col-12 p-0">
+                        <div class="w-100">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Department Name</mat-label>
+                                <input matInput placeholder="Department Name" name="departmentName"
+                                    formControlName="departmentName" required appAllowOnlyChars>
+                            </mat-form-field>
+                        </div>
+                        <br>
+                        <div class="w-100">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Description</mat-label>
+                                <input matInput placeholder="Description" formControlName="desciption" name="desciption"
+                                    required appAllowOnlyChars>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="modal-footer popup-footer d-flex">
+                        <ng-container *ngIf="this.departmentForm?.get('id')?.value === null">
+                            <button type="submit" class="btn btn-save p-footerbtns"
+                                *appIsGranted="'Write'">Save</button>
+                        </ng-container>
+                        <ng-container *ngIf="this.departmentForm?.get('id')?.value != null">
+                            <button type="submit" class="btn btn-save p-footerbtns"
+                                *appIsGranted="'Update'">Update</button>
+                        </ng-container>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

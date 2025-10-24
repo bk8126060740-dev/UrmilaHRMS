@@ -1,0 +1,242 @@
+@import '../../../../../../styles/styles.scss';
+
+.btn-theme {
+    background-color: var(--theme-color) !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: #fff !important;
+        box-shadow: none !important;
+        transform: translateY(-2px);
+    }
+}
+
+.filter-no {
+    background-color: #689DF6;
+    border-radius: 50px;
+    height: 18px;
+    width: 18px;
+    color: $white-color;
+    display: inline-block;
+}
+
+.cards-wrapper {
+
+    .card {
+        background-color: $white-color !important;
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 16px 14px;
+        border: 1px solid #eaedf1 !important;
+        position: relative;
+
+        p {
+            font-size: 12px;
+            font-weight: 500;
+            color: #00000066;
+        }
+
+        h5 {
+            margin-top: 5px !important;
+            font-size: 16px;
+            color: $black-color;
+            font-weight: 500 !important;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #E9EDF4;
+            height: 5px;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            background-color: #4285F4;
+            height: 5px;
+            z-index: 2;
+            border-radius: 50px;
+        }
+    }
+
+    .card.sky {
+
+        &::before {
+            width: 50%;
+            background-color: #3EC9D6;
+        }
+    }
+
+    .card.green {
+
+        &::before {
+            width: 50%;
+            background-color: #6FD943;
+        }
+    }
+
+    .card.red {
+
+        &::before {
+            width: 50%;
+            background-color: #E70D0D;
+        }
+    }
+
+
+}
+
+table .dropdown-icn {
+    color: var(--theme-color) !important;
+    margin-right: 10px;
+    font-size: 18px;
+    padding: 0px !important;
+}
+
+.text-primary {
+    color: var(--theme-color) !important;
+}
+
+
+.w-10 {
+    width: 160px !important;
+}
+
+
+.export-menu li a {
+    color: #777777;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
+
+.month-range-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 280px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    z-index: 1000;
+}
+
+.year-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.months {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.month {
+    width: 60px;
+    text-align: center;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    background: #f0f0f0;
+}
+
+.month.selected {
+    background: #1976d2;
+    color: white;
+    font-weight: bold;
+}
+
+.month.in-range {
+    background: #90caf9;
+}
+
+.user-data {
+    width: 100%;
+    overflow: auto;
+}
+
+// .text-w {
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     width: 553px !important;
+//     max-width: 553px !important;
+//     padding: 0px 20px;
+// }
+
+.main-board-1 {
+    // overflow: hidden;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #eaedf1;
+    display: block;
+    width: 100%;
+    z-index: 3;
+
+    padding-top: 0 !important;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+    height: 40px !important;
+}
+
+.ng-select .ng-select-container {
+    height: 40px !important;
+}
+
+icon-dropdown {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-right: 8px;
+}
+
+.rotated {
+    transform: rotate(90deg);
+}
+
+.first-th {
+    padding: 12px 70px !important;
+    max-width: 14rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.record-box {
+    position: relative;
+    z-index: -1;
+}
+
+.report-inner-table td {
+    padding: 12px 10px !important;
+}
+
+table td,
+table th {
+    box-sizing: border-box;
+}
+
+
+.ng-select-unselected {
+    border: 1px solid #FA6060 !important;
+    border-radius: 5px;
+}
+
+.export-btn {
+    background-color: var(--light-theme) !important;
+}

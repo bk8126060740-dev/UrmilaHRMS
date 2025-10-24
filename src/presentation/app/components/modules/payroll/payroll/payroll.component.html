@@ -1,0 +1,1031 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-3 mb-3 justify-content-between align-items-center flex-wrap gap-3">
+            <div class="col-12 col-md">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <div class="col-12 col-md justify-content-end d-flex project-dropdown">
+                <!-- Payroll Year Dropdown List -->
+                <div class="dropdown ms-3 project-btn year-select ">
+                    <ng-select [items]="yearsList" bindLabel="label" bindValue="value" [clearable]="false"
+                        placeholder="Select Year" [(ngModel)]="selectedYear" (change)="onYearChange($event)">
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        <div class="card mx-4">
+            <div class="row m-0 p-0 gy-3" *appIsGranted="'Read'">
+                <div class="col-12 col-sm-3 col-md-3 col-lg ps-0 cart-design gy-3 gy-lg-0"
+                    *ngFor="let status of statusWithCounts">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)" [ngStyle]="{
+                        'border-color': (selectedStatus && selectedStatus.name === 'Total Records' && status.name === 'Total Records') ? '#4285F4' : 
+                         (selectedStatus && selectedStatus.name === status.name && status.name !== 'Total Records') ? selectedStatus.colorCode : ''
+                    }">
+                        <div class="align-items-center justify-content-between main-client-card">
+                            <div class="left-card-side card-icon1">
+                                <p class="mb-2">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Total Records'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': '#4285F4'}"></span>
+                                <icon-totalRecords></icon-totalRecords>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': '#4285F4'}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Running'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Running></icon-Running>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon2 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Failed'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Failed></icon-Failed>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon3 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Pending Approval'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-PendingApproval></icon-PendingApproval>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Approved'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Approved></icon-Approved>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Rejected'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Reject></icon-Reject>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Pending'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Pending></icon-Pending>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-0" *appIsGranted="'Read'">
+            <div class="col p-0 m-0">
+                <!-- <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                    [title]="'Payroll'" [exportVisibility]="false" (orderBy)="orderBy($event)" (edit)="onEdit($any($event))"
+                    [isInsertButton]="true" [isEditButton]="false" (delete)="onDelete($any($event))"
+                    (searchTearm)="onSearch($event)" (recodeValueChange)="onTotalPayrollValueChange($event)"
+                    (pageNumber)="onPageChange($event)" (insert)="onInsert()" (buttonClick)="InvoiceFile($event)"
+                    (viewClick)="viewRecord($any($event))" (reGenerateClick)="changePayrollStatus($event)"
+                    (onDownloadBankTransferSheet)="downloadBankTransferSheet($event)">
+                </tg-grid> -->
+
+
+                <div class="dashborad-main m-4 mt-3 mb-0 payroll-h">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col borad-parent p-0">
+                                <div class="main-board position-static px-0">
+                                    <div class="board-content position-relative h-100">
+                                        <div class="board-header d-flex justify-content-between px-4 py-3 flex-wrap">
+                                            <div class="board-title d-flex align-items-center">
+                                                Payroll
+                                            </div>
+                                            <div class="board-right d-flex flex-wrap">
+                                                <ng-container *appIsGranted="'Write'">
+                                                    <button
+                                                        class="header-btn header-btn-blue btn-hover d-flex justify-content-center align-items-center w-auto px-2 pe-3"
+                                                        (click)="onInsert()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"
+                                                            class="me-1" height="22px" viewBox="0 0 20 20">
+                                                            <path fill="currentColor"
+                                                                d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5z" />
+                                                        </svg>
+                                                        <p class="fw-medium">Generate Payroll</p>
+                                                    </button>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="parent-container">
+                                            <div class="user-data">
+                                                <table class="w-100 position-relative  table tr-table-hover">
+                                                    <thead class="position-sticky top-0 bg-white"
+                                                        style="z-index: 2 !important;">
+                                                        <tr class="table-header-row table-title">
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Name
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Month
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Year
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-20 text-dark p-2 cursor fw-medium ps-4"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Description
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Proforma Invoice
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Status
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                View Record
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Regenerate
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Generate Invoice
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Download Invoice
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Tax Invoice
+                                                            </th>
+                                                            <!-- <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                PF Challan
+                                                            </th>
+                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                ESIC Challan
+                                                            </th> -->
+                                                            <th class="text-dark pe-2 w-5 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Bank Sheet
+                                                            </th>
+                                                            <th class="text-dark pe-5 w-10 text-dark p-2 text-end fw-medium ps-4 w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                Action
+                                                            </th>
+                                                        </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of rowData">
+                                                            <td class="ps-4"
+                                                                style=" padding-top: 15px !important; padding-bottom: 5px !important;">
+                                                                {{item.name}}
+                                                            </td>
+                                                            <td class="ps-4"
+                                                                style=" padding-top: 15px !important; padding-bottom: 5px !important;">
+                                                                {{item.monthName}}
+                                                            </td>
+                                                            <td class="ps-4"
+                                                                style=" padding-top: 15px !important; padding-bottom: 5px !important;">
+                                                                {{item.year}}
+                                                            </td>
+                                                            <td class="ps-4"
+                                                                style=" padding-top: 15px !important; padding-bottom: 5px !important;">
+                                                                {{item.description}}
+                                                            </td>
+                                                            <td class="ps-4"
+                                                                style=" padding-top: 15px !important; padding-bottom: 5px !important;">
+                                                                <ng-container
+                                                                    *ngFor="let t of item.taxInvoices; let i = index">
+                                                                    {{ t.invoicePrefix }}<span
+                                                                        *ngIf="i < item.taxInvoices.length - 1">,
+                                                                    </span>
+                                                                </ng-container>
+                                                            </td>
+                                                            <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 12px !important; padding-bottom: 10px !important;">
+                                                                <div
+                                                                    class="d-flex align-items-center justify-content-center">
+                                                                    <div class="status-btn text-center position-relative overflow-hidden"
+                                                                        style="z-index: 1; border-radius: 4px; margin-top: 0px !important">
+                                                                        <!-- <p style="color: #fff; z-index: 99;">
+                                                                            {{ item.statusName }}</p> -->
+                                                                        <p style="z-index:2;"
+                                                                            [ngStyle]="{'color':item.statusColorCode || '#E5F8F7' }">
+                                                                            {{ item.statusName }}</p>
+                                                                        <span
+                                                                            class="position-absolute top-0 start-0 h-100 w-100 card-status-opacity"
+                                                                            style="z-index:1;opacity: 0.2;"
+                                                                            [ngStyle]="{'background-color':item.colorCode || '#E5F8F7' }"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <ng-container
+                                                                    *ngIf="item.status === 145 || item.status === 146 || item.status === 147">
+                                                                    <div (click)="viewRecord(item)"
+                                                                        class="attributes-icon d-flex justify-content-center align-items-center cursor ng-star-inserted">
+                                                                        <span class="icn-bg bg-skyblue"
+                                                                            mat-raised-button matTooltip="Payroll Info"
+                                                                            [matTooltipPosition]="'right'"
+                                                                            [matTooltipShowDelay]="showDelay.value"
+                                                                            [matTooltipHideDelay]="hideDelay.value"
+                                                                            aria-label="Payroll Info">
+                                                                            <icon-view></icon-view>
+                                                                        </span>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </td>
+                                                            <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <ng-container
+                                                                    *ngIf="item.status === 145 || item.status === 143 || item.status === 147">
+                                                                    <div (click)="changePayrollStatus(item)"
+                                                                        class="attributes-icon d-flex justify-content-center align-items-center cursor ng-star-inserted ms-auto me-auto"
+                                                                        mat-raised-button matTooltip="Re-run Payroll"
+                                                                        [matTooltipPosition]="'right'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value"
+                                                                        aria-label="Re-run Payroll"
+                                                                        style="width: fit-content;">
+                                                                        <span class="icn-bg bg-skyblue">
+                                                                            <icon-reRun></icon-reRun>
+                                                                        </span>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </td>
+
+                                                            <td class="ps-4 text-center w-10"
+                                                                style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <div class="attributes-icon d-flex justify-content-center align-items-center cursor ms-auto me-auto"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    matTooltip="Generate Invoice"
+                                                                    [matTooltipPosition]="'right'" aria-label="Generate"
+                                                                    (click)="InvoiceFile(item)">
+
+                                                                    <ng-container *ngFor="let t of item.taxInvoices">
+                                                                        <ng-container *ngIf="t.invoicePath !== 'Y'">
+                                                                            <span class="icn-bg bg-skyblue"
+                                                                                style="display: flex; align-items: center; justify-content: center; padding: 4px; margin-right: 4px; border-radius: 4px;">
+                                                                                <icon-Regenrate></icon-Regenrate>
+                                                                            </span>
+                                                                        </ng-container>
+                                                                    </ng-container>
+
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-4 text-center w-10"
+                                                                style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    matTooltip="Download" [matTooltipPosition]="'right'"
+                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                    aria-label="Download"
+                                                                    (click)="DownloadInvoice(item)"
+                                                                    *ngIf="item.status === 146">
+
+
+                                                                    <icon-fileDownload></icon-fileDownload>
+
+
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="ps-4 text-center w-10"
+                                                                style="padding: 5px 0 !important;">
+                                                                <div *ngIf="item.status === 146 && item.isInvoice === true"
+                                                                    class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    matTooltip="Tax Invoice"
+                                                                    [matTooltipPosition]="'right'"
+                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                    aria-label="Upload"
+                                                                    (click)="uploadTaxInvoiceFile(item)">
+
+                                                                    <ng-container
+                                                                        *ngIf="item.isTaxInvoice && item.isTaxInvoice.length > 0; else showIcon">
+                                                                        <span *ngFor="let t of item.taxInvoices"
+                                                                            style="display: flex; align-items: center; justify-content: center; padding: 4px; margin-right: 4px; border-radius: 4px;">
+                                                                            <icon-Pdf></icon-Pdf>
+                                                                        </span>
+
+                                                                    </ng-container>
+
+                                                                    <ng-template #showIcon>
+                                                                        <span class="icn-bg bg-orange"
+                                                                            style="display: flex; align-items: center; justify-content: center; padding: 4px; margin-right: 4px; border-radius: 4px;">
+                                                                            <icon-FileUpload></icon-FileUpload>
+                                                                        </span>
+                                                                    </ng-template>
+
+
+
+                                                                </div>
+                                                            </td>
+
+
+                                                            <!-- <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <div [ngClass]="{'uploaded-y': pfuploadedPayRollId == item?.id}"
+                                                                    class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    matTooltip="Attach Docs"
+                                                                    [matTooltipPosition]="'right'"
+                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                    aria-label="Attach Docs"
+                                                                    (click)="openModelPFChallan(item)"
+                                                                    *ngIf="item.status === 146 && item.isInvoice === true">
+                                                                    <span class="icn-bg bg-yellow">
+                                                                        <icon-pfChallan></icon-pfChallan>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <div [ngClass]="{'uploaded-o': esicuploadedPayRollId == item?.id}"
+                                                                    class="attributes-icon d-flex justify-content-center align-items-center uploaded-o cursor ms-auto me-auto"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    mat-raised-button matTooltip="Attach Docs"
+                                                                    [matTooltipPosition]="'right'"
+                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                    aria-label="Attach Docs"
+                                                                    (click)="openModelESICChallan(item)"
+                                                                    *ngIf="item.status === 146 && item.isInvoice === true">
+                                                                    <span class="icn-bg bg-secondary">
+                                                                        <icon-ESIC></icon-ESIC>
+                                                                    </span>
+                                                                </div>
+                                                            </td> -->
+                                                            <td class="ps-4 text-center w-10"
+                                                                style=" padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                                <div *ngIf="item.isInvoice && item.status === 146"
+                                                                    class="attributes-icon d-flex justify-content-center align-items-center ms-auto me-auto cursor"
+                                                                    style="width: fit-content;" mat-raised-button
+                                                                    mat-raised-button matTooltip="Download"
+                                                                    [matTooltipPosition]="'right'"
+                                                                    [matTooltipShowDelay]="showDelay.value"
+                                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                                    aria-label="Download">
+                                                                    <span class="icn-bg bg-skyblue"
+                                                                        (click)="openModel(item)">
+                                                                        <icon-bankSheet></icon-bankSheet>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class=" pe-4 text-center edit-icns  w-10 py-0">
+                                                                <div (click)="onDelete(item)"
+                                                                    *ngIf="item.status !== 146"
+                                                                    class="delete-icon d-flex w-100 justify-content-center align-items-center action-icn cursor"
+                                                                    style="padding-top: 6px !important; padding-bottom: 5px !important;">
+                                                                    <!-- <ng-container *ngIf="item.status === 145 "> -->
+                                                                    <span class="icn-bg bg-red" mat-raised-button
+                                                                        mat-raised-button matTooltip="Delete"
+                                                                        [matTooltipPosition]="'right'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value">
+                                                                        <icon-delete></icon-delete>
+                                                                    </span>
+
+                                                                    <!-- </ng-container> -->
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr *ngIf="rowData.length === 0" class="text-center my-2">
+                                                            <td colspan="100%" class="text-center py-4"
+                                                                style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                                                                No data found</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="borad-footer d-flex justify-content-between mt-1 bg-white position-sticky top-100 w-100 py-2 px-4 border-top flex-wrap"
+                                            style="transform: translateY(0px);">
+                                            <div class="footer-left d-flex align-items-center flex-nowrap">
+                                                <!-- <select class="form-control w-auto" id="daumEnumName" name="enumName"
+                                                    (change)="onRecodeChange($event)">
+                                                    <option *ngFor="let count of [10, 25, 50, 100]" [value]="count">{{
+                                                        count }}</option>
+                                                </select> -->
+                                                <p class="align-self-center ms-3 mb-0 text-black-50">Showing
+                                                    {{startItem}} to
+                                                    {{endItem >
+                                                    totalCount ?
+                                                    totalCount : endItem}} of {{totalCount}} entries</p>
+                                            </div>
+                                            <!-- <button (click)="goto(1)">
+                                                button
+                                            </button> -->
+                                            <div class="footer-paginations pagination-lg">
+                                                <pagination [boundaryLinks]="true" [totalItems]="totalCount"
+                                                    [itemsPerPage]="recodeCount" [maxSize]="5" [(ngModel)]="currentPage"
+                                                    (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+                                                    nextText="&rsaquo;" (pageBoundsCorrection)="pageChanged($event)"
+                                                    firstText="&laquo;" lastText="&raquo;">
+                                                </pagination>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #payrollmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{backdrop:'static'}">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Run Payroll</h5>
+                <span class="d-block" (click)="payrollmodal?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="payrollForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                    <div class="col-12 p-0">
+
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" name="name" formControlName="name" required>
+                            </mat-form-field>
+                        </div>
+
+
+
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Month</mat-label>
+                                <mat-select formControlName="month" name="month" required>
+                                    <mat-option *ngFor="let month of monthList ; index as i" [value]="month.value">
+                                        {{ month.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Year</mat-label>
+                                <mat-select formControlName="year" name="year" required>
+                                    <mat-option *ngFor="let year of yearsList ; index as i" [value]="year.value">
+                                        {{ year.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Description</mat-label>
+                                <input matInput placeholder="Description" formControlName="desciption" name="desciption"
+                                    required>
+                            </mat-form-field>
+                        </div>
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Attendance</mat-label>
+                                <mat-select formControlName="projectAttendanceId" name="projectAttendanceId" required>
+                                    <mat-option *ngFor="let data of approvedAttendanceList ; index as i"
+                                        [value]="data.id">
+                                        <!-- Sr No : - {{ data.srNo }} - ( {{ data.month }} - {{ data.year }} ) -->
+                                        {{ i + 1 }}. Sr No: {{ data.srNo }} | Month: {{ data.month }} - {{ data.year }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="modal-footer popup-footer mt-3 p-0 mb-3">
+                        <div class="modal-footer-1 d-flex justify-content-between gap-3 m-0">
+                            <p style="font-size: 12px; align-self: center;">Note: Attendance is based on the selected
+                                month
+                                and year.</p>
+                            <ng-container *ngIf="this.payrollForm?.get('id')?.value === null">
+                                <button type="submit" class="btn btn-save p-footerbtns" *appIsGranted="'Write'"
+                                    style="width: fit-content;">Run
+                                    Payroll</button>
+                            </ng-container>
+                        </div>
+                        <!-- <ng-container *ngIf="this.payrollForm?.get('id')?.value != null" style="width: fit-content;">
+                            <button type="submit" class="btn btn-save p-footerbtns"
+                                *appIsGranted="'Update'">Update</button>
+                        </ng-container> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div bsModal #banksheetmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{backdrop:'static'}">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Bank Transfer Sheet</h5>
+                <span class="d-block" (click)="closebanksheetmodal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="banksheetForm" #banksheetformDirective="ngForm" (ngSubmit)="downloadBankTransferSheet()">
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+
+                    <div class="col-12">
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Source Bank</mat-label>
+                                <mat-select formControlName="bankId" name="bankId" required>
+                                    <mat-option *ngFor="let list of bankList ; index as i" [value]="list.id">
+                                        {{ list.bankName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="w-100 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Payroll Attribute</mat-label>
+                                <mat-select formControlName="attrubuteId" name="attrubuteId" required>
+                                    <mat-option *ngFor="let list of attributeArray ; index as i"
+                                        [value]="list.payrollAttributeId">
+                                        {{ list.payrollAttributeName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="modal-footer popup-footer d-flex mt-2 px-0">
+                            <div class="d-flex w-100">
+                                <button type="submit" class="btn btn-save p-footerbtns w-100" *appIsGranted="'Write'"
+                                    style="white-space: nowrap;">Download
+                                    Sheet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center g-3 p-0 m-0">
+                    <div class="col-12" *ngIf="salarySheetList.length > 0">
+                        <div class="overflow-x-auto">
+                            <table class="table table-responsive w-100">
+                                <thead>
+                                    <tr>
+                                        <th style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                            class="ps-3 fw-medium">Attribute Name</th>
+                                        <th style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                            class="ps-3 fw-medium">Bank Name</th>
+                                        <th style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                            class="ps-3 fw-medium text-center">Action</th>
+                                        <th style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                            class="ps-3 fw-medium">UTR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr let i="index" *ngFor="let item of salarySheetList">
+                                        <td class="py-0 ps-3">
+                                            <div class="d-flex align-items-center">{{item.payrollAttributeName}}</div>
+                                        </td>
+                                        <td class="py-0 ps-3">
+                                            <div class="d-flex align-items-center">{{item.bankResources}}</div>
+                                        </td>
+                                        <td class="py-0 ps-3" (click)="downloadOldBankTransferSheet(item)">
+                                            <div class="d-flex align-items-center justify-content-center"
+                                                style="height: 100%; width:100%">
+                                                <span class="mt-1 " mat-raised-button matTooltip="Download"
+                                                    [matTooltipPosition]="'left'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value"
+                                                    aria-label="Download"><icon-fileDownload></icon-fileDownload></span>
+                                            </div>
+                                        </td>
+                                        <td class="py-0 ps-3 text-center">
+                                            <div class="d-flex align-items-center position-relative cursor">
+                                                <span class="upload-file cursor" (click)="fileInput.click()">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px"
+                                                        viewBox="0 0 475.078 475.077">
+                                                        <g>
+                                                            <path
+                                                                d="M467.081 327.767c-5.321-5.331-11.797-7.994-19.411-7.994H325.76c-3.994 10.657-10.705 19.411-20.126 26.262-9.425 6.852-19.938 10.28-31.546 10.28h-73.096c-11.609 0-22.126-3.429-31.545-10.28-9.423-6.851-16.13-15.604-20.127-26.262H27.408c-7.612 0-14.083 2.663-19.414 7.994C2.664 333.092 0 339.563 0 347.178v91.361c0 7.61 2.664 14.089 7.994 19.41 5.33 5.329 11.801 7.991 19.414 7.991h420.266c7.61 0 14.086-2.662 19.41-7.991 5.332-5.328 7.994-11.8 7.994-19.41v-91.361c0-7.615-2.662-14.079-7.997-19.411zm-107.056 96.211c-3.621 3.617-7.905 5.428-12.854 5.428s-9.227-1.811-12.847-5.428c-3.614-3.613-5.421-7.898-5.421-12.847s1.807-9.236 5.421-12.847c3.62-3.613 7.898-5.428 12.847-5.428s9.232 1.814 12.854 5.428c3.613 3.61 5.421 7.898 5.421 12.847s-1.808 9.233-5.421 12.847zm73.084 0c-3.614 3.617-7.898 5.428-12.848 5.428-4.948 0-9.229-1.811-12.847-5.428-3.613-3.613-5.42-7.898-5.42-12.847s1.807-9.236 5.42-12.847c3.617-3.613 7.898-5.428 12.847-5.428s9.233 1.814 12.848 5.428c3.617 3.61 5.427 7.898 5.427 12.847s-1.807 9.233-5.427 12.847zM109.632 173.59h73.089v127.909c0 4.948 1.809 9.232 5.424 12.847 3.617 3.613 7.9 5.427 12.847 5.427h73.096c4.948 0 9.227-1.813 12.847-5.427 3.614-3.614 5.421-7.898 5.421-12.847V173.59h73.091c7.997 0 13.613-3.809 16.844-11.42 3.237-7.422 1.902-13.99-3.997-19.701L250.385 14.562c-3.429-3.617-7.706-5.426-12.847-5.426-5.136 0-9.419 1.809-12.847 5.426L96.786 142.469c-5.902 5.711-7.233 12.275-3.999 19.701 3.239 7.615 8.853 11.42 16.845 11.42z"
+                                                                fill="#FA6060"></path>
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <p class="ms-2">Upload File</p>
+                                                <input type="file" #fileInput style="display: none"
+                                                    accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
+                                                    (change)="onUTRDocumentFileSelected($event, item)" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div bsModal #taxInvoiceModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{backdrop:'static'}">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Tax Invoice</h5>
+                <span class="d-block" (click)="closeTaxInvoiceModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                <div class="col-12">
+                    <form [formGroup]="taxInvoiceForm">
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Number</mat-label>
+                                    <input matInput formControlName="invoiceNumber" required
+                                        [disabled]="taxInvoice.length !== 0" />
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Date</mat-label>
+                                    <input [max]="maxDate" matInput [matDatepicker]="picker"
+                                        formControlName="invoiceDate" required [disabled]="taxInvoice.length !== 0" />
+                                    <mat-datepicker-toggle matSuffix [for]="picker"
+                                        [disabled]="taxInvoice.length !== 0"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput type="number" formControlName="invoiceAmount" required
+                                        [disabled]="taxInvoice.length !== 0" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Remarks</mat-label>
+                                    <textarea matInput formControlName="remarks" required rows="6"
+                                        [disabled]="taxInvoice.length !== 0"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="taxInvoice.length === 0">
+                            <div class="input-group choose-file choose-single dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center mt-3"
+                                *ngIf="!taxInvoiceForm.get('file')?.value" appDrag
+                                (files)="taxInvoicefilesDropped($event)" [ngClass]="{
+                                    'file-error': taxInvoiceForm.get('file')?.errors?.['required'] 
+                                                  && (taxInvoiceForm.get('file')?.touched || taxInvoiceForm.get('file')?.dirty)
+                                  }" (click)="triggerProfileFileInput(fileInput)">
+                                <div for="dropzone-file"
+                                    class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                    <input id="dropzone-file" type="file" #fileInput style="display: none"
+                                        accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
+                                        (change)="onTaxInvoiceFileSelected($event)" class="hidden" />
+                                    <div class="browse-icn w-100 text-center mb-2">
+                                        <icon-BrowsFile></icon-BrowsFile>
+                                    </div>
+                                    <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                    <div>
+                                        <p class="w-100 text-center mt-1 mb-2 ">Or</p>
+                                    </div>
+                                    <div class="w-100 text-center">
+                                        <button type="button" class="browse-btn">Browse File</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="file-info mt-1" *ngIf="taxInvoiceForm.get('file')?.value">
+                                <i *ngIf="taxInvoiceForm.get('file')?.value?.name?.endsWith('.pdf')"
+                                    class="fas fa-file-pdf me-2" style="color: #FA6060;"></i>
+                                <i *ngIf="taxInvoiceForm.get('file')?.value?.name?.endsWith('.doc') || taxInvoiceForm.get('file')?.value?.name?.endsWith('.docx')"
+                                    class="fas fa-file-word me-2" style="color: #4285F4;"></i>
+                                <i *ngIf="taxInvoiceForm.get('file')?.value?.name?.endsWith('.jpg') || taxInvoiceForm.get('file')?.value?.name?.endsWith('.jpeg')"
+                                    class="fas fa-file-image me-2" style="color: #FFA75D;"></i>
+                                <i *ngIf="taxInvoiceForm.get('file')?.value?.name?.endsWith('.png')"
+                                    class="fas fa-file-image me-2" style="color: #59AAAA;"></i>
+                                <span class="file-name">{{ taxInvoiceForm.get('file')?.value?.name }}</span>
+                                <button type="button" class="btn btn-close" (click)="removeFileTaxInvoice()"></button>
+                            </div>
+
+                        </ng-container>
+                    </form>
+                </div>
+                <div class="col-12" *ngIf="taxInvoice.length > 0">
+                    <div class="overflow-x-auto">
+                        <table class="table table-responsive w-100">
+                            <thead>
+                                <tr>
+                                    <th class="fw-medium"
+                                        style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                        class="ps-3">Name</th>
+                                    <th class="fw-medium"
+                                        style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                        class="ps-3 text-end pe-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr let i="index" *ngFor="let item of taxInvoice">
+                                    <td class="py-0 ps-3">
+                                        <div class="d-flex align-items-center">{{item.fileName}}</div>
+                                    </td>
+                                    <td class="py-0 ps-3 text-center">
+                                        <div class="d-flex gap-2  align-items-center justify-content-end">
+                                            <ng-container>
+                                                <div class="edit-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                    (click)="downloadTaxInvoice(item.filePath)"
+                                                    style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                    <span class="icn-bg bg-skyblue" mat-raised-button mat-raised-button
+                                                        matTooltip="Download Tax Invoice" [matTooltipPosition]="'left'"
+                                                        [matTooltipShowDelay]="showDelay.value"
+                                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                                        <icon-Download></icon-Download>
+                                                    </span>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container>
+                                                <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                    (click)="deleteTaxInvoice(item.payrollId)"
+                                                    style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                    <span class="icn-bg bg-red" mat-raised-button mat-raised-button
+                                                        matTooltip="Delete" [matTooltipPosition]="'right'"
+                                                        [matTooltipShowDelay]="showDelay.value"
+                                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                                        <icon-delete></icon-delete>
+                                                    </span>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="modal-footer popup-footer d-flex mt-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-save p-footerbtns w-auto" style="white-space: nowrap;"
+                                (click)="closeTaxInvoiceModel()" *ngIf="taxInvoice.length > 0">Close</button>
+                        </div>
+                    </div> -->
+                </div>
+
+            </div>
+
+            <div *ngIf="taxInvoice.length === 0" class="modal-footer popup-footer d-flex mt-4">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-save p-footerbtns w-auto" style="white-space: nowrap;"
+                        (click)="uploadTaxInvoice()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #pfchallanmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{backdrop:'static'}">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">PF Challan</h5>
+                <span class="d-block" (click)="closepfchallanmodal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="pfchallanForm" #pfchallanformDirective="ngForm" (ngSubmit)="PFChallan(payrollId)">
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0" *ngIf="pfChallanList.length < 3">
+                    <div class="col-12">
+                        <div class="input-group choose-file choose-single dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center"
+                            *ngIf="selectedFile.length < 3" appDrag (files)="filesDropped($event)"
+                            (fileSizeError)="handleFileSizeErrors($event)" (click)="triggerProfileFileInput(fileInput)">
+                            <div for="dropzone-file"
+                                class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <input id="dropzone-file" type="file" #fileInput style="display: none"
+                                    (change)="onPFDocumentFileSelected($event)" class="hidden" />
+                                <div class="browse-icn w-100 text-center mb-2">
+                                    <icon-BrowsFile></icon-BrowsFile>
+                                </div>
+                                <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                <div>
+                                    <p class="w-100 text-center mt-1 mb-2 ">Or</p>
+                                </div>
+                                <div class="w-100 text-center">
+                                    <button class="browse-btn">Browse File</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="file-info mt-1" *ngFor="let item of selectedFile">
+
+                            <span class="file-name">{{ item?.name }}</span>
+                            <button type="button" class="btn btn-close" (click)="removeFilePF(item)"></button>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer popup-footer d-flex mt-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-save p-footerbtns w-auto"
+                                style="white-space: nowrap;">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12" *ngIf="pfChallanList.length > 0">
+                <div class="overflow-x-auto">
+                    <table class="table table-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th class="fw-medium"
+                                    style="padding-top: 12px !important; padding-bottom: 12px !important;" class="ps-3">
+                                    Name</th>
+                                <th class="fw-medium"
+                                    style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                    class="ps-3 text-end pe-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr let i="index" *ngFor="let item of pfChallanList">
+                                <td class="py-0 ps-3 long-text">
+                                    <div class="d-flex align-items-center">{{item.fileName}}</div>
+                                </td>
+                                <td class="py-0 ps-3 text-center">
+                                    <div class="d-flex gap-2  align-items-center justify-content-end">
+                                        <ng-container>
+                                            <div class="edit-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                (click)="downloadTaxInvoice(item.filePath)"
+                                                style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                <span class="icn-bg bg-skyblue" mat-raised-button mat-raised-button
+                                                    matTooltip="Download" [matTooltipPosition]="'left'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                                    <icon-Download></icon-Download>
+                                                </span>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                (click)="deletePF(item.payrollId,item.id)"
+                                                style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                <span class="icn-bg bg-red" mat-raised-button mat-raised-button
+                                                    matTooltip="Delete" [matTooltipPosition]="'right'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                                    <icon-delete></icon-delete>
+                                                </span>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #esicchallanmodal="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{backdrop:'static'}">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">ESIC Challan</h5>
+                <span class="d-block" (click)="closeesicchallanmodal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="esicchallanForm" #esicchallanformDirective="ngForm" (ngSubmit)="ESICChallan(payrollId)">
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0" *ngIf="pfChallanList.length < 2">
+                    <div class="col-12">
+                        <div class="input-group choose-file choose-single dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center"
+                            *ngIf="selectedFile.length < 2" appDrag (files)="filesDropped($event)"
+                            (fileSizeError)="handleFileSizeErrors($event)" (click)="triggerProfileFileInput(fileInput)">
+                            <div for="dropzone-file"
+                                class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <input id="dropzone-file" type="file" #fileInput style="display: none"
+                                    (change)="onESICDocumentFileSelected($event)" class="hidden" />
+                                <div class="browse-icn w-100 text-center mb-2">
+                                    <icon-BrowsFile></icon-BrowsFile>
+                                </div>
+                                <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                <div>
+                                    <p class="w-100 text-center mt-1 mb-2 ">Or</p>
+                                </div>
+                                <div class="w-100 text-center">
+                                    <button class="browse-btn">Browse File</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="file-info mt-1" *ngFor="let item of selectedFile">
+
+                            <span class="file-name">{{ item?.name }}</span>
+                            <button type="button" class="btn btn-close" (click)="removeFileESIC(item)"></button>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer popup-footer d-flex mt-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-save p-footerbtns w-auto"
+                                style="white-space: nowrap;">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12" *ngIf="pfChallanList.length > 0">
+                <div class="overflow-x-auto">
+                    <table class="table table-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th class="fw-medium"
+                                    style="padding-top: 12px !important; padding-bottom: 12px !important;" class="ps-3">
+                                    Name</th>
+                                <th class="fw-medium"
+                                    style="padding-top: 12px !important; padding-bottom: 12px !important;"
+                                    class="ps-3 text-end pe-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr let i="index" *ngFor="let item of pfChallanList">
+                                <td class="py-0 ps-3">
+                                    <div class="d-flex align-items-center">{{item.fileName}}</div>
+                                </td>
+                                <td class="py-0 ps-3 text-center">
+                                    <div class="d-flex gap-2  align-items-center justify-content-end">
+                                        <ng-container>
+                                            <div class="edit-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                (click)="downloadTaxInvoice(item.filePath)"
+                                                style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                <span class="icn-bg bg-skyblue" mat-raised-button mat-raised-button
+                                                    matTooltip="Download" [matTooltipPosition]="'left'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                                    <icon-Download></icon-Download>
+                                                </span>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container>
+                                            <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                (click)="deleteESIC(item.payrollId,item.id)"
+                                                style="padding-top: 6px !important;padding-bottom: 6px !important;">
+                                                <span class="icn-bg bg-red" mat-raised-button mat-raised-button
+                                                    matTooltip="Delete" [matTooltipPosition]="'right'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                                    <icon-delete></icon-delete>
+                                                </span>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

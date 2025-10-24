@@ -1,0 +1,84 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-4">
+            <div class="col-12">
+                <!-- Breadcrumbs -->
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="card mx-4">
+            <div class="row m-0 p-0">
+                <div class="col ps-0">
+                    <div class="client-cart bg-1">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="left-card-side">
+                                <p class="mb-2">All</p>
+                                <p class="client-cart-number">02</p>
+                            </div>
+                            <div class="align-self-center card-item card-icon">
+                                <svg width="64px" height="64px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4m-8-2 8-8m0 0v5m0-5h-5">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="client-cart bg-2">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="left-card-side">
+                                <p class="mb-2 ">SuccessFull</p>
+                                <p class="client-cart-number">02</p>
+                            </div>
+                            <div class="align-self-center card-item second-card-icon" style="background-color:#38B9CC;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M17 12c-2.76 0-5 2.24-5 5s2.24 5 5 5s5-2.24 5-5s-2.24-5-5-5m1.65 7.35L16.5 17.2V14h1v2.79l1.85 1.85zM20 3h-5.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H4v19h8.11a6.7 6.7 0 0 1-1.42-2H6V5h2v3h8V5h2v5.08c.71.1 1.38.31 2 .6zm-8 2c-.55 0-1-.45-1-1s.45-1 1-1s1 .45 1 1s-.45 1-1 1" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="client-cart bg-5">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="left-card-side">
+                                <p class="mb-2 ">Unsuccessful</p>
+                                <p class="client-cart-number">09</p>
+                            </div>
+                            <div class="align-self-center card-item five-card-icon" style="background-color: #E74A3B;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1.5" color="currentColor">
+                                        <path
+                                            d="m5 7l-1.218.813c-.874.582-1.311.873-1.548 1.317c-.237.445-.235.967-.231 2.01c.004 1.258.016 2.538.048 3.834c.077 3.075.115 4.612 1.246 5.742c1.13 1.13 2.688 1.17 5.804 1.248a116 116 0 0 0 5.799 0c3.116-.078 4.674-.117 5.804-1.248c1.13-1.13 1.169-2.667 1.246-5.742c.032-1.296.044-2.576.048-3.833c.003-1.044.005-1.566-.232-2.01c-.236-.445-.673-.736-1.547-1.318L19 7" />
+                                        <path
+                                            d="m2 10l6.913 4.148C10.417 15.05 11.169 15.5 12 15.5s1.583-.45 3.087-1.353L22 10" />
+                                        <path
+                                            d="M5 12V6c0-1.886 0-2.828.586-3.414S7.114 2 9 2h6c1.886 0 2.828 0 3.414.586S19 4.114 19 6v6m-9-2h4m-4-4h4" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-4">
+            <div class="col p-0 m-0">
+                <tg-grid [columns]="$any(columns)" [rowData]="rowData" [totalCount]="totalCount"
+                    [title]="'Candidate List'" (edit)="onEdit($any($event))" (delete)="onDelete($any($event))" 
+                    (pageNumber)="onPageChange($event)" (insert)="onSendlink()">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>

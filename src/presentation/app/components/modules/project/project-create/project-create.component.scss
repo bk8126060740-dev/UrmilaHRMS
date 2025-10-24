@@ -1,0 +1,400 @@
+@import '../../../../../../styles/styles.scss';
+
+.dashborad-main {
+
+    // padding: 28px;
+    .main-board {
+        .borad-header {
+            .header-title {
+                font-size: 22px;
+                font-weight: 700;
+                color: $icon-color;
+                line-height: 38px;
+            }
+        }
+
+        .profile-info {
+
+            height: 94px;
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(224, 230, 237, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-theme);
+
+            .pro-pic {
+
+                svg {
+                    height: 32px;
+                    width: 32px;
+                    fill: $icon-color;
+                }
+
+                .profile-pic {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: $border8;
+                }
+            }
+
+            p {
+                margin-top: 4px !important;
+                font-size: 13px;
+                color: $grey-text;
+                font-weight: 500;
+            }
+        }
+
+        .profile-error {
+            border-color: $error-color;
+        }
+
+
+
+        .grid-view {
+            .grid-header {
+                .add-newBtn {
+                    svg {
+                        color: var(--theme-color);
+                        margin-right: 3px;
+                        height: 18px;
+                        width: 18px;
+                    }
+
+                    font-size: $fonts-content;
+                    color: $grey-text;
+                    padding: 6px;
+                    border: 1px dashed $grey-text;
+                    border-radius: $border6;
+                    cursor: pointer;
+                }
+
+            }
+
+            .grid-body {
+                table {
+                    tr {
+                        border-bottom: 1px dashed $border-color;
+                    }
+
+                    .first-child {
+                        border-top: 1px dashed $border-color;
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
+.download-i.bg-skyblue {
+    background-color: var(--light-theme) !important;
+    transition: 0.2s;
+}
+
+.download-i.bg-skyblue:hover {
+    background-color: var(--theme-color) !important;
+}
+
+.download-i i {
+    vertical-align: middle;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+
+    .file-name {
+        flex-grow: 1;
+        color: #343a40;
+        font-size: $fonts-content;
+        margin-right: 10px;
+    }
+
+    .btn-close {
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        color: #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s, border-color 0.3s;
+
+        &:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-icon {
+            font-size: 18px;
+            margin: 0;
+        }
+    }
+
+}
+
+
+.file-info .btn-close {
+    border-radius: 50px;
+    padding: 8px 8px !important;
+    background-color: transparent !important;
+    height: 5px !important;
+    width: 5px !important;
+    display: block;
+    border: none;
+
+    &:focus {
+        border: none !important;
+    }
+}
+
+.file-info .btn-close:hover {
+    border: none !important;
+}
+
+.file-info .btn-close:focus {
+    box-shadow: none !important;
+}
+
+.mdc-icon-button {
+    bottom: 5px;
+}
+
+.mat-datepicker-toggle-default-icon {
+    height: 20px !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+// media screen
+.dropdown-toggle {
+    &::after {
+        margin-left: 4px;
+    }
+
+}
+
+@media screen and (max-width:767px) {
+    .profile-input {
+        flex-wrap: wrap !important;
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media screen and (max-width:1400px) {
+    .profile-info p {
+        font-size: 10px;
+    }
+}
+
+.header-btn-grid {
+    padding: 8px 10px;
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border4;
+    position: relative;
+    width: 130px !important;
+
+    .filter-menu {
+        background-color: $white-color;
+        border-radius: $border6;
+        border: 1px solid $dashborad-border;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 300px;
+        transform: translateY(3px);
+        z-index: 999;
+        padding: 15px 15px !important;
+
+        select,
+        a {
+            padding: 10px 0px;
+            padding-left: 12px;
+            padding-right: 10px;
+            font-size: $fonts-content;
+            color: $grey-text;
+            text-decoration: none;
+            text-align: left;
+            display: block;
+            display: flex;
+            justify-content: space-between;
+            border-radius: $border4;
+            outline: none;
+            margin: 8px 0px;
+            box-shadow: none !important;
+        }
+
+        .close-btn {
+            border: 1px solid var(--theme-color);
+            color: var(--theme-color);
+            padding: 7px 25px;
+            background-color: transparent;
+            border-radius: $border4;
+
+            &:hover {
+                background-color: var(--theme-color);
+                color: $white-color;
+            }
+        }
+
+        .sidebar-submenu {
+            a {
+                border-bottom: 1px solid $dashborad-border !important;
+                border-radius: 0;
+
+                &:last-child {
+                    border-bottom: 0;
+                }
+            }
+
+        }
+    }
+}
+
+.edit-btn {
+    height: 35px;
+    border: none;
+    outline: none;
+    border: 1px solid $border-color;
+    color: $text-secondary;
+    background-color: var(--light-theme);
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+
+
+    p {
+        font-size: $fonts-content;
+        margin: 0px 5px !important;
+    }
+
+    svg {
+        color: $icon-color;
+    }
+
+    .notification {
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 18px;
+        width: 18px;
+        background-color: var(--theme-color);
+        border-radius: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: $white-color;
+        transform: translate(50%, -50%);
+    }
+}
+
+
+.btn-check:checked+.btn:focus-visible,
+:not(.btn-check)+.btn:active:focus-visible,
+.btn:first-child:active:focus-visible,
+.btn.active:focus-visible,
+.btn.show:focus-visible {
+    box-shadow: none !important
+}
+
+.dropdown-menu {
+    li {
+        a {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            font-size: $fonts-content !important;
+        }
+    }
+}
+
+.board-title {
+    line-height: normal !important;
+    align-self: center;
+}
+
+
+.close-pdf-icn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid $error-color;
+    background-color: $white-color;
+    transform: translate(50%, -50%) !important;
+
+    svg {
+        height: 12px !important;
+        width: 12px !important;
+        color: $error-color !important;
+    }
+}
+
+.pdf-icn {
+    svg {
+        height: 45px !important;
+        width: 45px !important;
+    }
+}
+
+// .profile-info p {
+//     display: block !important;
+// }
+
+// .profile-info:has(.pro-pic) p {
+//     display: none !important;
+// }
+.profile-info .pro-pic:has(.profile-pic)~p {
+    display: none;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+    height: 40px !important;
+}
+
+.ng-select .ng-select-container {
+    height: 40px !important;
+}

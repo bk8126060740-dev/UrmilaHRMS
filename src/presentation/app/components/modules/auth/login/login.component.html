@@ -1,0 +1,122 @@
+<div class="login">
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <!-- The content half -->
+            <div class="col-md-6 bg-light">
+                <div class="login d-flex align-items-center py-5">
+                    <!-- Demo content-->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-7 col-lg-10 mx-auto form-container">
+                                <div class="logo-img text-center mt-4 mb-5">
+                                    <img src="../../../../../assets/image/main_logo.png" alt="">
+                                </div>
+                                <div class="form-design">
+                                    <div class="formWrapper login-box">
+                                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"
+                                            *ngIf="!forgotPasswordScreen">
+                                            <div class="form-heading mb-5">
+                                                <h3 class="fw-bold mb-1" *ngIf="!forgotPasswordScreen">Sign In</h3>
+                                                <p class="mb-4 mt-2">Welcome back ! Please enter your details</p>
+                                                <span class="mb-4"></span>
+                                            </div>
+                                            <div *ngIf="loginErrorMessage" class="alert alert-danger mb-4">
+                                                {{ loginErrorMessage }}
+                                            </div>
+                                            <div class="w-100 mt-2">
+                                                <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                                                    <mat-label>User Name</mat-label>
+                                                    <input matInput id="username" name="username"
+                                                        formControlName="username"
+                                                        (keydown.space)="$event.preventDefault()">
+                                                    <!-- <mat-error
+                                                        *ngIf="loginForm.get('username')?.invalid || loginForm.get('username')?.touched">Eneter
+                                                        user Name
+                                                    </mat-error> -->
+                                                    <!-- <div class="error-icn" *ngIf="loginForm.get('username')?.invalid || loginForm.get('username')?.touched">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="-2 -2 24 24"><path fill="currentColor" d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10s-4.477 10-10 10m0-12a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1m0-1a1 1 0 1 0 0-2a1 1 0 0 0 0 2" /></svg>
+                                                    </div> -->
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="w-100 mt-4">
+                                                <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                                                    <mat-label>Password</mat-label>
+                                                    <input matInput type="password" id="password" name="password"
+                                                        formControlName="password" [type]="hide ? 'password' : 'text'">
+                                                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off'
+                                                        : 'visibility'}}</mat-icon>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="forget-link w-100 text-end mt-2 cursor"
+                                                *ngIf="forgotPasswordScreen">
+                                                <a class="forget-link fw-medium mt-1 cursor" (click)="forgotPassword()">
+                                                    Sign In</a>
+                                            </div>
+                                            <div class="forget-link w-100 text-end mt-2 cursor"
+                                                *ngIf="!forgotPasswordScreen">
+                                                <a class="forget-link fw-medium mt-1 cursor"
+                                                    (click)="forgotPassword()">Forgot
+                                                    Your Password?</a>
+                                            </div>
+                                            <button type="submit"
+                                                class="login-btn mt-4 text-uppercase fw-medium mt-4">Sign In</button>
+                                        </form>
+
+                                        <form [formGroup]="forgotForm" (ngSubmit)="onForgotPasswordSubmit()"
+                                            *ngIf="forgotPasswordScreen">
+                                            <div class="form-heading mb-5">
+                                                <h3 class="fw-bold mb-1" *ngIf="forgotPasswordScreen">Forgot Password
+                                                </h3>
+                                                <p class="mb-4 mt-2">Welcome back ! Please enter your details</p>
+                                                <span class="mb-4"></span>
+                                            </div>
+                                            <div *ngIf="loginErrorMessage" class="alert alert-danger mb-4">
+                                                {{ loginErrorMessage }}
+                                            </div>
+                                            <div class="w-100 mt-2">
+                                                <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                                                    <mat-label>Enter Email</mat-label>
+                                                    <input matInput id="email" name="email" formControlName="email">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="w-100 mt-4">
+
+                                            </div>
+                                            <div class="forget-link w-100 text-end mt-2 cursor"
+                                                *ngIf="forgotPasswordScreen">
+                                                <a class="forget-link fw-medium mt-1 cursor" (click)="forgotPassword()">
+                                                    Sign In</a>
+                                            </div>
+                                            <div class="forget-link w-100 text-end mt-2 cursor"
+                                                *ngIf="!forgotPasswordScreen">
+                                                <a class="forget-link fw-medium mt-1 cursor"
+                                                    (click)="forgotPassword()">Forgot
+                                                    Your Password?</a>
+                                            </div>
+                                            <button type="submit"
+                                                class="login-btn mt-4 text-uppercase fw-medium mt-4">Forgot
+                                                Password</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End -->
+                </div>
+            </div><!-- End -->
+
+            <!-- The image half -->
+            <div class="col-md-6 d-none d-md-flex bg-image position-relative z-0">
+                <div class="right-login">
+                    <h2>Welcome back ! <br>Please sign in to your<br> <b>Urmila International Account</b></h2>
+                    <p class="mt-4">Welcome back! Please log in to access your personalized dashboard <br>and continue
+                        where you left off.</p>
+                    <div class="main-img-box">
+                        <img class="img-fluid mt-5" src="../../../../../../assets/image/main-img.png">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

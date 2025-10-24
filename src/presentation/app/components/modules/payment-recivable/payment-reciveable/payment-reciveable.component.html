@@ -1,0 +1,602 @@
+<div class="dashborad-main payment-reciveable">
+    <div class="container-fulid p-0">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 mt-3 ">
+            <div class="col p-0 m-0">
+                <div class="main-board pb-0 position-relative z-1">
+                    <div
+                        class="borad-header-create pb-3 pt-3 border-bottom d-flex justify-content-between position-sticky top-0 align-items-center">
+                        <p class="board-title">Payment Receivable</p>
+                        <div>
+                            <button type="submit" class="header-btn btn-cancel me-3" (click)="onCancel()">
+                                <p>Cancel</p>
+                                <icon-CancelHead></icon-CancelHead>
+                            </button>
+                            <button type="submit" class="header-btn btn-save" (click)="onSubmitTransaction()">
+                                <p>Save</p>
+                                <icon-Save></icon-Save>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="borad-body p-4 pb-0">
+                        <!-- select options -->
+                        <form action="">
+                            <div class="row gy-2">
+                                <div class="col-xl-3 col-lg-6 col-12">
+                                    <ng-select [items]="clientList" bindLabel="text" bindValue="value"
+                                        [class.ng-select-unselected]="isViewMode && !selectedClientId"
+                                        [(ngModel)]="selectedClientId" [ngModelOptions]="{standalone: true}"
+                                        (change)="onClientChange()" placeholder="Search & Select Client *" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 project-dropdown">
+                                    <ng-select [items]="projectList" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="selectedProjectId" [ngModelOptions]="{standalone: true}"
+                                        [multiple]="true" placeholder="Search & Select Project" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12">
+                                    <ng-select [items]="yearList" bindLabel="toString()" bindValue="toString()"
+                                        [(ngModel)]="selectedYear" [ngModelOptions]="{standalone: true}"
+                                        [multiple]="true" placeholder="Search & Select Year" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12">
+                                    <div class="d-flex gap-3">
+                                        <ng-select [items]="monthList" bindLabel="name" bindValue="id"
+                                            [(ngModel)]="selectedMonth" [ngModelOptions]="{standalone: true}"
+                                            [multiple]="true" placeholder="Search & Select Month" required
+                                            style="width: 100%;">
+                                        </ng-select>
+                                        <button (click)="viewPaymentReceivable()" type="button"
+                                            class="header-btn btn-save w-auto"
+                                            style="padding-left: 18px !important; padding-right: 18px !important;">
+                                            <icon-Save></icon-Save>
+                                            View
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Show pending invoices -->
+
+                        <div class="grid-table-invoice mt-4 mb-4" *ngIf="paymentReceviableList.length > 0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="grid-header d-flex justify-content-between">
+                                        <p class="grid-title fw-medium">Pending Invoice</p>
+                                    </div>
+                                    <div class="grid-body  mt-3 border rounded-2"
+                                        style="max-width: 100%; border: none !important;">
+                                        <table class="table w-100 mb-0 position-relative">
+                                            <thead class="first-child position-sticky top-0 bg-black"
+                                                style="z-index:99;">
+                                                <tr>
+                                                    <th rowspan="2">
+                                                    </th>
+                                                    <th class="text-center" colspan="3">
+                                                        TAX Invoice</th>
+                                                    <th class="text-center" colspan="8">
+                                                        PI Invoice</th>
+                                                    <th class="text-center" colspan="9">Action
+                                                    </th>
+                                                </tr>
+                                                <tr style="position: relative;">
+                                                    <!-- <th style="border-right: 1px solid rgba(0,0,0,0.3) !important;"></th> -->
+                                                    <th class="text-center">
+                                                        No.</th>
+                                                    <th class="text-center">
+                                                        Date</th>
+                                                    <th class="text-center">
+                                                        Amount</th>
+
+                                                    <th class="text-center">
+                                                        No.</th>
+                                                    <th class="text-center">
+                                                        Date</th>
+                                                    <th class="text-center">
+                                                        Taxable Amount
+                                                    </th>
+                                                    <th class="text-center">
+                                                        CGST (9%)</th>
+                                                    <th class="text-center">
+                                                        SGST (9%)</th>
+                                                    <th class="text-center">
+                                                        Total Tax (18%)
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Invoice Receivable value
+                                                    </th>
+                                                    <!-- <th class="text-center">Output CGST</th>
+                                                    <th class="text-center">Output SGST</th>
+                                                    <th class="text-center">Total Tax</th>
+                                                    <th class="text-center">Invoice Value</th>
+                                                    <th class="text-center">Received Amount</th> -->
+                                                    <th class="text-start" colspan="2">
+                                                        Balance Amount</th>
+                                                    <th class="text-center">
+                                                        Pr Hold Amount
+                                                    </th>
+
+                                                    <th class="text-center">
+                                                        Hold Amount
+                                                    </th>
+                                                    <th class="text-start" colspan="2">
+                                                        Credit Note
+                                                    </th>
+                                                    <th class="text-center">
+                                                        GST Deduction
+                                                    </th>
+                                                    <th class="text-center">
+                                                        TDS Deduction
+                                                    </th>
+                                                    <th class="text-center"
+                                                        style="border-right: 1px solid rgba(0,0,0,0.3);">Settlement
+                                                        Amount
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tr *ngFor="let item of paymentReceviableList">
+                                                <td style="padding: 0px 13px !important;">
+                                                    <div class="example-section mt-0 p-0">
+                                                        <mat-checkbox
+                                                            (change)="onInvoiceSelectionChange(item.id, $event.checked, item.invoiceValue)"
+                                                            [checked]="selectedInvoices.has(item.id)">
+                                                        </mat-checkbox>
+                                                    </div>
+                                                </td>
+                                                <td>{{ item.taxInvoiceNumber }}</td>
+                                                <td>{{ item.invoiceDate | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ item.taxInvoiceAmount || 0 }}</td>
+
+                                                <td class="text-center">{{item.invoicePrefix}}</td>
+                                                <td class="text-center">{{item.invoiceDate | date: 'dd/MM/yyyy'}}</td>
+                                                <td class="text-center">{{item.grossValue || 0}}</td>
+                                                <td class="text-center">{{item.cgstAmount != null ? (item.cgstAmount )
+                                                    : '0%' }}</td>
+                                                <td class="text-center">{{item.sgstAmount != null ? (item.sgstAmount )
+                                                    : '0%' }}</td>
+                                                <td class="text-center">{{item.totalTax || 0}}</td>
+                                                <td class="text-center">{{item.invoiceValue || 0}}</td>
+                                                <td class="text-end">
+                                                    {{getTransactionItemBalanceAmount(item)}}
+                                                </td>
+                                                <td>
+
+                                                    <span *ngIf="item.transaction.length > 0">
+                                                        <i class="fa-solid fa-eye" matTooltip="History"
+                                                            [matTooltipShowDelay]="showDelay.value"
+                                                            [matTooltipPosition]="'above'"
+                                                            [matTooltipHideDelay]="hideDelay.value" aria-label="History"
+                                                            (click)="showTransactionHistory(item.transaction)"></i>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{getTransactionHoldAmount(item)}}
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div class="d-flex justify-content-center table-input px-0">
+                                                        <input type="number" min="0" matInput name="HoldAmount"
+                                                            placeholder="0"
+                                                            [disabled]="!isInvoiceSelected(item.id) || isHoldAmountDisabled(item)"
+                                                            [value]="item.holdAmount" style="width: 120px !important;"
+                                                            (input)="onHoldAmountChange($any($event.target).value, item.id)">
+                                                    </div>
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div
+                                                        class="d-flex align-items-center justify-content-center table-input px-0">
+                                                        <input type="number" min="0" matInput name="CreditAmount"
+                                                            placeholder="0"
+                                                            [disabled]="!isInvoiceSelected(item.id) || isCreditNoteDisabled(item)"
+                                                            [value]="item.creditNote" style="width: 120px !important;"
+                                                            (input)="onCreditNoteChange($any($event.target).value, item.id)">
+                                                    </div>
+                                                </td>
+                                                <td class="ps-0 text-center" style="padding: 1px 0px !important; ">
+                                                    <span class=" approval-icn" *ngIf="item.creditNote > 0"
+                                                        (click)="openCreditModal(item)" matTooltip="Note"
+                                                        [matTooltipShowDelay]="showDelay.value"
+                                                        [matTooltipPosition]="'above'"
+                                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Note">
+                                                        <icon-Approved
+                                                            [class.has-remark]="hasCreditRemark(item.id)"></icon-Approved>
+                                                    </span>
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div class="d-flex justify-content-center table-input px-0">
+                                                        <input type="number" min="0" matInput name="GstDeduction"
+                                                            placeholder="0"
+                                                            [disabled]="!isInvoiceSelected(item.id) || isGstDeductionDisabled(item)"
+                                                            [value]="item.gstDeduction" style="width: 120px !important;"
+                                                            (input)="onGstDeductionChange($any($event.target).value, item.id)">
+                                                    </div>
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div class="d-flex justify-content-center table-input px-0">
+                                                        <input type="number" min="0" matInput name="TdsDeduction"
+                                                            placeholder="0"
+                                                            [disabled]="!isInvoiceSelected(item.id) || isTdsDeductionDisabled(item)"
+                                                            [value]="item.tdsDeduction" style="width: 120px !important;"
+                                                            (input)="onTdsDeductionChange($any($event.target).value, item.id)">
+                                                    </div>
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div class="d-flex justify-content-center table-input px-0">
+                                                        <input type="number" min="0" matInput name="TdsDeduction"
+                                                            placeholder="0"
+                                                            [disabled]="!isInvoiceSelected(item.id) || isBalanceAmountDisabled(item)"
+                                                            [value]="item.balanceAmount"
+                                                            [max]="getMaximumItemBalanceAmount(item)"
+                                                            (input)="onBalanceAmountChange($any($event.target).value, item.id)">
+                                                    </div>
+                                                </td>
+                                                <td class="ps-2 text-center"
+                                                    style="padding-top: 1px !important; padding-bottom:1px !important;">
+                                                    <div class="d-flex justify-content-center table-input">
+                                                        <div class="dropdown down-menu dropstart">
+                                                            <button class="btn" type="button" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                    width="16px" height="16px" x="0" y="0"
+                                                                    viewBox="0 0 32 32"
+                                                                    style="enable-background:new 0 0 512 512"
+                                                                    xml:space="preserve" class="">
+                                                                    <g>
+                                                                        <path
+                                                                            d="M13 16c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3zM13 26c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3zM13 6c0 1.654 1.346 3 3 3s3-1.346 3-3-1.346-3-3-3-3 1.346-3 3z"
+                                                                            fill="#777B7C" opacity="1"
+                                                                            data-original="#000000" class=""></path>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a (click)="downloadTaxInvoice(item.id)"
+                                                                        class="dropdown-item" mat-raised-button
+                                                                        matTooltip="Tax Invoice"
+                                                                        [matTooltipPosition]="'left'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value"
+                                                                        aria-label="Tax Invoice">
+                                                                        <icon-TextFile></icon-TextFile>
+                                                                    </a></li>
+                                                                <li><a (click)="downloadProFormaInvoice(item.id)"
+                                                                        class="dropdown-item per-icn" mat-raised-button
+                                                                        matTooltip="Proforma Invoice"
+                                                                        [matTooltipPosition]="'left'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value"
+                                                                        aria-label="Proforma Invoice">
+                                                                        <icon-Perform></icon-Perform>
+                                                                    </a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr *ngIf="paymentReceviableList.length === 0">
+                                                <td colspan="100%" class="text-center py-3">No data found</td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Details -->
+                        <div class="row gy-3" *ngIf="paymentReceviableList.length > 0">
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Hold Amount</mat-label>
+                                    <input type="number" min="0" matInput name="holdAmount"
+                                        [disabled]="!isAnyInvoiceSelected" [value]="totalHoldAmount"
+                                        (input)="onHoldAmountChange($any($event.target).value)">
+                                    <span class="input-group-text">₹</span>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Credit Note</mat-label>
+                                    <input type="number" min="0" matInput name="creditNote"
+                                        [disabled]="!isAnyInvoiceSelected" [value]="totalCreditNote"
+                                        (input)="onCreditNoteChange($any($event.target).value)">
+                                    <span class="input-group-text">₹</span>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <div class="row gy-3">
+                                    <div class="col">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>GST Deduction</mat-label>
+                                            <input type="number" min="0" matInput name="gst"
+                                                [disabled]="!isAnyInvoiceSelected" [value]="totalGstDeduction"
+                                                (input)="onGstDeductionChange($any($event.target).value)">
+                                            <span class="input-group-text">₹</span>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <div class="row gy-3">
+                                    <div class="col">
+                                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                            <mat-label>TDS Deduction</mat-label>
+                                            <input type="number" min="0" matInput name="tds"
+                                                [disabled]="!isAnyInvoiceSelected" [value]="totalTdsDeduction"
+                                                (input)="onTdsDeductionChange($any($event.target).value)">
+                                            <span class="input-group-text">₹</span>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field disabled-field">
+                                    <mat-label>Invoice Value</mat-label>
+                                    <input type="number" min="0" matInput name="InvoiceValue"
+                                        [value]="totalInvoiceValue" readonly>
+                                    <span class="input-group-text">₹</span>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <ng-select [items]="bankList" bindLabel="bankName" bindValue="id"
+                                    [(ngModel)]="selectedBank" [ngModelOptions]="{standalone: true}"
+                                    placeholder="Select Deposit bank*" [disabled]="!isAnyInvoiceSelected" required
+                                    [class.ng-select-unselected]="isSubmitted && !selectedBank">
+                                </ng-select>
+
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field"
+                                    [class.mdc-text-field--invalid]="isSubmitted && isAnyInvoiceSelected && !chequeNumber">
+                                    <mat-label>Cheque / Advisory Number</mat-label>
+                                    <input type="text" min="0" matInput name="chequeNumber" [(ngModel)]="chequeNumber"
+                                        [ngModelOptions]="{standalone: true}" [disabled]="!isAnyInvoiceSelected"
+                                        required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <ng-select [items]="paymentTypeList" bindLabel="name" bindValue="id"
+                                    [(ngModel)]="selectedPaymentType" [ngModelOptions]="{standalone: true}"
+                                    placeholder="Select Payment Type*" [disabled]="!isAnyInvoiceSelected" required
+                                    [class.ng-select-unselected]="isSubmitted && !selectedPaymentType">
+                                </ng-select>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field"
+                                    [class.mdc-text-field--invalid]="isSubmitted &&  (!chequeAmount || chequeAmount <= 0)">
+                                    <mat-label>Cheque Amount</mat-label>
+                                    <input type="number" min="0" [max]="maxChequeAmount" matInput name="chequeAmount"
+                                        [disabled]="!isAnyInvoiceSelected" [value]="chequeAmount"
+                                        (input)="onChequeAmountChange($any($event.target).value)" required>
+                                    <span class="input-group-text">₹</span>
+                                    <mat-hint>Maximum: ₹{{maxChequeAmount.toFixed(2)}}</mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field disabled-field">
+                                    <mat-label>Balance Amount</mat-label>
+                                    <input type="number" min="0" matInput name="BalanceAmount"
+                                        [disabled]="!isAnyInvoiceSelected" [value]="balanceAmount" readonly>
+                                    <span class="input-group-text">₹</span>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-xl-6 col-md-6 col-12">
+                                <div class="input-group choose-file choose-single dragdrop-file  w-100  "
+                                    *ngIf="!selectedPaymentAdvisoryFile" appDrag
+                                    (files)="filesDroppedPaymentAdvisory($event)"
+                                    (fileSizeError)="handleFileSizeErrors($event)"
+                                    (click)="triggerProfileFileInput(paymentAdvisoryFileInput)">
+                                    <div for="dropzone-file flex"
+                                        class="d-flex align-items-center  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                        <input id="dropzone-file" type="file" #paymentAdvisoryFileInput
+                                            style="display: none" accept=".pdf"
+                                            (change)="onPaymentAdvisoryFileSelected($event)" class="hidden" />
+                                        <div class="browse-icn text-center ">
+                                            <icon-BrowsFile></icon-BrowsFile>
+                                        </div>
+                                        <p class=" text-center ms-2">Drag & Drop Payment Advisory</p>
+                                        <div>
+                                            <p class=" text-center mx-3">Or</p>
+                                        </div>
+                                        <div class=" text-center">
+                                            <button class="browse-btn">Browse File</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="file-info" *ngIf="selectedPaymentAdvisoryFile">
+                                    <i class="fas fa-file-pdf me-2" style="color: #FA6060;"></i>
+                                    <span class="file-name">{{ selectedPaymentAdvisoryFileName }}</span>
+                                    <button type="button" class="btn btn-close"
+                                        (click)="removePaymentAdvisoryFile()"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="paymentReceviableList.length === 0" class="no-data-wrap">
+                            <div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="120" height="120" x="0" y="0"
+                                        viewBox="0 0 64 64" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" fill-rule="evenodd" class="">
+                                        <g>
+                                            <path fill="#347bfa"
+                                                d="M42.251 31.697 31.644 42.303s3.772-1.178 9.193.707c.912.317 2.438-1.209 2.121-2.121-1.885-5.421-.707-9.192-.707-9.192z"
+                                                opacity="1" data-original="#347bfa"></path>
+                                            <path fill="#e9f3fc"
+                                                d="M13.864 13.916c6.44-6.439 16.895-6.439 23.335 0 6.439 6.44 6.439 16.895 0 23.335-6.44 6.439-16.895 6.439-23.335 0-6.439-6.44-6.439-16.895 0-23.335z"
+                                                opacity="1" data-original="#e9f3fc" class=""></path>
+                                            <path fill="#cadcf0"
+                                                d="M35.066 12.114a16.702 16.702 0 0 1 2.133 1.802c6.439 6.44 6.439 16.895 0 23.335-6.44 6.439-16.895 6.439-23.335 0-.379-.38-.736-.773-1.071-1.178 6.242 2.028 13.376.564 18.332-4.392 5.286-5.286 6.6-13.05 3.941-19.567z"
+                                                opacity="1" data-original="#cadcf0" class=""></path>
+                                            <path fill="#a4bbdb"
+                                                d="M12.45 12.502c7.22-7.22 18.943-7.22 26.163 0s7.22 18.943 0 26.163-18.943 7.22-26.163 0-7.22-18.943 0-26.163zm2.121 2.121c6.049-6.049 15.872-6.049 21.921 0s6.049 15.872 0 21.921-15.872 6.049-21.921 0-6.049-15.872 0-21.921z"
+                                                opacity="1" data-original="#a4bbdb" class=""></path>
+                                            <path fill="#b9cae3"
+                                                d="M8.957 33.81c-3.432-6.919-2.268-15.547 3.493-21.308 5.41-5.41 13.348-6.766 20.027-4.068a23.842 23.842 0 0 1 .029 3.304c-5.811-2.926-13.085-1.964-17.935 2.885-5.141 5.141-5.913 13.008-2.314 18.968-1.054.144-2.13.219-3.222.219z"
+                                                opacity="1" data-original="#b9cae3" class=""></path>
+                                            <path fill="#a4bbdb"
+                                                d="M40.027 46.443a4.5 4.5 0 0 1 6.364-6.364l14.496 14.496c.39.39-.719 2.133-2.475 3.889s-3.499 2.865-3.889 2.475z"
+                                                opacity="1" data-original="#a4bbdb" class=""></path>
+                                            <path fill="#cadcf0"
+                                                d="M40.027 46.443a4.5 4.5 0 0 1 6.364-6.364l13.12 13.12c.39.39-.719 2.133-2.475 3.889s-3.499 2.865-3.889 2.475z"
+                                                opacity="1" data-original="#cadcf0" class=""></path>
+                                            <g fill="#347bfa">
+                                                <path
+                                                    d="M23.413 22.435c-.023-.953.335-1.649.887-2.057.868-.64 2.165-.613 2.869.18.302.341.477.823.482 1.433.012 1.463-.674 2.318-1.346 3.203-.904 1.193-1.807 2.419-1.919 4.466a1 1 0 0 0 1.998.109c.084-1.555.828-2.461 1.515-3.367.92-1.213 1.769-2.423 1.752-4.427-.01-1.178-.403-2.087-.987-2.745-1.364-1.536-3.869-1.702-5.551-.462-1.008.744-1.741 1.976-1.7 3.714a1 1 0 0 0 2-.047z"
+                                                    fill="#347bfa" opacity="1" data-original="#347bfa"></path>
+                                                <circle cx="25.292" cy="33.197" r="1.23" fill="#347bfa" opacity="1"
+                                                    data-original="#347bfa"></circle>
+                                                <path
+                                                    d="m43.288 8.497 3-5a1 1 0 1 0-1.715-1.029l-3 5a1 1 0 0 0 1.715 1.029zM48.019 11.792l11-8a1 1 0 0 0-1.176-1.618l-11 8a1 1 0 0 0 1.176 1.618zM49.673 17.953l8-2a1 1 0 1 0-.485-1.94l-8 2a1 1 0 0 0 .485 1.94z"
+                                                    fill="#347bfa" opacity="1" data-original="#347bfa"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="w-100">
+                                    <p class="no-data-text text-center mt-3">No data found</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- view balance history -->
+<div bsModal #transactionHistoryModal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design modal-xl">
+        <div class="modal-content px-2 " style="OVERFLOW: hidden;">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Balance History</h5>
+                <span class="d-block" (click)="closeTransactionHistoryModal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <table class="table">
+                    <thead>
+                        <tr class="table-header-row">
+                            <th style="padding: 12px !important;">No</th>
+                            <th style="padding: 12px !important;">Date</th>
+                            <th style="padding: 12px !important;">Credit Note</th>
+                            <th style="padding: 12px !important;">Hold Amount</th>
+                            <th style="padding: 12px !important;">TDS Deduction</th>
+                            <th style="padding: 12px !important;">GST Deduction</th>
+                            <th style="padding: 12px !important;">Received Amount</th>
+                            <th style="padding: 12px !important;">Remaining Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of transactionHistory; let i = index">
+                            <td style="padding: 12px !important;">{{i + 1}}</td>
+                            <td style="padding: 12px !important;">{{item.paymentDate | date: 'dd/MM/yyyy'}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.creditNoteDeductionAmount}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.holdAmount}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.gstAndTDSAmount}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.itAndTDSAmount}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.creditedAmount}}</td>
+                            <td style="padding: 12px !important;">₹ {{item.remainingBalanceAmount}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Credit Remark Modal -->
+<div bsModal #creditRemarkModal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{ backdrop: 'static' }" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Credit Remark</h5>
+                <span class="d-block" (click)="closeCreditRemarkModal()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body py-4">
+                <form [formGroup]="creditRemarkForm" #formDirective="ngForm" (ngSubmit)="onSubmitCreditRemark()">
+                    <div class="form-group mt-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Remark</mat-label>
+                            <textarea matInput rows="3" placeholder="Enter Remark" formControlName="remark"
+                                name="remark"></textarea>
+                            <!-- <mat-error *ngIf="creditRemarkForm.get('remark')?.hasError('required')">
+                                Remark is required
+                            </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label class="form-label">Attachment</label>
+                        <div class="col-12">
+                            <div class="input-group choose-file choose-single dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center"
+                                *ngIf="!selectedFile" appDrag (files)="filesDropped($event)"
+                                (fileSizeError)="handleFileSizeErrors($event)"
+                                (click)="triggerProfileFileInput(fileInput)">
+                                <div for="dropzone-file"
+                                    class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                    <input id="dropzone-file" type="file" #fileInput style="display: none" accept=".pdf"
+                                        (change)="onFileSelected($event)" class="hidden" />
+                                    <div class="browse-icn w-100 text-center mb-2">
+                                        <icon-BrowsFile></icon-BrowsFile>
+                                    </div>
+                                    <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                    <div>
+                                        <p class="w-100 text-center mt-1 mb-2">Or</p>
+                                    </div>
+                                    <div class="w-100 text-center">
+                                        <button class="browse-btn">Browse File</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="file-info mt-1" *ngIf="selectedFile">
+                                <i class="fas fa-file-pdf me-2" style="color: #FA6060;"></i>
+                                <span class="file-name">{{ selectedFileName }}</span>
+                                <button type="button" class="btn btn-close" (click)="removeFile()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer popup-footer d-flex mt-4">
+                        <div class="d-flex justify-content-end">
+                            <!-- <button type="submit" class="btn btn-save p-footerbtns w-auto"
+                                [disabled]="!creditRemarkForm.valid" style="white-space: nowrap;">Submit</button> -->
+                            <button type="submit" class="btn btn-save p-footerbtns w-auto"
+                                style="white-space: nowrap;">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

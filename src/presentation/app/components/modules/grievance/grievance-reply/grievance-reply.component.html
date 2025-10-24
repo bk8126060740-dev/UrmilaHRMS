@@ -1,0 +1,341 @@
+<div class="dashborad-main">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-lg-8 col-12 mt-4 ps-0 p-0 pe-lg-2">
+                <!-- withattach - when click on attch -->
+                <div class="ChatBox p-0 pb-1" [ngClass]="{'withattach' : selectedFiles.length > 0}">
+                    <div class="chat-header d-flex justify-content-between flex-wrap gy-3">
+                        <div class="chat-title align-self-center">
+                            <p class="fw-medium">Ticket Number #{{ grievanceCommentData.id }}</p>
+                        </div>
+                        <!-- close ticket -->
+                        <button class="btn btn-theme-light"
+                            *ngIf="grievanceDetails.statusId !== 161 && grievanceDetails.assignedEmployeeName !== '' && grievanceDetails.assignedEmployeeId === loginEmployeeId "
+                            (click)="closeTicket()">Resolved Ticket
+                        </button>
+                        <!-- end close ticket -->
+                        <!-- Reopen ticket -->
+                        <button class="btn btn-theme-light"
+                            *ngIf="grievanceDetails.statusId === 161 && grievanceDetails.employeeId === loginEmployeeId"
+                            (click)="reopenTicket()">Reopen Ticket
+                        </button>
+                        <!-- end Reopen ticket -->
+                    </div>
+                    <div class="col-12 align-content-end chats p-3 gy-2 overflow-x-hidden" #chatBox>
+                        <div class="row" *ngFor="let comment of grievanceCommentDetails">
+                            <div class="col" *ngIf="!checkVlaue(comment)">
+                                <div class=" chat-person reciver">
+                                    <div class="d-flex p-2 gap-2  align-items-top pb-1">
+                                        <div class="person-img">
+                                            <!-- <span></span> -->
+                                            <div class="person-img">
+                                                <img *ngIf="comment.empInfo?.profilePic || comment.replyInfo?.profilePic"
+                                                    [src]="getProfilePicPath(comment.empInfo?.profilePic || comment.replyInfo?.profilePic)"
+                                                    class="profile-pic" />
+                                                <!-- <img *ngIf="comment.empInfo && comment.empInfo.profilePic; else defaultProfile"
+                                                    [src]="getProfilePicPath('assets/image/admin-img.png')"
+                                                    class="profile-pic" />
+                                                <ng-template #defaultProfile>
+                                                    <img [src]="getProfilePicPath('assets/image/admin-img.png')"
+                                                        class="profile-pic" />
+                                                </ng-template> -->
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="person-name">
+                                                <h6 *ngIf="comment.empInfo?.name || comment.replyInfo?.name">
+                                                    {{ comment.empInfo?.name || comment.replyInfo?.name }}
+                                                </h6>
+                                            </div>
+                                            <div class="person-message">
+                                                {{ comment.description }}
+                                                <div *ngIf="comment.attachments && comment.attachments.length > 0"
+                                                    class="attachments mt-2 gap-2 d-flex flex-wrap">
+                                                    <div *ngFor="let attachment of comment.attachments">
+                                                        <a (click)="GrievanceDownloadFiles(attachment)"
+                                                            class="link-info d-flex align-items-center">
+                                                            <div class="link-icn me-2" *ngIf="attachment.attachment">
+                                                                <ng-container
+                                                                    [ngSwitch]="getFileType(attachment.attachment)">
+                                                                    <!-- Excel File -->
+                                                                    <ng-container *ngSwitchCase="'xls'">
+                                                                        <icon-Xls></icon-Xls>
+                                                                    </ng-container>
+                                                                    <!-- PDF File -->
+                                                                    <ng-container *ngSwitchCase="'pdf'">
+                                                                        <icon-Pdf></icon-Pdf>
+                                                                    </ng-container>
+                                                                    <!-- Image Files (JPG, PNG, SVG) -->
+                                                                    <ng-container *ngSwitchCase="'jpg'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'jpeg'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'png'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'svg'">
+                                                                        <icon-Svg></icon-Svg>
+                                                                    </ng-container>
+                                                                    <!-- Default Icon (For Unknown File Types) -->
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <icon-Default></icon-Default>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </div>
+                                                            <div class="link-name">
+                                                                <!-- <h6>{{ attachment.attachment }}</h6> -->
+                                                                <h6>{{ getFileName(attachment.attachment) }}</h6>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="more-info ms-5">
+                                        <!-- <span>Today, 8.30pm</span> -->
+                                        <!-- <span>{{ formatTime(comment.createdTime) }}</span> -->
+                                        <span>{{ comment.createdTime | date: 'dd MMM, yyyy hh : mm a' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col justify-content-end d-flex">
+                                <div class="chat-person sender" *ngIf="checkVlaue(comment)">
+                                    <div class="d-flex p-2 gap-2 justify-content-end align-items-top pb-1">
+                                        <div class="">
+                                            <div class="person-name">
+                                                <h6 *ngIf="comment.empInfo?.name || comment.replyInfo?.name">
+                                                    {{ comment.empInfo?.name || comment.replyInfo?.name }}
+                                                </h6>
+                                            </div>
+                                            <div class="person-message">
+                                                <p>{{ comment.description }}</p>
+                                                <!-- Attachments Section -->
+                                                <div *ngIf="comment.attachments && comment.attachments.length > 0"
+                                                    class="attachments mt-1 d-flex gap-2 flex-wrap">
+                                                    <div *ngFor="let attachment of comment.attachments"
+                                                        class="attachment-item">
+                                                        <a (click)="GrievanceDownloadFiles(attachment)"
+                                                            class="link-info d-flex align-items-center">
+                                                            <div class="link-icn me-2" *ngIf="attachment.attachment">
+                                                                <ng-container
+                                                                    [ngSwitch]="getFileType(attachment.attachment)">
+                                                                    <!-- Excel File -->
+                                                                    <ng-container *ngSwitchCase="'xls'">
+                                                                        <icon-Xls></icon-Xls>
+                                                                    </ng-container>
+                                                                    <!-- PDF File -->
+                                                                    <ng-container *ngSwitchCase="'pdf'">
+                                                                        <icon-Pdf></icon-Pdf>
+                                                                    </ng-container>
+                                                                    <!-- Image Files (JPG, PNG, SVG) -->
+                                                                    <ng-container *ngSwitchCase="'jpg'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'jpeg'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'png'"></ng-container>
+                                                                    <ng-container *ngSwitchCase="'svg'">
+                                                                        <icon-Svg></icon-Svg>
+                                                                    </ng-container>
+                                                                    <!-- Default Icon (For Unknown File Types) -->
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <icon-Default></icon-Default>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </div>
+                                                            <div class="link-name">
+                                                                <!-- <h6>{{ attachment.attachment }}</h6> -->
+                                                                <h6>{{ getFileName(attachment.attachment) }}</h6>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="person-img">
+                                            <!-- <span></span> -->
+                                            <div class="person-img">
+                                                <img *ngIf="comment.empInfo?.profilePic || comment.replyInfo?.profilePic"
+                                                    [src]="getProfilePicPath(comment.empInfo?.profilePic || comment.replyInfo?.profilePic)"
+                                                    class="profile-pic" />
+                                                <!-- <img *ngIf="comment.empInfo && comment.empInfo.profilePic; else defaultProfile"
+                                                    [src]="getProfilePicPath('assets/image/admin-img.png')"
+                                                    class="profile-pic" /> -->
+                                                <!-- <ng-template #defaultProfile>
+                                                    <img [src]="getProfilePicPath('assets/image/admin-img.png')"
+                                                        class="profile-pic" />
+                                                </ng-template> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="more-info me-5 text-end">
+                                        <!-- <span>Today, 8.34pm</span> -->
+                                        <!-- <span>{{ formatTime(comment.createdTime) }}</span> -->
+                                        <span>{{ comment.createdTime | date: 'dd MMM, yyyy hh : mm a' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0 mb-3">
+                        <div class="col-12 px-4 pt-2">
+                            <div class="file-types-attach p-3 w-100 d-flex flex-wrap gap-3 mb-1"
+                                *ngIf="selectedFiles.length > 0">
+                                <div *ngFor="let file of selectedFiles; let i = index"
+                                    class="d-flex position-relative attch-bg justify-content-center align-items-center">
+                                    <ng-container [ngSwitch]="getFileType(file.name)">
+                                        <!-- Excel -->
+                                        <!-- <svg *ngSwitchCase="'xls'" xmlns=" http://www.w3.org/2000/svg" width="16"
+                                            height="16" viewBox="0 0 16 16">
+                                            <path fill="#4285f4" fill-rule="evenodd"
+                                                d="M2 1.5a.5.5 0 0 1 .5-.5H9a.5.5 0 0 1 .354.146l2.5 2.5A.5.5 0 0 1 12 4v2h-1V5H8.5a.5.5 0 0 1-.5-.5V2H3v12h8v-.5h1v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5zm7 .707V4h1.793zM5.4 9.5c-.312.468-.617.929-.856 1.314c-.143.23-.268.443-.359.618a3 3 0 0 0-.118.255A.9.9 0 0 0 4 12h1a.3.3 0 0 1-.007.067l.007-.02q.018-.049.073-.155c.073-.14.182-.327.32-.55c.173-.278.382-.6.607-.939c.225.34.434.66.606.939c.139.223.248.41.321.55a2 2 0 0 1 .08.175A.3.3 0 0 1 7 12h1a.9.9 0 0 0-.067-.313a3 3 0 0 0-.118-.255a10 10 0 0 0-.359-.618c-.24-.385-.544-.846-.855-1.314c.311-.468.616-.929.855-1.314c.143-.23.268-.443.359-.618q.07-.132.118-.255A.9.9 0 0 0 8 7H7c0-.034.005-.057.007-.067L7 6.953a2 2 0 0 1-.073.155a9 9 0 0 1-.32.55c-.173.278-.382.6-.607.939c-.225-.34-.434-.66-.606-.939a9 9 0 0 1-.321-.55a2 2 0 0 1-.08-.175Q4.998 6.95 5 7H4c0 .13.042.248.067.313c.031.081.073.168.118.255c.09.175.216.387.359.618c.24.385.544.846.855 1.314M9.5 11V7h-1v4.5a.5.5 0 0 0 .5.5h1.5v-1zm2-3a1 1 0 0 1 1-1h2v1h-2v1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-2v-1h2v-1h-1a1 1 0 0 1-1-1z"
+                                                clip-rule="evenodd" />
+                                        </svg> -->
+                                        <span *ngSwitchCase="'xls'" class="d-block">
+                                            <icon-Xls></icon-Xls>
+                                        </span>
+                                        <!-- PDF -->
+                                        <span class="d-block" *ngSwitchCase="'pdf'">
+                                            <icon-Pdf></icon-Pdf>
+                                        </span>
+                                        <!-- Image Files (jpg) -->
+                                        <span class="d-block" *ngSwitchCase="'jpg'">
+                                            <icon-Jpg></icon-Jpg>
+                                        </span>
+                                        <!-- Image Files (png) -->
+                                        <span class="d-block" *ngSwitchCase="'png'">
+                                            <icon-Png></icon-Png>
+                                        </span>
+                                        <!-- SVG File -->
+                                        <span class="d-block" *ngSwitchCase="'svg'">
+                                            <icon-Svg></icon-Svg>
+                                        </span>
+                                        <!-- Word -->
+                                        <span class="d-block" *ngSwitchCase="'doc'">
+                                            <icon-Docs></icon-Docs>
+                                        </span>
+                                    </ng-container>
+                                    <!-- Remove File Icon -->
+                                    <div (click)="removeFile(i)" class="close-attach cursor" matTooltip="Close"
+                                        [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Close">
+                                        <icon-CloseFile></icon-CloseFile>
+                                    </div>
+                                </div>
+                                <div class="w-100 d-block" *ngIf="selectedFiles.length > 2">
+                                    <P class=" fw-medium notes">Note: Maximum 2 files are allowed per message.</P>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 w-100 position-relative">
+                                <div class="reply-box w-100 d-flex align-items-center ">
+                                    <a class="link-icn d-flex align-items-center cursor" matTooltip="Add Attachment"
+                                        [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Send"
+                                        (click)="fileInput.click()">
+                                        <icon-FileLink></icon-FileLink>
+                                    </a>
+                                    <input #fileInput type="file" multiple style="display:none"
+                                        (change)="onFileSelected($event,fileInput)">
+                                    <input type="text" [(ngModel)]="messageText" class="mx-3" [value]="selectedFileName"
+                                        placeholder="Type your message here...">
+                                </div>
+                                <div class="send d-flex align-items-center justify-content-center">
+                                    <a (click)="sendMessage()" matTooltip="Send" class="cursor"
+                                        [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                                        [matTooltipHideDelay]="hideDelay.value" aria-label="Send">
+                                        <icon-SendMessage></icon-SendMessage>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 mt-4 p-0 ps-lg-3" *ngIf="grievanceDetails">
+                <div class="information-table p-0">
+                    <h5 class="information-title position-sticky top-0 bg-white z-3 px-4 py-3 bg-theme">
+                        Information</h5>
+                    <div class="infos pb-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Requester Name</h6>
+                                    <p>{{ grievanceDetails.employeeName }}</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Input Type</h6>
+                                    <p>{{ grievanceDetails.inputTypeName || '-' }}</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Classification Type</h6>
+                                    <p>{{ grievanceDetails.classificationTypeName }}</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Assigned Employee Name</h6>
+                                    <p>{{ grievanceDetails.assignedEmployeeName || '-' }}</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Sub Classification</h6>
+                                    <p>{{ grievanceDetails.subClassificationName }}</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Description</h6>
+                                    <p>{{ grievanceDetails.description }}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="grievanceDetails.assignedEmployeeId !== loginEmployeeId">
+                                <div class="info-name">
+                                    <h6>Status</h6>
+                                    <p [style.color]="grievanceDetails.statusColorCode">
+                                        {{ grievanceDetails.statusName}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="grievanceDetails.assignedEmployeeId === loginEmployeeId">
+                                <div class="info-name">
+                                    <h6>Status</h6>
+                                    <mat-form-field appearance="outline"
+                                        class="w-100 custom-mat-form-field ticket-select mt-1">
+                                        <mat-select [(ngModel)]="grievanceDetails.statusId"
+                                            [disabled]="grievanceDetails.statusId === 161"
+                                            (selectionChange)="changeStatusTicket($event.value)">
+                                            <mat-option *ngFor="let status of statusdata" [value]="status.id">
+                                                {{ status.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Priority</h6>
+                                    <p [style.color]="grievanceDetails.priorityColorCode">{{
+                                        grievanceDetails.priorityName }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- <div class="col-12">
+                                <div class="info-name">
+                                    <h6>Grievance Type Name</h6>
+                                    <p>{{ grievanceDetails.grievanceTypeName }}</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

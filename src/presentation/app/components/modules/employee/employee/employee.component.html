@@ -1,0 +1,21 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-3 mb-0">
+            <div class="col-12">
+                <!-- Breadcrumbs -->
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-4 fix-height manage-employee" *appIsGranted="'Read'">
+            <div class="col p-0 m-0">
+                <tg-grid [columns]="$any(columns)" [rowData]="rowData" [totalCount]="totalCount"
+                    [title]="'Employees'" (edit)="onEdit($any($event))" (delete)="onDelete($any($event))"
+                    (pageNumber)="onPageChange($event)" (insert)="addEditEmployee()"
+                    (recodeValueChange)="onTotalProjectPerPageValueChange($event)" [exportVisibility]="true"
+                    [isVisibleDisplayedColoum]="true" [filterData]="filterData" (searchTearm)="onSearch($event)"
+                    (orderBy)="orderBy($event)" (export)="export()" [isInsertButton]="false" [isDeleteRecode]="false">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="modal-content">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Re-authentication Required</h5>
+        <button class="close" (click)="onCancel()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="reAuthForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100 custom-form-field">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" id="password" name="password" formControlName="password"
+                    [type]="hide ? 'password' : 'text'" placeholder="Enter your password">
+                <mat-icon matSuffix (click)="hide = !hide">
+                    {{hide ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
+                <mat-error *ngIf="reAuthForm.get('password')?.hasError('required')">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Logout</button>
+            <button type="submit" class="btn btn-1" [disabled]="reAuthForm.invalid || isLoading">
+                <span *ngIf="!isLoading">Re-Login</span>
+                <span *ngIf="isLoading">Verifying...</span>
+            </button>
+        </div>
+    </form>
+</div>

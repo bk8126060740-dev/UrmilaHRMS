@@ -1,0 +1,206 @@
+<div class="dashborad-main m-0 ms-3">
+    <div class="container-fluid p-0">
+        <div class="row m-4 ms-0 mb-3">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="attendance-page  position-relative px-0  mb-4 mx-3">
+            <div class="row main-board">
+                <div class="col-12 px-0">
+                    <div class="board-header d-flex justify-content-between px-4 py-3 flex-wrap gy-2 position-relative bg-white"
+                        style="z-index: 2 !important;">
+                        <h4 class="board-title d-flex align-items-center" style="font-size:17px;">
+                            Employee Attendance Record ({{ pojectAttendanceData.monthName }} -
+                            {{pojectAttendanceData.year}})</h4>
+                        <div class="" *ngIf="pojectAttendanceData.statusId === 191 && projectattendanceData.length >0">
+                            <button type="submit" class="header-btn btn-cancel me-3 w-auto px-2"
+                                (click)="StatusChangeofAttendance(2)">
+                                <p><svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                        viewBox="0 0 24 24">
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
+                                    </svg>Rejected</p>
+                            </button>
+                            <button type="submit" class="header-btn btn-save w-auto px-2"
+                                (click)="StatusChangeofAttendance(1)">
+                                <p><svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                        viewBox="0 0 24 24">
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2" d="M5 11.917L9.724 16.5L19 7.5" />
+                                    </svg>Approved</p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="position-relative overflow-hidden" style="top:-1px !important; z-index: 0 !important;">
+                        <div class="table-scroll">
+                            <table class="table w-100 table-responsive mb-0">
+                                <thead class="position-sticky top-0 bg-white z-1">
+                                    <tr class=" first-child">
+                                        <th class=" py-3 ps-4 fw-medium">Employee Name</th>
+                                        <th class=" text-start ps-4 fw-medium">Total Working Days</th>
+                                        <th class=" text-start ps-4 fw-medium">Paid Days</th>
+                                        <th class=" text-start ps-4 fw-medium">Night Duty</th>
+                                        <th class=" text-start ps-4 fw-medium">Over Time</th>
+                                        <th class=" text-start ps-4 fw-medium">GH/NH Duty</th>
+                                        <th class=" text-start ps-4 fw-medium">Dirlment In Hour</th>
+                                        <th class=" text-start ps-4 fw-medium pe-4">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="projectattendanceData.length === 0" class=" text-dark ng-star-inserted">
+                                        <td colspan="100%" class=" text-center">
+                                            <p class=" py-3">No data found</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-dark ng-star-inserted view-tabel color-black"
+                                        *ngFor="let project of projectattendanceData; let i = index"
+                                        [ngStyle]="{'background-color': (project.colorCode)}">
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'employeeName'"
+                                                [style.cursor]="'not-allowed'">
+                                                {{ project.employeeName }}
+                                            </span>
+
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'totalWorkingDays'"
+                                                [style.cursor]=" 'not-allowed'">
+                                                {{ project.totalWorkingDays }}
+                                            </span>
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'paidDays'"
+                                                (click)="!isRowNonEditable(project) && startEditing(i, 'paidDays')"
+                                                [style.cursor]="!isRowNonEditable(project) ? 'pointer' : 'not-allowed'">
+                                                {{ project.paidDays }}
+                                            </span>
+                                            <input
+                                                *ngIf="editingIndex === i && editingField === 'paidDays' && !isRowNonEditable(project)"
+                                                [(ngModel)]="project.paidDays" (blur)="saveRow(i)"
+                                                (keyup.enter)="saveRow(i)" />
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'nightDuty'"
+                                                (click)="!isRowNonEditable(project) && startEditing(i, 'nightDuty')"
+                                                [style.cursor]="!isRowNonEditable(project) ? 'pointer' : 'not-allowed'">
+                                                {{ project.nightDuty }}
+                                            </span>
+                                            <input
+                                                *ngIf="editingIndex === i && editingField === 'nightDuty' && !isRowNonEditable(project)"
+                                                [(ngModel)]="project.nightDuty" (blur)="saveRow(i)"
+                                                (keyup.enter)="saveRow(i)" />
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'overtime'"
+                                                (click)="!isRowNonEditable(project) && startEditing(i, 'overtime')"
+                                                [style.cursor]="!isRowNonEditable(project) ? 'pointer' : 'not-allowed'">
+                                                {{ project.overtime }}
+                                            </span>
+                                            <input
+                                                *ngIf="editingIndex === i && editingField === 'overtime' && !isRowNonEditable(project)"
+                                                [(ngModel)]="project.overtime" (blur)="saveRow(i)"
+                                                (keyup.enter)="saveRow(i)" />
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'ghnhDuty'"
+                                                (click)="!isRowNonEditable(project) && startEditing(i, 'ghnhDuty')"
+                                                [style.cursor]="!isRowNonEditable(project) ? 'pointer' : 'not-allowed'">
+                                                {{ project.ghnhDuty }}
+                                            </span>
+                                            <input
+                                                *ngIf="editingIndex === i && editingField === 'ghnhDuty' && !isRowNonEditable(project)"
+                                                [(ngModel)]="project.ghnhDuty" (blur)="saveRow(i)"
+                                                (keyup.enter)="saveRow(i)" />
+                                        </td>
+                                        <td style="line-height: 39px;" class="ps-4">
+                                            <span *ngIf="editingIndex !== i || editingField !== 'direlmentInHour'"
+                                                (click)="!isRowNonEditable(project) && startEditing(i, 'direlmentInHour')"
+                                                [style.cursor]="!isRowNonEditable(project) ? 'pointer' : 'not-allowed'">
+                                                {{ project.direlmentInHour }}
+                                            </span>
+                                            <input
+                                                *ngIf="editingIndex === i && editingField === 'direlmentInHour' && !isRowNonEditable(project)"
+                                                [(ngModel)]="project.direlmentInHour" (blur)="saveRow(i)"
+                                                (keyup.enter)="saveRow(i)" />
+                                        </td>
+
+                                        <td class="pe-4" class="ps-4">
+                                            <div class="d-flex bg-transparent" *ngIf="project.resultMessage === 86">
+                                                <div (click)="updateDesignation(project)"
+                                                    class="edit-icon d-flex justify-content-center emp-icn align-items-center action-icn me-2 cursor bg-transparent">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                                        viewBox="0 0 36 36">
+                                                        <path fill="currentColor"
+                                                            d="M16.43 16.69a7 7 0 1 1 7-7a7 7 0 0 1-7 7m0-11.92a5 5 0 1 0 5 5a5 5 0 0 0-5-5M22 17.9a25.4 25.4 0 0 0-16.12 1.67a4.06 4.06 0 0 0-2.31 3.68v5.95a1 1 0 1 0 2 0v-5.95a2 2 0 0 1 1.16-1.86a22.9 22.9 0 0 1 9.7-2.11a23.6 23.6 0 0 1 5.57.66Zm.14 9.51h6.14v1.4h-6.14z" />
+                                                        <path fill="currentColor"
+                                                            d="M33.17 21.47H28v2h4.17v8.37H18v-8.37h6.3v.42a1 1 0 0 0 2 0V20a1 1 0 0 0-2 0v1.47H17a1 1 0 0 0-1 1v10.37a1 1 0 0 0 1 1h16.17a1 1 0 0 0 1-1V22.47a1 1 0 0 0-1-1" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="borad-footer d-flex justify-content-between bg-white position-sticky bottom-0 w-100 py-2 px-4 border-top flex-wrap">
+                    <div class="footer-left d-flex align-items-center flex-nowrap">
+                        <select class="form-control w-auto" id="daumEnumName" name="enumName" [(ngModel)]="recodeCount"
+                            (change)="onRecodeChange()">
+                            <option *ngFor="let count of [10, 25, 50, 100]" [value]="count">{{ count }}</option>
+                        </select>
+                        <p class="align-self-center ms-3 mb-0 text-black-50">
+                            <ng-container *ngIf="totalCount > 0; else noData">
+                                Showing {{ startItem + 1 }} to {{ endItem > totalCount ? totalCount : endItem }} of {{
+                                totalCount }} entries
+                            </ng-container>
+                            <ng-template #noData>
+                                Showing 0 to 0 of 0 entries
+                            </ng-template>
+                        </p>
+                    </div>
+                    <div class="footer-paginations pagination-lg">
+                        <pagination [boundaryLinks]="true" [totalItems]="totalCount" [itemsPerPage]="recodeCount"
+                            [maxSize]="5" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"
+                            previousText="&lsaquo;" nextText="&rsaquo;" (pageBoundsCorrection)="pageChanged($event)"
+                            firstText="&laquo;" lastText="&raquo;">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div bsModal #designationModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+        [config]="{ backdrop: 'static' }" aria-hidden="true">
+        <div class="modal-dialog popup-design modal-lg">
+            <div class="modal-content px-4">
+                <div class="modal-header popup-header justify-content-between d-flex">
+                    <h5 class="modal-title pt-2" id="exampleModalLabel">Employee Designation Change</h5>
+                    <span class="d-block" (click)="designationModel?.hide()">
+                        <icon-ModalClose></icon-ModalClose>
+                    </span>
+                </div>
+                <form>
+                    <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                        <div class="col-12 p-0">
+                            <ng-select [items]="designationList" bindLabel="name" bindValue="id"
+                                [(ngModel)]="selectedDesignation" [ngModelOptions]="{standalone: true}"
+                                [clearable]="false" placeholder="Select New Designation"
+                                (change)="onDesignationChange($event)">
+                            </ng-select>
+                            <!--  -->
+                        </div>
+                        <div class="modal-footer popup-footer d-flex">
+                            <button type="submit" class="btn btn-save p-footerbtns"
+                                (click)="updateEmployeeDesignation()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

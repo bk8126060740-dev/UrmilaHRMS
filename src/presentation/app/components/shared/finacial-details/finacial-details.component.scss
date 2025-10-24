@@ -1,0 +1,147 @@
+@import '../../../../../styles/styles.scss';
+
+.top-margin {
+  margin-top: -60px;
+}
+
+
+.dropzone {
+  min-height: 400px;
+  min-width: 400px;
+  display: table;
+  width: 100%;
+  background-color: #eee;
+  border: dotted 1px #aaa;
+}
+
+.text-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.centered {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.file-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+
+  .file-name {
+    flex-grow: 1;
+    color: #343a40;
+    font-size: $fonts-content;
+    margin-right: 10px;
+  }
+
+  .btn-close {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, border-color 0.3s;
+
+    &:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
+    }
+
+    .btn-icon {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+
+}
+
+
+.file-info .btn-close {
+  border-radius: 50px;
+  padding: 8px 8px !important;
+  background-color: transparent !important;
+  height: 5px !important;
+  width: 5px !important;
+  display: block;
+  border: none;
+
+  &:focus {
+    border: none !important;
+  }
+}
+
+.file-info .btn-close:hover {
+  border: none !important;
+}
+
+.file-info .btn-close:focus {
+  box-shadow: none !important;
+}
+
+@media screen and (max-width:768px) {
+  .borad-header {
+    justify-content: center !important;
+  }
+}
+
+
+.proff-name {
+  background-color: var(--light-theme);
+  border: 1px solid $border-color;
+  border-radius: $border6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    text-align: center;
+    font-size: 16px;
+    font-weight: $font-medium;
+    max-width: 164px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--theme-color) !important;
+  }
+}
+
+// .doc-details {
+//   max-height: calc(100vh - 29vh);
+//   overflow-y: auto;
+// }
+
+.edit-icn {
+  background-color: transparent !important;
+}
+
+@media screen and (max-width: 1550px) {
+  .details-card-design {
+    width: 50% !important;
+  }
+}
+
+.doc-details {
+  height: calc(100vh - 410px);
+  max-height: calc(100vh - 410px);
+  overflow-y: auto;
+}

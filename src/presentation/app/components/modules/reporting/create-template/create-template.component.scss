@@ -1,0 +1,26 @@
+@import '../../../../../../styles/styles.scss';
+
+*{
+    
+    font-family: $fonts !important;
+}
+
+.main-borad {    
+    background-color: #fff;
+    padding: 16px 22px;
+    position: relative;
+    border-radius: 6px;
+    border: 1px solid #eaedf1;
+    cursor: pointer;
+}
+
+.action-icn{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.parent-container {
+    height: calc(100vh - 396px);
+    max-height: calc(100vh - 396px);
+    overflow-y: auto;
+}

@@ -1,0 +1,103 @@
+<div class="my-3" *appIsGranted="'Read'">
+    <div class="container-fluid p-0">
+        <div class="row p-0 mx-4 ">
+            <div class="col p-0 d-flex align-items-center">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <!-- <div class="col-2 p-0">
+                <mat-form-field appearance="outline" class="custom-mat-form-field w-100">
+                    <mat-label>Select Project</mat-label>
+                    <mat-select [(ngModel)]="projectHolidayCalenderModel.projectId" name="projectId"
+                        #projectId="ngModel" (selectionChange)="onProjectSelect($event)" required>
+                        <mat-option *ngFor="let project of projects" [value]="project.id">
+                            {{ project.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+        </div>
+        <div class="row p-0 m-0 fix-height">
+            <div class="col m-0 p-0">
+                <tg-grid [columns]="columns" [title]="selectedProjectName" [rowData]="rowData"
+                    [exportVisibility]="false" [filterData]="filterData" [totalCount]="totalCount"
+                    (delete)="onDelete($any($event))" (insert)="addProjectHoliday()"
+                    (recodeValueChange)="onTotalHolidayPerPageValueChange($event)" (edit)="onEdit($any($event))"
+                    [title]="'Holiday Calendar'" (pageNumber)="onPageChange($event)" (searchTearm)="onSearch($event)"
+                    [isBreadCurmbsShow]="false" (filterSearchTearm)="filterapply($event)"
+                    [isVisibleDisplayedColoum]="false"></tg-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #AddProjectHolidayModel="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Add/Edit Holiday </h5>
+                <span class="d-block" (click)="closeModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <form #holidayForm="ngForm">
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field mb-3">
+                        <mat-label>Holiday Type</mat-label>
+                        <mat-select [(ngModel)]="projectHolidayCalenderModel.holidayType" name="holidayType"
+                            #holidayType="ngModel" required (selectionChange)="onHolidayTypeChange($event)">
+                            <mat-option *ngFor="let holidayType of holidayTypes ; index as i" [value]="holidayType.id">
+                                {{ holidayType.enumItem }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100 border-start-0 custom-mat-form-field mb-3"
+                        *ngIf="!isWeekOffRequired">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="projectHolidayCalenderModel.date"
+                            name="date" #date="ngModel" [required]="!isWeekOffRequired"
+                            [matDatepickerFilter]="dateFilter">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field mb-3"
+                        *ngIf="isWeekOffRequired">
+                        <mat-label>Week Off</mat-label>
+                        <mat-select [(ngModel)]="projectHolidayCalenderModel.weekOff" name="weekOff" multiple
+                            [required]="isWeekOffRequired">
+                            <mat-option *ngFor="let weekoff of weekOff ; index as i" [value]="weekoff.id">
+                                {{ weekoff.enumItem }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="d-flex align-items-center flex-row mb-3">
+                        <input type="checkbox" class="toggle" id="toggle"
+                            [(ngModel)]="projectHolidayCalenderModel.isHalfDay" name="isHalfDay" #isHalfDay="ngModel">
+                        <label for="toggle" class="toogle-switch d-flex">
+                            <span class="on">Half Day</span>
+                            <span class="off">Full Day</span>
+                        </label>
+                    </div>
+                    <mat-form-field appearance="outline" class="w-100  mb-3">
+                        <mat-label>Holiday Description</mat-label>
+                        <textarea matInput [(ngModel)]="projectHolidayCalenderModel.holidayDescription"
+                            name="holidayDescription" #holidayDescription="ngModel" rows="5"></textarea>
+                    </mat-form-field>
+                    <div class="modal-footer popup-footer px-0 w-100 d-block">
+                        <div *appIsGranted="'Write'">
+                            <button type="submit" class="btn btn-save mx-0 p-footerbtns w-100"
+                                *ngIf="this.projectHolidayCalenderModel.id === 0"
+                                (click)="onSubmit(holidayForm)">Save</button>
+                        </div>
+                        <div *appIsGranted="'Update'">
+                            <button type="submit" class="btn btn-save mx-0 p-footerbtns w-100"
+                                *ngIf="this.projectHolidayCalenderModel.id != 0"
+                                (click)="onSubmit(holidayForm)">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+  @import '../../../../../../styles/styles.scss';
+
+
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+
+
+  .icn-bg {
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+
+    svg {
+      height: 16px !important;
+      width: 16px !important;
+    }
+
+    i {
+      font-size: 16px !important;
+    }
+  }
+
+  .bg-red {
+    background-color: #FBE6EC;
+    transition: .2s;
+
+    svg,
+    i {
+      transition: .2s;
+      color: #FA6060 !important;
+    }
+
+    &:hover {
+      background-color: #FA6060;
+
+      svg,
+      i {
+        color: $white-color !important;
+      }
+    }
+  }
+
+  .bg-skyblue {
+    background-color: var(--light-theme);
+    transition: .2s;
+
+    svg {
+      color: var(--theme-color) !important;
+      transition: .2s;
+    }
+
+    &:hover {
+      background-color: var(--theme-color);
+
+      svg {
+        color: $white-color !important;
+      }
+    }
+  }
+
+
+  .bg-green {
+    background-color: #EEF6F6;
+    transition: .2s;
+
+    i,
+    svg {
+      transition: .2s;
+      color: #59AAAA !important;
+    }
+
+    &:hover {
+      background-color: #59AAAA;
+
+      i,
+      svg {
+        color: $white-color !important;
+      }
+    }
+  }
+
+  .bg-yellow {
+    background-color: #FEF7EC;
+    transition: .2s;
+
+    svg {
+      transition: .2s;
+      color: #F5B849 !important;
+    }
+
+    &:hover {
+      background-color: #F5B849;
+
+      svg {
+        color: $white-color !important;
+      }
+    }
+  }
+
+
+  .input-group-text.mac-lbl {
+    padding-top: 8.5px !important;
+    padding-bottom: 8.5px !important;
+  }

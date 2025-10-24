@@ -1,0 +1,115 @@
+@import '../../../../../../styles/styles.scss';
+
+.dotted {
+    stroke-dasharray: 2;
+}
+
+.dashborad-input * {
+    font-family: $fonts;
+}
+
+.main-borad {
+    background-color: #fff;
+    padding: 26px 30px;
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid #eaedf1;
+    font-family: $fonts;
+
+    h3 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #444;
+        font-family: $fonts;
+    }
+
+    h6 {
+        font-size: 14px;
+        font-family: $fonts;
+        color: #999;
+        text-align: center;
+    }
+
+    h4 {
+        font-size: 16px;
+        font-family: $fonts;
+        color: #444;
+        text-align: center;
+        font-weight: $font-medium;
+    }
+
+    .user-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            height: 120px;
+            width: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+
+}
+
+.profile-icon {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--theme-color);
+    border-radius: 4px;
+
+    svg {
+        color: $white-color;
+    }
+}
+
+.btn-primary {
+    background-color: var(--theme-color) !important;
+}
+
+
+.admin-imgname {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: $white-color;
+    background-color: var(--theme-color);
+    border-radius: 50%;
+}
+
+.chart-select .ng-value-container {
+    overflow-y: scroll;
+    height: 36px;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container {
+    line-height: 25px;
+}
+
+highcharts-chart {
+    background-color: #fff;
+    position: relative;
+    border-radius: 8px;
+    border: 1px solid #eaedf1;
+    padding-top: 15px !important;
+
+    * {
+
+        font-family: $fonts;
+    }
+
+    .highcharts-title {
+        font-family: $fonts;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 80px !important;
+    }
+}

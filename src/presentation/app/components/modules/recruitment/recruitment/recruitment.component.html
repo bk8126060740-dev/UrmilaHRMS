@@ -1,0 +1,20 @@
+<div class="master-content"></div>
+<div class="container-fluid p-0">
+  <div class="row m-3 mb-0 ">
+    <div class="col-12 d-flex justify-content-between">
+      <app-breadcrumb></app-breadcrumb>
+    </div>
+  </div>
+
+  <div class="row p-0 m-0" *appIsGranted="'Read'">
+    <div class="col p-0 m-0 fix-height">
+      <tg-grid [columns]="$any(columns)" [rowData]="$any(rowData)" [totalCount]="totalCount" [title]="title"
+        (edit)="onEdit($any($event))" (delete)="onDelete($any($event))" (insert)="insert()" (pageNumber)="onPageChange($any($event))"
+        [isBreadCurmbsShow]="false" (recodeValueChange)="onTotalJobPositionPerPageValueChange($event)"
+        [filterData]="filterData" (searchTearm)="onSearch($event)" (orderBy)="orderBy($event)"
+        (buttonClick)="attributeButtonClick($event)" [exportVisibility]="false" (clear)="OnClear($event)">
+      </tg-grid>
+    </div>
+  </div>
+</div>
+<!-- </div>  -->

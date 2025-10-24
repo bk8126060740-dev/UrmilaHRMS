@@ -1,0 +1,212 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$HRMS-theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      density: (scale: 0,
+      )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($HRMS-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($HRMS-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($HRMS-theme);
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+// import fonts
+// @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root[theme='orange'] {
+  --theme-color: #ff6600;
+  --sidebar-color: #ff6600;
+  --light-theme: #FFEFE5;
+  --middium-theme: rgba(225, 97, 11, 0.4);
+
+}
+
+:root[theme='blue'] {
+  --theme-color: #013366;
+  --sidebar-color: #013366;
+  --light-theme: #F4F4F7;
+  --middium-theme: rgb(80, 123, 166);
+}
+
+:root[theme='skyBlue'] {
+  --theme-color: #4285f4;
+  --sidebar-color: #4285f4;
+  --light-theme: #ECF3FE;
+  --middium-theme: rgba(105, 108, 255, .4);
+}
+
+:root[theme='purple'] {
+  --theme-color: #696cff;
+  --sidebar-color: #696cff;
+  --light-theme: #F0F0FF;
+  --middium-theme: rgba(105, 108, 255, .4);
+}
+
+:root[theme='green'] {
+  --theme-color: #67b173;
+  --sidebar-color: #67b173;
+  --light-theme: #E3F0E5;
+  --middium-theme: rgba(105, 108, 255, .4);
+}
+
+:root[theme='red'] {
+  --theme-color: #E46A76;
+  --sidebar-color: #E46A76;
+  --light-theme: #FCF0F1;
+  --middium-theme: rgba(228, 106, 118, 0.075);
+}
+
+:root[theme='Turquoise_Blue'] {
+  --sidebar-color: linear-gradient(120deg, #1dccdf 0%, #1de4bd 100%);
+  --theme-color: #01C0C8;
+  --light-theme: #D7F4F5;
+  --middium-theme: rgba(1, 193, 200, 0.075);
+}
+
+:root[theme='gradient'] {
+  --theme-color: #3489DC;
+  --sidebar-color: linear-gradient(120deg, #6a4ee1 0%, #05bdd7 100%);
+  --light-theme: #DDEAF9;
+  --middium-theme: rgba(105, 108, 255, .4);
+}
+
+// 
+
+@import './theme-colors';
+@import './popup-model';
+@import './formcontrol';
+@import './_button.scss';
+@import './maindashborad';
+@import './customscroll';
+@import './drag_drop';
+// @import './dashborad';
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: var(--mat-option-hover-state-layer-color,
+      color-mix(in srgb, var(--mat-sys-on-surface) calc(var(--mat-sys-hover-state-layer-opacity)* 100%), transparent)) !important;
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $fonts;
+  background-color: $dashborad-bgcolor !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: auto;
+}
+
+H1,
+H2,
+H3,
+H4,
+H5,
+H6,
+P {
+  margin: 0 !important;
+}
+
+ul {
+
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.ms-6 {
+  margin-left: 64px;
+}
+
+.login-border {
+  border: none s;
+}
+
+// /* for example, let's change the mouse hover color */
+
+
+// /* Importing Bootstrap SCSS file. */
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+// /* Importing Datepicker SCSS file. */
+@import "../../node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+
+
+
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  // font-family: "Nunito", "Helvetica Neue", sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.list-style-none {
+  list-style: none !important;
+}
+
+/* Hide the number input spinners in Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  /* Hide the spinner */
+  margin: 0;
+  /* Reset margin */
+}
+
+/* Hide the number input spinners in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  /* Change appearance to textfield */
+}

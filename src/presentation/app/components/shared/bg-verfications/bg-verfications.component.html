@@ -1,0 +1,61 @@
+<div class="borad-body p-4 pt-2">
+    <div class="row mt-2 px-2" *ngFor="let item of bgVerification ; let i = index">
+        <div class="col-12 card-bg mt-2">
+            <div class="row gy-2 py-2 px-2 pt-3">
+                <div class="col-auto">
+                    <p class="w-title">{{item.verificationType}}</p>
+                </div>
+                <div class="col gy-2">
+                    <div class="row">
+                        <div class="col-auto d-flex">
+                            <div class="form-check me-1 cursor">
+                                <input class="form-check-input cursor" type="radio" [(ngModel)]="item.visibility"
+                                    name="visibility{{i}}" [value]="true" id="yes{{i}}">
+                                <label class="form-check-label cursor" [for]="'yes' + i">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check me-1 ms-5 cursor">
+                                <input class="form-check-input cursor" type="radio" [(ngModel)]="item.visibility"
+                                    name="visibility{{i}}" [value]="false" id="no{{i}}">
+                                <label class="form-check-label cursor" [for]="'no' + i">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="item.visibility">
+                        <div class="row my-2    ">
+                            <div class="col-lg-6 col-12">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Select Agency</mat-label>
+                                    <mat-select placeholder="Select Agency" [(ngModel)]="item.agencyId" required>
+                                        <mat-option *ngFor="let agency of allAgency" [value]="agency.id">
+                                            {{ agency.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field mt-2">
+                                    <mat-label>Start Date</mat-label>
+                                    <input matInput [matDatepicker]="startdate" [(ngModel)]="item.verificationDate"
+                                        name="startDate" />
+                                    <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #startdate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-12 mb-2">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Description</mat-label>
+                                    <textarea matInput name="description" [(ngModel)]="item.remarks"
+                                        [rows]="5"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

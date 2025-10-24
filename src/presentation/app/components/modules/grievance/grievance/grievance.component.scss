@@ -1,0 +1,124 @@
+@import '../../../../../../styles/styles.scss';
+
+.search-field {
+    padding: 5px !important;
+
+    input {
+        border: 1px solid #ddd !important;
+        border-radius: 6px !important;
+        padding: 5px 10px;
+    }
+}
+
+tbody {
+    .checkbox-input {
+        input {
+            margin-top: 9px !important;
+        }
+    }
+}
+
+.main-client-card {
+    display: flex;
+}
+
+@media screen and (max-width:1560px) {
+    .card {
+        .client-cart {
+            padding: 15px !important;
+
+            .left-card-side {
+                p {
+                    max-width: 90px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+
+        // .row {
+        //     gap: 16px;
+        // }
+    }
+
+    // .client-cart,
+    // .cart-design {
+    //     max-width: 190px !important;
+    //     min-width: 190px !important;
+    // }
+}
+
+@media screen and (max-width:1299px) {
+
+
+    // .client-cart,
+    // .cart-design {
+    //     max-width: 150px !important;
+    //     min-width: 150px !important;
+    // }
+
+    // .menu-collapsed .client-cart,
+    // .menu-collapsed .cart-design {
+    //     max-width: 130px !important;
+    //     min-width: 130px !important;
+    // }
+
+    // .card .row {
+    //     gap: 15px;
+    // }
+
+    .left-card-side {
+        order: 2;
+        width: 100%;
+        text-align: center;
+    }
+
+    .card-item {
+        order: 1;
+    }
+
+    .main-client-card {
+        flex-wrap: wrap;
+    }
+
+    .main-client-card {
+        width: 100%;
+    }
+
+    .card .client-cart .left-card-side p {
+        max-width: 100%;
+    }
+
+    .card .client-cart .card-item {
+        margin: auto;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .cart-design {
+        max-width: 100% !important;
+        padding-right: 0px !important;
+    }
+
+    .left-card-side {
+        p {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+    }
+}
+
+@media screen and (max-width:767px) {
+
+    .client-cart,
+    .cart-design {
+        max-width: 100% !important;
+        padding-right: 0px !important;
+    }
+}
+
+.user-data {
+    height: 100% !important;
+}

@@ -1,0 +1,92 @@
+<div class="dashborad-main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row pt-3 m-0">
+            <div class="col-12 p-0 m-0">
+                <div class="main-board">
+                    <div class="borad-header pb-3 border-bottom d-flex justify-content-between">
+                        <p class="board-title">Payroll Attribute</p>
+                        <div class="header-buttons">
+                            <button type="submit" class="header-btn btn-save me-3"
+                                (click)="triggerFormSubmit(attributeForm)">Save</button>
+                            <button type="submit" class="header-btn btn-cancle"
+                                (click)="cancleCreate(attributeForm)">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="borad-body p-2 py-4 pt-0">
+                        <form #attributeForm="ngForm" (ngSubmit)="onSubmit(attributeForm)">
+                            <div class="row align-items-center justify-content-center   g-4 p-0 m-0">
+                                <div class="col-3 me-5">
+                                    <div class="w-100">
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput placeholder="Name" [(ngModel)]="payrollAttributeModel.name"
+                                                #name="ngModel" name="name" required>
+                                            <mat-error>
+                                                Name is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="w-100">
+                                        <label class="toggle-btn">
+                                            <mat-label>Deductable</mat-label>
+                                            <input type="checkbox" name="deductable"
+                                                [(ngModel)]="payrollAttributeModel.isDeductable" #deductable="ngModel">
+                                            <span [class.bg-toggle-on]="payrollAttributeModel.isDeductable"
+                                                [class.bg-toggle-off]="!payrollAttributeModel.isDeductable"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="w-100">
+                                        <label class="toggle-btn">
+                                            <mat-label>Percentage</mat-label>
+                                            <input type="checkbox" name="percentage"
+                                                [(ngModel)]="payrollAttributeModel.isPercentage" #percentage="ngModel">
+                                            <span [class.bg-toggle-on]="payrollAttributeModel.isPercentage"
+                                                [class.bg-toggle-off]="!payrollAttributeModel.isPercentage"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="w-100">
+                                        <label class="toggle-btn">
+                                            <mat-label>Calculated</mat-label>
+                                            <input type="checkbox" name="calculated"
+                                                [(ngModel)]="payrollAttributeModel.isCalculated" #calculated="ngModel">
+                                            <span [class.bg-toggle-on]="payrollAttributeModel.isCalculated"
+                                                [class.bg-toggle-off]="!payrollAttributeModel.isCalculated"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="w-100">
+                                        <label class="toggle-btn">
+                                            <mat-label>Attendance</mat-label>
+                                            <input type="checkbox" name="attendance"
+                                                [(ngModel)]="payrollAttributeModel.isAttendance" #attendance="ngModel">
+                                            <span [class.bg-toggle-on]="payrollAttributeModel.isAttendance"
+                                                [class.bg-toggle-off]="!payrollAttributeModel.isAttendance"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="w-100">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

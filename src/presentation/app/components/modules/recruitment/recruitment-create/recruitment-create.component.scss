@@ -1,0 +1,49 @@
+@import '../../../../../../styles/styles.scss';
+
+.dashborad-main .main-board {
+    height: 85vh !important;
+}
+
+.board-title {
+    line-height: normal !important;
+    align-self: center;
+}
+
+@media screen and (max-width: 1199px) {
+    .menu-collapsed {
+        .borad-body {
+            .col-12.col-lg-4.col-md-6 {
+                width: 50% !important;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+    .menu-collapsed {
+        .borad-body {
+            .col-12.col-lg-4.col-md-6 {
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+    border: 1px solid #FA6060 !important;
+    border-radius: 5px !important;
+}
+
+ng-select.ng-invalid.ng-touched .ng-select-container {
+    border: 1px solid #FA6060 !important;
+    border-radius: 5px !important;
+}
+
+.ng-select.ng-select-single .ng-select-container,
+.ng-select-container {
+    height: 40px !important;
+    border-radius: 6px !important;
+    background-color: $white-color !important;
+    border: 1px solid #E0E6ED !important;
+}

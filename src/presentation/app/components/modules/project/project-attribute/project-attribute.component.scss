@@ -1,0 +1,607 @@
+@import '../../../../../../styles/styles.scss';
+
+* {
+  font-family: $fonts !important;
+}
+
+.modal-header .modal-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.option-tab {
+  height: 200px;
+  overflow-y: scroll;
+  padding-right: 10px;
+}
+
+
+.option-tab::-webkit-scrollbar {
+  width: 10px;
+  height: 20px;
+  background-color: $webkit-scrollbar-background;
+}
+
+.option-tab::-webkit-scrollbar-track {
+  background-color: $webkit-scrollbar-background;
+}
+
+.Switch-font {
+  font-size: $fonts-content !important;
+  font-weight: 500 !important;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $toggle-btn-before;
+  -webkit-transition: .6s;
+  transition: .6s;
+  border: none;
+  box-shadow: none;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 7px;
+    bottom: 5px;
+    background-color: $white-color;
+    -webkit-transition: .6s;
+    transition: .6s;
+  }
+
+  &.round {
+    border-radius: 34px;
+
+    &:before {
+      border-radius: 50%;
+    }
+  }
+}
+
+input {
+  &:checked {
+    &+.slider {
+      background-color: var(--theme-color);
+
+      &:before {
+        left: auto;
+        right: 5px;
+      }
+    }
+  }
+
+  &:focus {
+    &+.slider {
+      box-shadow: 0 0 1px var(--theme-color);
+    }
+  }
+}
+
+input[type="checkbox"] {
+
+  &.toggle {
+
+    opacity: 0;
+    position: absolute;
+    left: -99999px;
+
+    &+label {
+
+      height: 40px;
+      line-height: 40px;
+      background-color: var(--theme-color);
+      width: 70%;
+      border-radius: 50px;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      @include transition(all .25s ease-in);
+      @include box-shadow(inset 0px 0px 2px rgba(0, 0, 0, .5));
+
+      &:before,
+      &:hover:before {
+
+        content: " ";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 100px;
+        height: 32px;
+        background: $white-color;
+        z-index: 2;
+        transition: all 0.25s ease-in;
+        border-radius: 100px;
+
+      }
+
+      .off,
+      .on {
+        color: $white-color;
+        transition: .3s;
+      }
+
+      .off {
+        display: inline-block;
+        z-index: 99;
+        position: relative;
+        color: $white-color !important;
+        margin-left: 34px;
+      }
+
+      .on {
+        z-index: 99;
+        position: relative;
+        margin-left: 30px;
+        color: var(--theme-color) !important;
+
+      }
+
+
+    }
+
+    &:checked+label {
+
+
+      .on {
+        color: $white-color !important;
+        z-index: 999;
+        position: relative;
+      }
+
+      .off {
+        color: var(--theme-color) !important;
+        z-index: 999;
+        position: relative;
+      }
+
+    }
+
+    &:checked+label,
+    &:focus:checked+label {
+
+      background-color: var(--theme-color);
+
+      &:before,
+      &:hover:before {
+
+        background-position: 0 0;
+        top: 4px;
+        left: 100%;
+        margin-left: -104px;
+
+      }
+
+    }
+
+  }
+
+}
+
+// Additional classes for dynamic styling
+.calculated {
+  background-color: #c05; // Define $calculated-color in your variables
+}
+
+.default {
+  background-color: #fff; // Define $default-color in your variables
+}
+
+.Formula-bg {
+  background-color: $popup-background;
+  padding: 20px;
+  border-radius: 10px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  i {
+    font-size: $fonts-content;
+    cursor: pointer;
+  }
+
+  svg {
+    height: 12px !important;
+    width: 12px !important;
+    fill: var(--theme-color) !important;
+  }
+
+  svg.comma {
+    height: 10px !important;
+    margin-top: 5px !important;
+  }
+
+  .formula-icon {
+    font-size: $fonts-content;
+  }
+
+  .formula-box {
+    border-radius: 5px;
+    color: $popup-text;
+    padding: 8px 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15%);
+    display: inline-flex;
+
+  }
+
+  .btn-reset {
+    background-color: $white-color ;
+    border: 1px solid $popup-btn !important;
+    padding: 5px 10px;
+    text-align: center;
+    color: $popup-btn;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+
+  .input-box {
+    position: relative;
+
+    .form-control {
+      padding-right: 29px;
+    }
+
+    svg {
+      position: absolute;
+      right: 13px;
+      top: 12px;
+      color: $black-color;
+
+    }
+
+    .add-btn {
+      background-color: var(--theme-color);
+      position: absolute;
+      right: 0;
+      padding: 10px 20px;
+      top: 0;
+      color: $white-color;
+      border-radius: 0 5px 5px 0;
+      font-weight: 700;
+
+    }
+
+    .form-control {
+      height: 40px;
+      background-color: $white-color;
+
+      &:focus {
+        background-color: $white-color;
+        box-shadow: none !important;
+        border-color: $border-color !important;
+      }
+    }
+  }
+
+  .option-tab {
+    height: 23vh;
+    overflow-y: auto;
+
+    .option-bg-tab {
+      padding: 10px 15px;
+      border-radius: 6px;
+
+      &:hover {
+        background-color: var(--light-theme);
+
+      }
+
+      &:active {
+        background-color: var(--light-theme);
+      }
+
+    }
+  }
+
+  .icon-color {
+    color: var(--theme-color);
+    cursor: pointer;
+
+    svg {
+      path {
+        -webkit-text-stroke-color: var(--theme-color) !important;
+      }
+    }
+  }
+
+}
+
+
+
+.cdk-overlay-container {
+  z-index: 99999 !important;
+  /* or a value higher than Bootstrap's modal z-index */
+}
+
+.formula {
+  position: relative;
+}
+
+.formula-input {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  height: auto;
+  padding: 3px;
+  outline: none;
+  resize: none;
+}
+
+.formula-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  // max-height: 90px;
+  overflow-y: auto;
+  // max-width: 680px;
+  overflow-y: auto;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.formula-box {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-left: 0px !important;
+  cursor: pointer;
+
+  svg {
+    height: 16px !important;
+    width: 16px !important;
+  }
+}
+
+.formula-box h5 {
+  margin: 0;
+}
+
+.formula-box i {
+  cursor: pointer;
+}
+
+
+.modal-dialog .modal-content {
+  // min-height: 755px;
+  height: 100% !important;
+  z-index: 999;
+}
+
+.invalid-message {
+  color: $error-color;
+}
+
+.valid-message {
+  color: var(--theme-color) !important;
+}
+
+
+
+
+
+.payroll-inner td {
+  color: #888;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  font-size: $fonts-content !important;
+}
+
+.border-end {
+  border-right: 1px solid #ebebeb !important;
+}
+
+.payroll-inner-light {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
+  padding: 15px 18px;
+}
+
+
+.att-id {
+  height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #805DCA1A;
+  border-radius: 6px;
+
+  h5 {
+    color: #805DCA !important;
+  }
+}
+
+.bg-sky {
+  background-color: var(--light-theme);
+  border-radius: 10px 10px 0px 0px !important;
+}
+
+.payroll-inner .row:last-child .col {
+  border-bottom: 0px !important;
+}
+
+button:focus {
+  border: 0px !important;
+  box-shadow: none !important;
+}
+
+
+.add-icn button {
+  background-color: var(--theme-color);
+  width: 38px !important;
+  height: 38px !important;
+
+  svg {
+    color: $white-color;
+  }
+}
+
+.col {
+  height: fit-content;
+}
+
+.option-bg-tab {
+  h4 {
+
+    font-size: $fonts-content !important;
+  }
+}
+
+.oprator-ex,
+.operator-bracket {
+  font-weight: $font-medium;
+  font-size: 13px !important;
+}
+
+.clone-model {
+
+  .coming-soon {
+    height: 60vh !important;
+  }
+}
+
+.copy-model .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  top: 7px;
+}
+
+.innercard-table .word-wrap {
+  white-space: nowrap;
+}
+
+.modal-dialog {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.btn.btn-reset {
+  font-size: 12px !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
+
+
+@media screen and (max-width:1024px) {
+  .popup-design {
+    // margin-top: 0px !important;
+    margin-bottom: 0px !important;
+
+    .modal-body {
+      padding-top: 15px !important;
+    }
+  }
+
+  .Formula-bg {
+    padding: 15px !important;
+    margin-bottom: 0px !important;
+  }
+
+  .option-bg-tab {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+
+  .icn-box {
+    height: 32px !important;
+  }
+
+  .input-box,
+  .input-box input {
+    height: 32px !important;
+  }
+
+  .Formula-bg .input-box .add-btn {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .popup-header {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .popup-footer {
+
+    .btn-cancel,
+    .btn-save {
+      height: 35px !important;
+    }
+  }
+}
+
+
+@media screen and (max-width:991px) {
+  .popup-design {
+    margin-left: 40px !important;
+    margin-right: 40px !important;
+    width: 100% !important;
+    width: calc(100% - 80px) !important;
+    max-width: 100% !important;
+  }
+
+  .option-tab {
+    max-height: 150px;
+  }
+
+  .Formula-bg .formula-box {
+    padding: 3px 5px !important;
+  }
+
+}
+
+
+@media screen and (max-width:425px) {
+  .attr-popup-design {
+    margin-top: 232px !important;
+  }
+}
+
+.attr-popup-design .modal-body:has(.calculated-modal),
+.clone-model .modal-body {
+  height: 100%;
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+.check-active {
+  color: var(--theme-color);
+}
+
+.close-false {
+  fill: #8F959D;
+}
+
+.innercard-table .row:last-child .border-bottom {
+  border-bottom: none !important;
+}

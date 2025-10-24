@@ -1,0 +1,760 @@
+<div class="container-fluid p-0">
+    <div class="row mt-3 mx-4">
+        <div class="col-12 d-flex justify-content-between">
+            <app-breadcrumb></app-breadcrumb>
+        </div>
+    </div>
+    <div class="row m-0 my-3 mx-4 mb-2">
+        <div class="col title-header d-flex justify-content-between align-items-center ">
+            <h4 class="board-title d-flex align-items-center">{{projectRowData.name}}</h4>
+            <div class="d-flex gap-3">
+                <div class="add-icn btn-hover cursor" (click)="addattribute()" *appIsGranted="'Write'" mat-raised-button
+                    matTooltip="Create" [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value"
+                    [matTooltipHideDelay]="hideDelay.value" aria-label="Create">
+                    <button class=" header-btn header-btn-blue d-flex justify-content-center align-items-center ">
+                        <icon-Add></icon-Add>
+                    </button>
+                </div>
+                <div class="add-icn btn-hover cursor" (click)="clonebuttonClick()" *appIsGranted="'Write'"
+                    mat-raised-button matTooltip="Clone" [matTooltipPosition]="'above'"
+                    [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value" aria-label="Clone">
+                    <button class=" header-btn header-btn-blue d-flex justify-content-center align-items-center cursor">
+                        <icon-Clone></icon-Clone>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 mb-4 mx-4">
+        <!-- <div class="col fix-height p-0 m-0">
+            <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                [title]="this.projectRowData.name" (edit)="onEdit($any($event))" (delete)="onDelete($any($event))"
+                (insert)="addattribute()" (pageNumber)="onPageChange($event)" [isBreadCurmbsShow]="false"
+                (orderBy)="orderBy($event)" (searchTearm)="onSearch($event)">
+            </tg-grid>
+        </div> -->
+
+        <!-- <div class=" col-12 mt-3 ">
+            <div class="accordion " id="accordionExample">
+                <div class="accordion-item payroll-card overflow-hidden mt-2" *ngFor="let item of groupedArray">
+                    <h2 class="accordion-header fw-medium" id="headingOne">
+                        <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            {{item.groupName}}
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body pt-1">
+                            <div class="payroll-inner mt-3">
+                                <div class="innercard-table overflow-hidden">
+                                    <div class="overflow-hidden">
+                                        <div class="bg-sky">
+                                            <div class="row  p-0">
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4">Sequence</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4">Attribute</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4">Is Calculated</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4">Default Value</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4">Allow Override</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="fw-medium py-3 text-dark px-4 text-end">Action
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div cdkDropList (cdkDropListDropped)="drop($event,item.items)"
+                                            class="cursor-move">
+                                            <div class="row" cdkDrag *ngFor="let item of item.items">
+                                                <div class="col border-bottom">
+                                                    <div class="px-4" style="padding-top:14px;"> 1</div>
+                                                </div>
+                                                <div class="col border-bottom">
+                                                    <div class="px-4" style="padding-top:14px;">
+                                                        {{item.payrollAttributeName}}</div>
+                                                </div>
+                                                <div class="col border-bottom">
+                                                    <div class="px-4" style="padding-top:14px;">True 1</div>
+                                                </div>
+                                                <div class="col border-bottom">
+                                                    <div class="px-4" style="padding-top:14px;">1</div>
+                                                </div>
+                                                <div class="col border-bottom">
+                                                    <div class="px-4" style="padding-top:14px;">True1</div>
+                                                </div>
+                                                <div class="col border-bottom">
+                                                    <div class="py-2 px-4">
+                                                        <div class="action d-flex justify-content-end">
+                                                            <div
+                                                                class="edit-icon d-flex justify-content-center align-items-center action-icn me-2 cursor">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16px"
+                                                                    height="30px" viewBox="0 0 36 36">
+                                                                    <path fill="currentColor"
+                                                                        d="m4.22 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0L13 32l15.84-15.78L20 7.4Z"
+                                                                        class="clr-i-solid clr-i-solid-path-1" />
+                                                                    <path fill="currentColor"
+                                                                        d="m33.82 8.32l-5.9-5.9a2.07 2.07 0 0 0-2.92 0L21.72 5.7l8.83 8.83l3.28-3.28a2.07 2.07 0 0 0-.01-2.93"
+                                                                        class="clr-i-solid clr-i-solid-path-2" />
+                                                                    <path fill="none" d="M0 0h36v36H0z" />
+                                                                </svg>
+                                                            </div>
+                                                            <div
+                                                                class="delete-icon d-flex justify-content-center align-items-center action-icn cursor">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="30px"
+                                                                    height="18px" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z" />
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div> -->
+
+        <div class="col-12 p-0" *appIsGranted="'Read'">
+            <div class="accordion" id="accordionExample" *ngIf="groupedArray.length > 0">
+                <div class="accordion-item payroll-card overflow-hidden mt-2"
+                    *ngFor="let item of groupedArray; let i = index">
+                    <h2 class="accordion-header fw-medium w-100" [id]="'heading' + i">
+                        <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"
+                            [attr.aria-expanded]="i === lastOpenedIndex  ? 'true' : 'false'"
+                            [class.collapsed]="i !== lastOpenedIndex" (click)="onAccordionToggle(i)">
+                            {{ item.groupName }}
+                        </button>
+                    </h2>
+                    <div [id]="'collapse' + i" class="accordion-collapse w-100 collapse"
+                        [class.show]="i === lastOpenedIndex" [attr.aria-labelledby]="'heading' + i"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body pt-1">
+                            <div class="payroll-inner mt-3">
+                                <div class="innercard-table  table-width overflow-hidden">
+                                    <div style="border-radius: 6px 6px 0px 0px;">
+                                        <div class="bg-sky w-100">
+                                            <div class="row flex-nowrap p-0">
+                                                <div class="" style="width: 10%;">
+                                                    <div class="fw-medium py-3 text-dark px-4">Sequence</div>
+                                                </div>
+                                                <div class="" style="width: 20%;">
+                                                    <div class="fw-medium py-3 text-dark px-4">Attribute</div>
+                                                </div>
+                                                <div class="text-center" style="width: 18%;">
+                                                    <div class="fw-medium py-3 text-dark px-4">Calculated Value</div>
+                                                </div>
+                                                <div class="text-center" style="width: 18%;">
+                                                    <div class="fw-medium py-3 text-dark px-4">Default Value</div>
+                                                </div>
+                                                <div class="text-center" style="width: 18%;">
+                                                    <div class="fw-medium py-3 text-dark px-4">Allow Override</div>
+                                                </div>
+                                                <div class="" style="width: 15%;">
+                                                    <div class="fw-medium py-3 text-dark px-4 text-end"
+                                                        style=" padding-right: 40px !important;">Action</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div cdkDropList (cdkDropListDropped)="drop($event, item.items,i)"
+                                            class="cursor-move">
+                                            <div class="row" cdkDrag *ngFor="let subItem of item.items">
+                                                <div class="border-bottom"
+                                                    style="width: 10%; padding-top:12px; padding-bottom: 12px;">
+                                                    <div class="px-4">{{
+                                                        subItem.sequence }}
+                                                    </div>
+                                                </div>
+                                                <div class="border-bottom"
+                                                    style="width: 20%; padding-top:12px; padding-bottom: 12px;">
+                                                    <div class="px-4">
+                                                        {{ subItem.payrollAttributeName }}
+                                                    </div>
+                                                </div>
+                                                <div class="border-bottom text-center"
+                                                    style="width: 18%; padding-top:12px; padding-bottom: 12px;">
+                                                    <div class="px-4" *ngIf="subItem.isCalculated">
+                                                        <icon-right-sign></icon-right-sign>
+                                                    </div>
+                                                    <div class="px-4" *ngIf="!subItem.isCalculated">
+                                                        <icon-close></icon-close>
+                                                    </div>
+                                                </div>
+                                                <div class="border-bottom text-center"
+                                                    style="width: 18%; padding-top:12px; padding-bottom: 12px;">
+                                                    <div class="px-4">
+                                                        {{subItem.defaultValue}}
+                                                    </div>
+                                                </div>
+                                                <div class="border-bottom text-center"
+                                                    style="width: 18%; padding-top:12px; padding-bottom: 12px;">
+                                                    <div class="px-4" *ngIf="subItem.allowOverride">
+                                                        <icon-right-sign></icon-right-sign>
+                                                    </div>
+                                                    <div class="px-4" *ngIf="!subItem.allowOverride">
+                                                        <icon-close></icon-close>
+                                                    </div>
+                                                </div>
+                                                <div class="border-bottom" style="width: 15.5%;">
+                                                    <div class="py-0 px-4">
+                                                        <div class="action d-flex justify-content-end w-100">
+                                                            <div class="d-flex justify-content-end"
+                                                                style="width: 72px;">
+                                                                <div (click)="onEdit(subItem)" *appIsGranted="'Update'"
+                                                                    class="edit-icon d-flex justify-content-end align-items-center action-icn cursor"
+                                                                    style="padding-top:7px !important; padding-bottom: 7px !important;">
+                                                                    <span class="icn-bg bg-skyblue" mat-raised-button
+                                                                        mat-raised-button matTooltip="Edit"
+                                                                        [matTooltipPosition]="'left'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value"
+                                                                        aria-label="Edit">
+                                                                        <icon-edit></icon-edit>
+                                                                    </span>
+                                                                </div>
+                                                                <div (click)="onDelete(subItem)"
+                                                                    *appIsGranted="'Delete'"
+                                                                    class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                                                    style="padding-top:7px !important; padding-bottom: 7px !important;">
+                                                                    <span class="ms-2 icn-bg bg-red" mat-raised-button
+                                                                        mat-raised-button matTooltip="Delete"
+                                                                        [matTooltipPosition]="'left'"
+                                                                        [matTooltipShowDelay]="showDelay.value"
+                                                                        [matTooltipHideDelay]="hideDelay.value"
+                                                                        aria-label="Delete">
+                                                                        <icon-delete></icon-delete>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coming-soon d-flex justify-content-center align-items-center w-100 flex-wrap"
+                *ngIf="groupedArray.length === 0">
+                <div>
+                    <lottie-player src="../../../../../../assets/image/animationNo_data.json" background="transparent"
+                        speed="1" style="width: 300px; height: 300px;" loop autoplay>
+                    </lottie-player>
+                    <p class="d-block w-100 text-center font-medium h5 text-secondary">No Data Found</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div bsModal #attributemodel="bs-modal" class="modal center-modal fade bd-example-modal-lg" tabindex="-1"
+    [config]="{backdrop:'static'}" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg attr-popup-design popup-design">
+        <div class="modal-content px-4" style="z-index: 99 !important; position: relative !important;">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2 " id="exampleModalLabel">{{this.projectRowData.name}} - Attributes</h5>
+                <span class="d-block" (click)="attributemodel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white pt-4 pb-2">
+                <div class="row align-items-start d-flex flex-wrap gy-3">
+                    <div class="col-lg-4 col-12">
+                        <label class="d-block Switch-font">Attribute</label>
+                        <ng-select [items]="attributeDropdownArray" bindLabel="name" bindValue="id"
+                            [(ngModel)]="selectedAttributes" (change)="onAttributeChange($event)"
+                            placeholder="Attribute" *ngIf="!IsEditable" class="mt-1">
+                        </ng-select>
+                        <ng-select [items]="disableAttributeDropdownArray" bindLabel="name" bindValue="id"
+                            [(ngModel)]="selectedAttributes" (change)="onAttributeChange($event)"
+                            placeholder="Attribute" [disabled]="IsEditable" *ngIf="IsEditable">
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-3 text-start pe-0 col-12 col-md-5">
+                        <div class="form-check form-switch p-0">
+                            <div class="d-flex  gx-4 align-items-center flex-row flex-wrap">
+                                <h4 class="Switch-font me-2 w-100">Allow Override</h4>
+                                <label class="switch mt-1">
+                                    <input type="checkbox" [(ngModel)]="requestBody.allowOverride" name="allowOverride"
+                                        checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-10 col-md-6">
+                        <div class="d-flex align-items-center  justify-content-end flex-wrap">
+                            <h4 class="d-block Switch-font w-100">Value</h4>
+                            <div class="w-100 mt-1 ms-1">
+                                <input type="checkbox" class="toggle" id="toggle" (change)="onSwitchChange($event)"
+                                    [checked]="isCalculated" />
+                                <label for="toggle" class="toogle-switch"
+                                    [ngClass]="{'calculated': isCalculated, 'default': !isCalculated}">
+                                    <span class="on"> Default</span>
+                                    <span class="off"> Calculated</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-4" *ngIf="!isCalculated">
+                    <div class="input-box">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Default Value</mat-label>
+                                <input matInput name="name" type="number" [(ngModel)]="requestBody.defaultValue"
+                                    [min]="0" (blur)="requestBody.defaultValue = requestBody.defaultValue || 0">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-4 calculated-modal" *ngIf="isCalculated">
+                    <div class="Formula-bg">
+                        <h3>Formula</h3>
+                        <div class="formula my-2" *ngIf="!IsEditMode">
+                            <textarea class="formula-input position-relative border-0 w-100" readonly
+                                rows="4"></textarea>
+                            <div class="d-flex formula-icon align-items-center flex-wrap gap-1 py-2" #scrollContainer>
+                                <div *ngFor="let item of formula; index as i"
+                                    class="bg-white formula-box d-flex align-items-center justify-content-center">
+                                    <h5 *ngIf="item.isAttribute || item.isOperator">{{ item.name }}</h5>
+                                    <h5 *ngIf="item.isDefault">{{ item.defaultValue }}</h5>
+                                    <!-- <i class="fa-regular fa-circle-xmark ms-3"></i> -->
+                                    <svg (click)="removeItem(i)" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" x="0"
+                                        y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512"
+                                        xml:space="preserve" class="ms-2">
+                                        <g>
+                                            <path
+                                                d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z"
+                                                data-name="Layer 22" fill="#000000" opacity="1" data-original="#000000"
+                                                class=""></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="formula my-2 mb-3" *ngIf="IsEditMode">
+                            <textarea class="formula-input position-relative border-0 w-100" rows="4"></textarea>
+                            <div class="d-flex formula-icon align-items-center flex-wrap gy-2 py-2" #scrollContainer>
+                                <div *ngFor="let item of formula; index as i" style="margin-left: 15px;">
+                                    <h5 *ngIf="item.isAttribute || item.isOperator">{{ item.name }}</h5>
+                                    <h5 *ngIf="item.isDefault">{{ item.defaultValue }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end">
+                            <button class="btn btn-reset px-4" (click)="IsEditMode = !IsEditMode">Edit</button>
+                            <button class="btn btn-reset mx-3 px-3" (click)="resetAll()">Reset</button>
+                            <button class="btn btn-reset" (click)="evaluate()">Validate</button>
+                        </div>
+                        <div [ngClass]="resultFormula ? 'valid-message' : 'invalid-message'">
+                            {{ validationMessage }}
+                        </div>
+                    </div>
+                    <div class="Formula-bg my-4">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <h3>Attributes</h3>
+                                <div class="bg-white rounded p-2 mt-3">
+                                    <div class="input-box">
+                                        <input type="text" class="form-control" placeholder="Search..."
+                                            [(ngModel)]="searchText" (input)="filterAttributes()">
+                                        <!-- <i class="fa fa-search"></i> -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" x="0"
+                                            y="0" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 512 512"
+                                            xml:space="preserve" class="">
+                                            <g>
+                                                <path
+                                                    d="M55.146 51.887 41.588 37.786A22.926 22.926 0 0 0 46.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 0 0 .083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z"
+                                                    fill="#9999" opacity="1" data-original="#000000" class="">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <div class="option-tab g-4 position-relative mt-2">
+                                        <ng-container *ngIf="filteredAttributes.length == 0">
+                                            <h4 style="justify-self: center;">No Data Found</h4>
+                                        </ng-container>
+                                        <ng-container *ngFor="let attribute of filteredAttributes">
+                                            <div class="option-bg-tab" (click)="onAttributeSelect(attribute)">
+                                                <h4>{{ attribute.payrollAttributeName }}</h4>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <h3>Operations</h3>
+                                <div class="icon-color mt-3">
+                                    <div class="row g-2">
+                                        <div class="col-4" *ngFor="let operator of operators">
+                                            <div class="bg-white px-3 py-2 rounded icn-box"
+                                                (click)="onOperatorSelect(operator)">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <ng-container [ngSwitch]="operator">
+                                                        <svg *ngSwitchCase="'+'" xmlns="http://www.w3.org/2000/svg"
+                                                            version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                            width="10px" height="10px" x="0" y="0"
+                                                            viewBox="0 0 426.667 426.667"
+                                                            style="enable-background:new 0 0 512 512"
+                                                            xml:space="preserve">
+                                                            <g>
+                                                                <path
+                                                                    d="M405.332 192H234.668V21.332C234.668 9.559 225.109 0 213.332 0 201.559 0 192 9.559 192 21.332V192H21.332C9.559 192 0 201.559 0 213.332c0 11.777 9.559 21.336 21.332 21.336H192v170.664c0 11.777 9.559 21.336 21.332 21.336 11.777 0 21.336-9.559 21.336-21.336V234.668h170.664c11.777 0 21.336-9.559 21.336-21.336 0-11.773-9.559-21.332-21.336-21.332zm0 0"
+                                                                    fill="currentColor" opacity="1"
+                                                                    data-original="#000000"></path>
+                                                            </g>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'-'" xmlns="http://www.w3.org/2000/svg"
+                                                            version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                            width="10px" height="10px" x="0" y="0"
+                                                            viewBox="0 0 121.805 121.804"
+                                                            style="enable-background:new 0 0 512 512"
+                                                            xml:space="preserve" class="">
+                                                            <g>
+                                                                <path
+                                                                    d="M7.308 68.211h107.188a7.309 7.309 0 0 0 7.309-7.31 7.308 7.308 0 0 0-7.309-7.309H7.308a7.31 7.31 0 0 0 0 14.619z"
+                                                                    fill="currentColor" opacity="1"
+                                                                    data-original="#000000" class=""></path>
+                                                            </g>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'*'" xmlns="http://www.w3.org/2000/svg"
+                                                            version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                            width="10px" height="10px" x="0" y="0" viewBox="0 0 512 512"
+                                                            style="enable-background:new 0 0 512 512"
+                                                            xml:space="preserve" class="">
+                                                            <g>
+                                                                <path
+                                                                    d="M461.231 322.529 345.999 256l115.232-66.529c21.523-12.426 28.897-39.947 16.471-61.471-12.426-21.522-39.946-28.899-61.471-16.471L301 178.058V45c0-24.853-20.147-45-45-45s-45 20.147-45 45v133.058L95.769 111.529C74.243 99.102 46.723 106.477 34.297 128s-5.052 49.045 16.471 61.471L166.001 256 50.769 322.529C29.246 334.955 21.871 362.477 34.297 384c8.335 14.438 23.46 22.508 39.013 22.508a44.79 44.79 0 0 0 22.458-6.037L211 333.942V467c0 24.853 20.147 45 45 45s45-20.147 45-45V333.942l115.231 66.529a44.788 44.788 0 0 0 22.458 6.037c15.552 0 30.679-8.072 39.013-22.508 12.427-21.523 5.052-49.045-16.471-61.471z"
+                                                                    fill="currentColor" opacity=" 1"
+                                                                    data-original="#000000" class=""></path>
+                                                            </g>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'/'" xmlns="http://www.w3.org/2000/svg"
+                                                            version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                            width="512" height="512" x="0" y="0"
+                                                            viewBox="0 0 113.28 113.281"
+                                                            style="enable-background:new 0 0 512 512"
+                                                            xml:space="preserve" class="">
+                                                            <g>
+                                                                <path
+                                                                    d="m80.872 3.471-60.903 98.662a7.305 7.305 0 0 0 2.38 10.057 7.3 7.3 0 0 0 10.059-2.38l60.903-98.663A7.304 7.304 0 0 0 90.93 1.091a7.308 7.308 0 0 0-10.058 2.38z"
+                                                                    fill="currentColor" opacity=" 1"
+                                                                    data-original="#000000" class=""></path>
+                                                            </g>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'%'" xmlns="http://www.w3.org/2000/svg"
+                                                            version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                            width="10px" height="10px" x="0" y="0" viewBox="0 0 512 512"
+                                                            style="enable-background:new 0 0 512 512"
+                                                            xml:space="preserve" class="hovered-paths">
+                                                            <g>
+                                                                <path
+                                                                    d="M105.751 245.339a105.667 105.667 0 1 0-74.776-30.923 105.44 105.44 0 0 0 74.776 30.923zM76.229 110.117A41.749 41.749 0 1 1 64 139.639a41.473 41.473 0 0 1 12.229-29.522zM406.25 266.611a105.752 105.752 0 1 0 74.776 30.974 105.052 105.052 0 0 0-74.776-30.974zm29.521 135.272a41.75 41.75 0 0 1-59.043-59.043 41.75 41.75 0 1 1 59.042 59.044zm32.968-358.622a32 32 0 0 1 0 45.255L88.517 468.739a32 32 0 0 1-45.254-45.255L423.485 43.261a32 32 0 0 1 45.254 0z"
+                                                                    fill="currentColor" opacity="1"
+                                                                    data-original="#000000" class="hovered-path">
+                                                                </path>
+                                                            </g>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'√'" width="22.75px" height="17px"
+                                                            viewBox="0 0 24 24" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M13.6191 3C11.3776 5.33579 10 8.50702 10 12C10 15.493 11.3776 18.6642 13.6191 21"
+                                                                stroke="#013366" stroke-width="2"
+                                                                stroke-linecap="round"></path>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="'∛'" width="22.75px" height="19px"
+                                                            viewBox="0 0 24 24" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
+                                                            <path
+                                                                d="M13.6191 3C11.3776 5.33579 10 8.50702 10 12C10 15.493 11.3776 18.6642 13.6191 21"
+                                                                stroke="#013366" stroke-width="2"
+                                                                stroke-linecap="round"></path>
+                                                        </svg>
+                                                        <svg *ngSwitchCase="','" width="22.75px" height="14px"
+                                                            class="comma" viewBox="0 0 24 24" fill="currentColor"
+                                                            id="Layer_1" data-name="Layer 1"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 90.51 122.88">
+                                                            <title>comma</title>
+                                                            <path
+                                                                d="M46.94,0c18.2-.34,35.67,10.56,41.59,33.31,8.5,32.65-11.38,78-41,89.56H22.58c9.22-10.58,38.62-38.4,34.18-53.4-6.91,7.94-17,11-26.76,9.84C-19.27,73.68-3.79.94,46.94,0Z" />
+                                                        </svg>
+
+                                                        <svg *ngSwitchCase="'IF'" fill="currentColor"
+                                                            style="vertical-align: middle; overflow: hidden;"
+                                                            width="1024" height="1024" viewBox="0 0 1024 1024"
+                                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M888.725 102.029C885.717 131.597 842.453 128.525 830.997 128.525C761.173 128.525 685.333 92.3008 644.629 241.485L625.621 335.053H721.749C739.349 335.053 753.749 349.389 753.749 367.053C753.749 384.717 739.349 399.053 721.749 399.053H611.989L525.589 823.437C525.589 823.437 517.269 891.661 475.349 889.037C427.349 886.029 449.365 817.741 449.365 817.741L534.997 399.053H468.949C452.245 399.053 438.933 386.189 437.525 369.805C438.933 339.853 452.245 335.053 468.949 335.053H548.757L568.789 239.565C582.997 171.917 612.309 115.085 663.381 82.0608C714.389 49.0368 798.357 55.0528 838.485 59.5968C855.381 61.5168 892.501 64.9728 888.725 102.029ZM372.821 369.677C376.661 352.333 365.781 335.373 348.437 331.533C331.157 327.693 314.133 338.637 310.293 355.917L201.365 845.773C197.717 862.093 199.701 876.173 228.565 883.981C244.885 886.093 260.373 875.853 263.893 859.597L372.821 369.677ZM436.949 374.413C436.949 372.493 437.397 371.533 437.525 369.805C437.333 368.845 436.949 368.013 436.949 367.053V374.413ZM375.317 164.749C348.821 164.749 327.317 186.253 327.317 212.749C327.317 239.245 348.821 260.749 375.317 260.749C401.941 260.749 423.317 239.245 423.317 212.749C423.317 186.253 401.941 164.749 375.317 164.749Z"
+                                                                fill="currentColor" />
+                                                        </svg>
+
+                                                        <div *ngSwitchCase="'('">
+                                                            <span class="operator-bracket">(</span>
+                                                        </div>
+                                                        <div *ngSwitchCase="')'">
+                                                            <span class="operator-bracket">)</span>
+                                                        </div>
+                                                        <div *ngSwitchDefault>
+                                                            <span class="oprator-ex">{{ operator }}</span>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 mt-lg-3">
+                                        <div class="input-box">
+                                            <input type="text" class="form-control border-0" placeholder="Fix Value"
+                                                [(ngModel)]="formulaDefualtValue" name="defaultValue">
+                                            <span class="add-btn" (click)="addDefualtValue()">ADD</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer popup-footer d-flex">
+                <button type="submit" class="btn btn-cancel p-footerbtns"
+                    (click)="attributemodel?.hide()">Cancel</button>
+                <button type="submit" class="btn btn-save p-footerbtns" (click)="createFormula()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #CloneAttributeModel="bs-modal" class="modal center-modal fade bd-example-modal-lg mt-2 clone-model"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg popup-design">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2 " id="exampleModalLabel">Clone Attribute</h5>
+                <span class="d-block" (click)="closeCloneModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+
+            <div class="modal-body bg-white pt-4 pb-2 copy-model">
+                <div class="row align-items-baseline pb-3 bg-white">
+                    <div class="col">
+                        <div class="filter-menu d-flex flex-wrap">
+                            <label class="mb-2">From Project</label>
+                            <ng-select [items]="filteredProjectDropdownData" bindLabel="name" bindValue="id"
+                                [(ngModel)]="selectedProject" placeholder="Search or Select a Project" class="w-100"
+                                (change)="onProjectChange($event)">
+                            </ng-select>
+                            <div
+                                class="submenu-btn gap-3 d-flex mt-2 bg-white position-sticky bottom-0 bg-white pb-3 pt-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="filter-menu d-flex flex-wrap">
+                            <label class="mb-2">To Project</label>
+                            <ng-select [items]="projectDropdownData" bindLabel="name" bindValue="id"
+                                placeholder="To Project" class="w-100" [(ngModel)]="projectRowData.id" disabled>
+                            </ng-select>
+                            <div
+                                class="submenu-btn gap-3 d-flex mt-2 bg-white position-sticky bottom-0 bg-white pb-3 pt-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3 align-self-center">
+                        <div class="form-check form-switch p-0 d-flex flex-wrap">
+                            <label class="mb-2 w-100">Overwrite Attribute</label>
+                            <div class="d-flex  gx-4 align-items-center flex-row flex-wrap">
+                                <label class="switch mt-1">
+                                    <input type="checkbox" [(ngModel)]="allowOverWrite" name="allowOverride">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-scroll">
+                    <div class="col-12 p-0" *appIsGranted="'Read'">
+                        <div class="accordion" id="accordionExample1" *ngIf="cloneGroupedArray.length > 0">
+                            <div class="accordion-item payroll-card overflow-hidden mt-2"
+                                *ngFor="let item of cloneGroupedArray; let i = index">
+                                <div class="d-flex   w-100">
+                                    <!-- <div class="py-1 px-2 border-bottom ">
+                                        <ng-container>
+                                            <mat-checkbox class="example-margin" [checked]="item.isSelected"
+                                                (change)="onGroupCheckBoxChange($event,i,item)" />
+                                        </ng-container>
+                                    </div> -->
+                                    <h2 class="accordion-header fw-medium w-100" [id]="'heading1' + i">
+                                        <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                                            [attr.data-bs-target]="'#collapse1' + i"
+                                            [attr.aria-controls]="'collapse1' + i"
+                                            [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                                            [class.collapsed]="i !== 0">
+                                            {{ item.groupName }}
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div [id]="'collapse1' + i" class="accordion-collapse w-100 collapse"
+                                    [class.show]="i === 0" [attr.aria-labelledby]="'heading1' + i"
+                                    data-bs-parent="#accordionExample1">
+                                    <div class="accordion-body pt-1">
+                                        <div class="payroll-inner mt-3">
+                                            <div class="innercard-table  table-width overflow-hidden">
+                                                <div style="border-radius: 6px 6px 0px 0px;">
+                                                    <div class="bg-sky w-100">
+                                                        <div class="row flex-nowrap p-0">
+
+                                                            <!-- <div class="word-wrap" style="width: 5%;">
+                                                                <div class="py-1 px-2">
+                                                                    <ng-container>
+
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div> -->
+                                                            <div class="word-wrap" style="width:10%;">
+                                                                <div class="fw-medium py-3 text-dark px-4">Sequence
+                                                                </div>
+                                                            </div>
+                                                            <div class="word-wrap" style="width: 30%;">
+                                                                <div class="fw-medium py-3 text-dark px-4">Attribute
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center word-wrap" style="width: 20%;">
+                                                                <div class="fw-medium py-3 text-dark px-4">
+                                                                    Calculated Value
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center word-wrap" style="width: 20%;">
+                                                                <div class="fw-medium py-3 text-dark px-4">Default
+                                                                    Value
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center word-wrap" style="width: 20%;">
+                                                                <div class="fw-medium py-3 text-dark px-4">Allow
+                                                                    Override
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="row"
+                                                            *ngFor="let subItem of item.items; let j = index">
+                                                            <!-- <div class="word-wrap border-bottom" style="width: 5%;">
+                                                                <div class="py-1 px-2">
+                                                                    <ng-container>
+                                                                        <mat-checkbox class="example-margin"
+                                                                            [checked]="subItem.isSelected"
+                                                                            (change)="onItemCheckBoxChange($event,j,item)" />
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div> -->
+                                                            <div class="border-bottom"
+                                                                style="width: 10%; padding-top:12px; padding-bottom: 12px;">
+                                                                <div class="px-4">{{
+                                                                    subItem.sequence }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-bottom"
+                                                                style="width: 30%; padding-top:12px; padding-bottom: 12px;">
+                                                                <div class="px-4">
+                                                                    {{ subItem.payrollAttributeName }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-bottom text-center"
+                                                                style="width: 20%; padding-top:12px; padding-bottom: 12px;">
+                                                                <!-- <div class="px-4">
+                                                                    {{subItem.isCalculated}}
+                                                                </div> -->
+                                                                <div class="px-4" *ngIf="subItem.isCalculated">
+                                                                    <icon-right-sign></icon-right-sign>
+                                                                </div>
+                                                                <div class="px-4" *ngIf="!subItem.isCalculated">
+                                                                    <icon-close></icon-close>
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-bottom text-center"
+                                                                style="width: 20%; padding-top:12px; padding-bottom: 12px;">
+                                                                <div class="px-4">
+                                                                    {{subItem.defaultValue}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-bottom text-center"
+                                                                style="width: 20%; padding-top:12px; padding-bottom: 12px;">
+                                                                <!-- <div class="px-4">
+                                                                    {{subItem.allowOverride}}
+                                                                </div> -->
+                                                                <div class="px-4" *ngIf="subItem.allowOverride">
+                                                                    <icon-right-sign></icon-right-sign>
+                                                                </div>
+                                                                <div class="px-4" *ngIf="!subItem.allowOverride">
+                                                                    <icon-close></icon-close>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="coming-soon d-flex justify-content-center align-items-center w-100 flex-wrap"
+                            *ngIf="cloneGroupedArray.length === 0">
+                            <div>
+                                <lottie-player src="../../../../../../assets/image/animationNo_data.json"
+                                    background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                                    autoplay>
+                                </lottie-player>
+                                <p class="d-block w-100 text-center font-medium h5 text-secondary">No Data Found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer popup-footer d-flex">
+                <button type="submit" class="btn btn-cancel p-footerbtns" (click)="closeCloneModel()">Cancel</button>
+                <button type="submit" class="btn btn-save p-footerbtns" (click)="CloneProjectAttribute()">Clone</button>
+            </div>
+        </div>
+    </div>
+</div>

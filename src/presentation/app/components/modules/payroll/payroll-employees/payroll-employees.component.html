@@ -1,0 +1,62 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-4">
+            <div class="col-12">
+                <!-- Breadcrumbs -->
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="row m-4 my-3 employee-infos p-4">
+            <div class="col-lg-3 col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                    <mat-label>All Employee</mat-label>
+                    <mat-select>
+                        <mat-option value="1">Employee 1
+                        </mat-option>
+                        <mat-option value="1">Employee 2
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-4">
+            <div class="col p-0 m-0">
+                <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                    [title]="'Payroll Employees'" (edit)="onEdit($any($event))" (delete)="onDelete($any($event))"
+                    (pageNumber)="onPageChange($any($event))" (insert)="onInsert()">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #payrollEmpmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Payroll Name-2018</h5>
+                <span class="d-block" (click)="payrollEmpmodal?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form>
+                <div class="modal-body bg-white pt-4 pb-0">
+                    <div class="w-100 mb-3 pb-2">
+                        <div class="modal-body bg-white p-0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Description</mat-label>
+                                <textarea matInput name="description" [rows]="5"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer popup-footer d-flex">
+                    <button type="submit" class="btn btn-cancel p-footerbtns">Rejected</button>
+                    <button type="submit" class="btn btn-save p-footerbtns">Approve</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

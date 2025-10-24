@@ -1,0 +1,555 @@
+<div class="master-content">
+  <div class="container-fluid p-0">
+    <div class="row m-3 mb-0">
+      <div class="col-12 d-flex justify-content-between">
+        <app-breadcrumb></app-breadcrumb>
+      </div>
+    </div>
+    <!-- <div class="card mx-4">
+            <div class="row m-0 p-0 gy-4 gy-md-0">
+
+                <div class="col-md-1 col-12 ps-0 cart-design gy-3" *ngFor="let status of candidateStatus">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)"
+                        [ngStyle]="{'border-color' : selectedStatus.name === status.name ? status.colorCode : '#E5F8F7' }">
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="align-self-center card-item card-icon1" *ngIf="status.name === 'Total Records'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5"
+                                        d="M21.001 12A9 9 0 0 1 12 21a9.001 9.001 0 1 1 0-18m8.554.469L14.99 9.01m5.564-5.541c-.495-.495-3.832-.45-4.537-.44m4.537.44c.495.495.449 3.83.439 4.536"
+                                        color="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon1" *ngIf="status.name === 'Applied'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+                                    <g fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M7 3.207V5h1V3.207l2.647 2.647l.707-.708l-3.5-3.5h-.707l-3.5 3.5l.707.708z"
+                                            clip-rule="evenodd" />
+                                        <path
+                                            d="m1.5 9l-.5.5v5l.5.5h12l.5-.5v-5l-.5-.5H9.95a2.5 2.5 0 0 1-4.9 0zm9.163 1H13v4H2v-4h2.337a3.5 3.5 0 0 0 6.326 0M7 6h1v1H7zm0 2h1v1H7z" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon2"
+                                *ngIf="status.name === 'Candidate Offer Accept'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+                                    <path fill="currentColor"
+                                        d="M21 30a8 8 0 1 1 8-8a8 8 0 0 1-8 8m0-14a6 6 0 1 0 6 6a6 6 0 0 0-6-6" />
+                                    <path fill="currentColor" d="M22.59 25L20 22.41V18h2v3.59l2 2z" />
+                                    <path fill="currentColor"
+                                        d="M28 6a2 2 0 0 0-2-2h-4V2h-2v2h-8V2h-2v2H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h4v-2H6V6h4v2h2V6h8v2h2V6h4v6h2Z" />
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon3 "
+                                *ngIf="status.name === 'Onbaording Completed'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M4 7c0-1.886 0-2.828.586-3.414S6.114 3 8 3h8c1.886 0 2.828 0 3.414.586S20 5.114 20 7v8c0 2.828 0 4.243-.879 5.121C18.243 21 16.828 21 14 21h-4c-2.828 0-4.243 0-5.121-.879C4 19.243 4 17.828 4 15z" />
+                                        <path stroke-linecap="round" d="M15 18v3m-6-3v3M9 8h6m-6 4h6" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon4" *ngIf="status.name === 'Hr Rejected'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="m21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42M13 20.01L4 11V4h7v-.01l9 9z" />
+                                    <circle cx="6.5" cy="6.5" r="1.5" fill="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon4" *ngIf="status.name === 'HR Offer Sent'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1.5" color="currentColor">
+                                        <path
+                                            d="m5 7l-1.218.813c-.874.582-1.311.873-1.548 1.317c-.237.445-.235.967-.231 2.01c.004 1.258.016 2.538.048 3.834c.077 3.075.115 4.612 1.246 5.742c1.13 1.13 2.688 1.17 5.804 1.248a116 116 0 0 0 5.799 0c3.116-.078 4.674-.117 5.804-1.248c1.13-1.13 1.169-2.667 1.246-5.742c.032-1.296.044-2.576.048-3.833c.003-1.044.005-1.566-.232-2.01c-.236-.445-.673-.736-1.547-1.318L19 7" />
+                                        <path
+                                            d="m2 10l6.913 4.148C10.417 15.05 11.169 15.5 12 15.5s1.583-.45 3.087-1.353L22 10" />
+                                        <path
+                                            d="M5 12V6c0-1.886 0-2.828.586-3.414S7.114 2 9 2h6c1.886 0 2.828 0 3.414.586S19 4.114 19 6v6m-9-2h4m-4-4h4" />
+                                    </g>
+                                </svg>
+
+                            </div>
+                            <div class="left-card-side card-icon1 text-end">
+                                <p class="mb-2 card-title">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <div class="row p-0 m-0" *appIsGranted="'Read'">
+      <div class="col p-0 m-0 fix-height">
+        <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [exportVisibility]="true"
+          [dropdownList]="dropdownList" [title]="title" (edit)="onEdit($any($event))" (delete)="onDelete($any($event))"
+          [isBulkOfferSentVisible]="true" (insert)="insert()" (pageNumber)="onPageChange($event)"
+          [isBreadCurmbsShow]="false" [isDropdownFilter]="true" (onDorpdownChange)="ondropdownChanges($event)"
+          [dropdownFilterList]="candidateStatus" (recodeValueChange)="onTotalProjectPerPageValueChange($event)"
+          (searchTearm)="onSearch($event)" (onDorpdownFilterChange)="onStatusCardClick($event)"
+          (orderBy)="orderBy($event)" [isVisibleDisplayedColoum]="false" (export)="export()"
+          (onBulkOfferSentData)="onBulkOfferSentData($event)"></tg-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #bulkOfferSentModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  [config]="{ backdrop: 'static' }" aria-hidden="true">
+  <div class="modal-dialog popup-design">
+    <div class="modal-content px-4">
+      <div class="modal-header popup-header justify-content-between d-flex">
+        <h5 class="modal-title pt-2" id="exampleModalLabel">Offer Send</h5>
+        <span class="d-block" (click)="bulkOfferSentModel?.hide()">
+          <icon-ModalClose></icon-ModalClose>
+        </span>
+      </div>
+      <form [formGroup]="bulkOfferSentForm" (ngSubmit)="onBulkOfferSent()">
+        <div class="modal-body bg-white pt-4 pb-3">
+          <div class="w-100 mb-0">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>CTC</mat-label>
+              <input matInput placeholder="CTC" formControlName="ctc" required type="number" />
+            </mat-form-field>
+          </div>
+          <!-- <div class="w-100 mb-3 pb-2">
+            <mat-form-field
+              appearance="outline"
+              class="w-100 custom-mat-form-field"
+            >
+              <mat-label>Candidate Email</mat-label>
+              <input
+                matInput
+                placeholder="Candidate Email"
+                formControlName="email"
+                [disabled]="true"
+              />
+            </mat-form-field>
+          </div> -->
+        </div>
+        <div class="modal-footer popup-footer d-flex">
+          <button type="submit" class="btn btn-save p-footerbtns">
+            <!-- [disabled]="offerSentForm.invalid" -->
+            Send
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #hroffersentModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  [config]="{ backdrop: 'static' }" aria-hidden="true">
+  <div class="modal-dialog popup-design right-sidebar-panel modal-xl offersend-model">
+    <div class="modal-content px-4">
+      <div class="modal-header popup-header justify-content-between d-flex">
+        <h5 class="modal-title pt-2" id="exampleModalLabel">Offer Send to {{ changeRowData.name }}</h5>
+        <span class="d-block" (click)="closeOfferSendModel()">
+          <icon-ModalClose></icon-ModalClose>
+        </span>
+      </div>
+      <form [formGroup]="offerSentForm">
+        <div class="modal-body bg-white pt-4 pb-0">
+          <div class="table-offersend">
+            <table class="table table-bordered ">
+              <thead>
+                <tr>
+                  <th><b>Salary Components</b></th>
+                  <th><b>Monthly (in INR)</b></th>
+                  <th><b>Annually (in INR)</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Basic Salary</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter basic salary amount " type="number"
+                        formControlName="basicSalaryMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Basic Salary " type="number" formControlName="basicSalaryYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>HRA</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter HRA amount " type="number" formControlName="hraMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="HRA " type="number" formControlName="hraYearly" readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Conveyance Allowance</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter conveyance allowance" type="number"
+                        formControlName="conveyanceAllowanceMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Conveyance Allowance " type="number"
+                        formControlName="conveyanceAllowanceYearly" readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Gross Salary</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter gross salary" type="number"
+                        formControlName="grossSalaryMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Gross Salary " type="number" formControlName="grossSalaryYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Employer PF 13%</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter employer PF (13%)" type="number"
+                        formControlName="employerPFMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Employer PF 13% " type="number" formControlName="employerPFYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Employer ESIC 3.25%</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter employer ESIC (3.25%)" type="number"
+                        formControlName="employerESICMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Employer ESIC 3.25% " type="number"
+                        formControlName="employerESICYearly" readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Employee PF 12%</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter employee PF (12%)" type="number"
+                        formControlName="employeePFMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Employee PF 12% " type="number" formControlName="employeePFYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Employee ESIC 0.75%</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter employee ESIC (0.75%)" type="number"
+                        formControlName="employeeESICMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Employee ESIC 0.75% " type="number"
+                        formControlName="employeeESICYearly" readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Medical Insurance</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter medical insurance amount" type="number"
+                        formControlName="medicalInsuranceMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Medical Insurance " type="number"
+                        formControlName="medicalInsuranceYearly" readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Net In Hand</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter net salary in hand" type="number"
+                        formControlName="netInHandMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Net In Hand " type="number" formControlName="netInHandYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Cost to Company (CTC)</td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Enter total CTC" type="number"
+                        formControlName="totalCostCompanyMonthly" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input matInput placeholder="Total CTC " type="number" formControlName="totalCostCompanyYearly"
+                        readonly />
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer popup-footer d-flex">
+          <button type="submit" class="btn btn-save p-footerbtns" *ngIf="candidateSalaryBreakdown.length > 0"
+            [disabled]="offerSentForm.invalid" (click)="onOfferSent(changeRowData)">Submit</button>
+          <button type="submit" class="btn btn-save p-footerbtns" *ngIf="candidateSalaryBreakdown.length > 0"
+            (click)="deleteCandidateSalaryBreakdown()">Delete</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #offerLetterResultModal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  [config]="{ backdrop: 'static' }" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered popup-design">
+    <div class="modal-content">
+      <div class="modal-header popup-header ">
+        <h5 class="modal-title">Offer Letter Viewer</h5>
+      </div>
+      <div class="modal-body text-center">
+        <iframe [src]="generatedOfferLetterPath | safeUrl " width="100%" height="500px"></iframe>
+        <div class="d-flex justify-content-end gap-3 header-buttons">
+          <button class="header-btn btn-cancel" (click)="sendOffer()">Send</button>
+          <button class="header-btn btn-save" (click)="deleteCandidateSalaryBreakdown()">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #offerstatusModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  [config]="{ backdrop: 'static' }" aria-hidden="true">
+  <div class="modal-dialog popup-design">
+    <div class="modal-content px-4">
+      <div class="modal-header popup-header justify-content-between d-flex">
+        <h5 class="modal-title" id="exampleModalLabel">Offer for {{ changeRowData.name }}</h5>
+        <span class="d-block" (click)="offerstatusModel?.hide()">
+          <icon-ModalClose></icon-ModalClose>
+        </span>
+      </div>
+      <form [formGroup]="offerStatusForm">
+        <div class="modal-body bg-white pt-4 pb-0">
+          <div class="w-100 mb-3">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>Offered CTC</mat-label>
+              <input matInput placeholder=" OfferedCTC" formControlName="offeredCTC" required type="number" />
+            </mat-form-field>
+          </div>
+          <div class="w-100 mb-3">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>Accepted CTC</mat-label>
+              <input matInput placeholder="Accepted CTC" formControlName="ctc" required type="number" />
+            </mat-form-field>
+          </div>
+          <div class="w-100 mb-3">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>Comment</mat-label>
+              <input matInput placeholder="Comment" formControlName="comments" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="modal-footer popup-footer d-flex">
+          <button class="btn btn-save p-footerbtns" [disabled]="offerStatusForm.invalid" *ngIf="newStatus === 115"
+            (click)="offerStatus('Accept')">Accept</button>
+          <button class="btn btn-save p-footerbtns" [disabled]="offerStatusForm.invalid" *ngIf="newStatus === 116"
+            (click)="offerStatus('Reject')">Reject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #onboardingStartedModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+  [config]="{ backdrop: 'static' }" aria-hidden="true">
+  <div class="modal-dialog popup-design">
+    <div class="modal-content px-4">
+      <div class="modal-header popup-header justify-content-between d-flex">
+        <h5 class="modal-title pt-2" id="exampleModalLabel">Onboard link for {{ changeRowData.name }}</h5>
+        <span class="d-block" (click)="onboardingStartedModel?.hide()">
+          <icon-ModalClose></icon-ModalClose>
+        </span>
+      </div>
+      <form [formGroup]="onboardingStartedForm">
+        <div class="modal-body bg-white pt-4 pb-0">
+          <div class="w-100 mb-3">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>Date of Joining</mat-label>
+              <input matInput [matDatepicker]="picker" placeholder="Select DOJ" formControlName="doj" required />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="w-100 mb-3">
+            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+              <mat-label>Comments</mat-label>
+              <input matInput placeholder="Enter Comments" formControlName="comments" />
+            </mat-form-field>
+          </div>
+          <!-- <div class="w-100 mb-3 pb-2">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field" >
+                            <mat-label>Hiring Manager ID</mat-label>
+                            <input matInput placeholder="Enter Hiring Manager ID" formControlName="hiringManagerId" required>                    
+                        </mat-form-field>
+                    </div> -->
+        </div>
+        <div class="modal-footer popup-footer d-flex">
+          <button class="btn btn-save p-footerbtns" [disabled]="onboardingStartedForm.invalid"
+            (click)="sendOnboardLink()">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal follow up -->
+<!-- <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+    Follow Up    
+</a>
+  
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="modal-title pt-2" id="exampleModalLabel">Follow Up</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="card-design">
+            <div class="card-body">
+                <div class="col-12">
+                    <div class="row gy-2">
+                        <div class="col-6 select-details">
+                            <h4>Name</h4>
+                            <p>Baben</p>
+                        </div>
+                        <div class="col-6">
+                            <h4>Mobile Number</h4>
+                            <p>99658 54886</p>
+                        </div>
+                        <div class="col-6">
+                            <h4>Email</h4>
+                            <p>teamopinegmail.com</p>
+                        </div>
+                        <div class="col-6">
+                            <h4>Status</h4>
+                            <p>Selected</p>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+          </div>
+        <form #codeTypeForm="ngForm">
+            <div class="modal-body bg-white pt-4 pb-3">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Start Date</mat-label>
+                            <input matInput [matDatepicker]="startdate" name="startDate" required />
+                            <mat-datepicker-toggle matIconSuffix
+                                [for]="startdate"></mat-datepicker-toggle>
+                            <mat-datepicker #startdate></mat-datepicker>
+                            <mat-error>
+                                Start Date is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Min</mat-label>
+                                    <input type="number" matInput name="Min" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Second</mat-label>
+                                    <input type="number" matInput name="Min" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="checkbox" name="deductable" class="me-2">
+                                <span>Next Follow Up Date</span>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                    <mat-label>Follow Up Time</mat-label>
+                                    <input matInput [matDatepicker]="startdate" name="startDate" required />
+                                    <mat-datepicker-toggle matIconSuffix
+                                        [for]="startdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #startdate></mat-datepicker>
+                                    <mat-error>
+                                        Start Date is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Comment</mat-label>
+                            <textarea matInput name="description" [rows]="5"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer popup-footer d-flex">
+                <button type="submit" class="btn btn-save p-footerbtns">Save</button>
+            </div>
+        </form>
+    </div>
+  </div> -->

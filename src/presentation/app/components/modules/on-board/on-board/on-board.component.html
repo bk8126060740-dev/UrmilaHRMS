@@ -1,0 +1,139 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-3 mb-0">
+            <div class="col-12">
+                <!-- Breadcrumbs -->
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <!-- <div class="card mx-4">
+            <div class="row m-0 p-0 gy-3 gy-lg-0">
+                <div class="col-md col-12 ps-0 cart-design" *ngFor="let status of onBoardStatus">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)"
+                        [ngStyle]="{'border-color' : selectedStatus.name === status.name ? status.colorCode : '#E5F8F7' }">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="align-self-center card-item card-icon1" *ngIf="status.name === 'Total Records'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5"
+                                        d="M21.001 12A9 9 0 0 1 12 21a9.001 9.001 0 1 1 0-18m8.554.469L14.99 9.01m5.564-5.541c-.495-.495-3.832-.45-4.537-.44m4.537.44c.495.495.449 3.83.439 4.536"
+                                        color="currentColor" />
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon1" *ngIf="status.name === 'Completed'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg width="64px" height="64px" viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                    </g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path fill="currentColor"
+                                            d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon2" *ngIf="status.name === 'InProgress'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                    </g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V12.5L14 14.5M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="align-self-center card-item card-icon3 " *ngIf="status.name === 'OnHold'"
+                                [ngStyle]="{'background-color': status.colorCode}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 28 28">
+                                    <path fill="currentColor"
+                                        d="M6.75 3A2.75 2.75 0 0 0 4 5.75v16.5A2.75 2.75 0 0 0 6.75 25h3a2.75 2.75 0 0 0 2.75-2.75V5.75A2.75 2.75 0 0 0 9.75 3zm11.5 0a2.75 2.75 0 0 0-2.75 2.75v16.5A2.75 2.75 0 0 0 18.25 25h3A2.75 2.75 0 0 0 24 22.25V5.75A2.75 2.75 0 0 0 21.25 3z" />
+                                </svg>
+                            </div>
+
+                            <div class="left-card-side card-icon1 text-end">
+                                <p class="mb-2">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row m-0 p-0 fix-height" *appIsGranted="'Read'">
+            <div class="col p-0 m-0">
+                <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [isAction]="false"
+                    [isBulkUpload]="true" [exportVisibility]="true" [title]="'Bulk Upload'" (edit)="onEdit($any($event))"
+                    (delete)="onDelete($any($event))" (recodeValueChange)="onTotalProjectPerPageValueChange($event)"
+                    [filterData]="filterData" (searchTearm)="onSearch($event)" (orderBy)="orderBy($event)"
+                    (insert)="onInsert()" (pageNumber)="onPageChange($event)" (buttonClick)="fileDownload($event)"
+                    (bulkUpload)="onBulkUpload()" [isVisibleDisplayedColoum]="false" [isInsertButton]="false"
+                    [isRefreshButton]="true" (refreshButton)="refreshPage()">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #AddOnBoardModel="bs-modal" class="modal fade " [config]="{backdrop: 'static'}" id="AddOnBoardModel"
+    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Bulk Upload</h5>
+                <span class="d-block" (click)="addOnBoardModel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+
+            <div class="modal-body py-4">
+                <form #holidayForm="ngForm" #formDirective="ngForm">
+                    <div class="download-files d-flex mb-3 cursor justify-content-center"
+                        (click)="fileDownload('https://urmilaemsblobstorage.blob.core.windows.net/nirghosh-ems-docs-pub-dev/Employee_on_board_sample.xlsx')">
+
+                        <p>Download Files</p>
+                    </div>
+                    <div class="cursor" *ngIf="!files.length" appDrag (files)="filesDropped($event)"
+                        (fileSizeError)="handleFileSizeErrors($event)" (click)="triggerProfileFileInput(fileInput)">
+                        <div
+                            class="input-group choose-file dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center">
+                            <div class="browse-icn w-100 text-center mb-2">
+                                <icon-BrowsFile></icon-BrowsFile>
+                            </div>
+
+                            <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                            <span class="w-100 text-center mb-1">OR</span>
+                            <button class="browse-btn">Browse File</button>
+                            <input type="file" #fileInput style="display: none;" accept=".xlsx" name="profilePicPath"
+                                (change)="onDocumentFileSelected($event)" />
+                        </div>
+                    </div>
+                    <div class="file-info mt-2" *ngFor="let file of files">
+                        <!-- Display the file icon based on the file type with margin for spacing -->
+                        <i *ngIf="file.name.endsWith('.xls') || file.name.endsWith('.xlsx')"
+                            class="fas fa-file-excel me-2" style="color: #FA6060;"></i>
+                        <span class="file-name">{{ file.name }}</span>
+                        <button type="button" class="btn btn-close" (click)="removeFile()"></button>
+                    </div>
+                    <mat-form-field appearance="outline" class="w-100  mb-3 mt-3">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput name="Description" rows="5" [(ngModel)]="description"></textarea>
+                    </mat-form-field>
+                    <div class="modal-footer popup-footer px-0 d-flex">
+                        <button type="submit" class="btn btn-save mx-0 p-footerbtns"
+                            (click)="UploadFile()">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

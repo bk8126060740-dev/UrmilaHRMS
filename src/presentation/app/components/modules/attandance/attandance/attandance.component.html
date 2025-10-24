@@ -1,0 +1,328 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row mx-0 mt-3 mx-md-4 my-md-3 mb-0">
+            <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2 px-0 px-md-2">
+                <app-breadcrumb></app-breadcrumb>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="header-btns gap-2 d-flex flex-wrap">
+                        <button type="button" class="header-btn btn-save w-auto"
+                            style="padding-left: 18px !important; padding-right: 18px !important;"
+                            *appIsGranted="'Export'"
+                            (click)="EmployeeAttendancedownloadFile('EmployeeAttendanceTemplate.xlsx')">
+                            <icon-TemplateDownload></icon-TemplateDownload>
+                            Template
+                        </button>
+                        <button type="button" class="header-btn btn-save w-auto"
+                            style="padding-left: 18px !important; padding-right: 18px !important;"
+                            (click)="onAddattendanceUpload()" *appIsGranted="'Import'">
+                            <icon-UploadSync></icon-UploadSync>
+                            Upload / Sync
+                        </button>
+                    </div>
+                    <div class="dropdown project-btn project-dropdown year-select">
+                        <ng-select [items]="yearsList" bindLabel="label" bindValue="value" [clearable]="false"
+                            placeholder="Select Year" [(ngModel)]="selectedYear" (change)="onYearChange($event)">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mx-0 mt-0 mt-md-3 mx-md-4">
+            <div class="row m-0 p-0 gy-3 gy-lg-0 gy-xlg-0" *appIsGranted="'Read'">
+                <div class="col-md col-12 ps-0 cart-design" *ngFor="let status of statusWithCounts">
+                    <div class="client-cart" (click)="onStatusCardClick(status,$event)" [ngStyle]="{
+                        'border-color': (selectedStatus && selectedStatus.name === 'Total Records' && status.name === 'Total Records') ? '#4285F4' : 
+                                        (selectedStatus && selectedStatus.name === status.name && status.name !== 'Total Records') ? selectedStatus.colorCode : ''
+                    }">
+                        <div class="d-flex align-items-center justify-content-between main-client-card">
+                            <div class="left-card-side card-icon1">
+                                <p class="mb-2">{{status.name}}</p>
+                                <p class="client-cart-number">{{status.count}}</p>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Total Records'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': '#4285F4'}"></span>
+                                <icon-totalRecords></icon-totalRecords>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': '#4285F4'}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon1 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Running'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Running></icon-Running>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon2 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Failed'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Failed></icon-Failed>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon3 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Pending Approve'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-PendingApprove></icon-PendingApprove>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Approved'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Approved></icon-Approved>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon4 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Rejected'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"></span>
+                                <icon-Reject></icon-Reject>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                            <div class="align-self-center card-item card-icon5 position-relative overflow-hidden"
+                                *ngIf="status.name === 'Pending'">
+                                <span
+                                    class="card-icn-bg card-status-opacity position-absolute top-0 left-0 h-100 w-100 "
+                                    [ngStyle]="{'background-color': status.colorCode}"
+                                    style="background-color: #F9B101;"></span>
+                                <icon-Pending></icon-Pending>
+                                <span class="card-icn-border position-absolute top-0 left-0 h-100 w-100"
+                                    [ngStyle]="{'border-color': status.colorCode}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-0 p-0 mb-4">
+            <div class="col p-0 m-0 borad manage-h" *appIsGranted="'Read'">
+                <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" [recodeCount]="12"
+                    [title]="'Project Attendance'" [exportVisibility]="false" [ispaginationNoOfRecored]="true"
+                    (pageNumber)="onPageChange($event)" (insert)="onInsert()" (orderBy)="orderBy($event)"
+                    [isAction]="false" [isInsertButton]="false" [isVisibleDisplayedColoum]="false"
+                    (recodeValueChange)="onTotalEmployeeAttendanceValueChange($event)" (searchTearm)="onSearch($event)"
+                    (buttonClick)="viewFile($any($event))" (viewClick)="viewRecord($any($event))">
+                </tg-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #codemodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Bulk Upload</h5>
+                <span class="d-block" (click)="codemodel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form>
+                <div class="modal-body bg-white pt-4 pb-3">
+                    <div class="w-100 mb-3 pb-2">
+                        <div
+                            class="input-group choose-file dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center p-4 flex flex-col items-center justify-center w-full h-36 border-2 custom-file-container border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="browse-icn w-100 text-center mb-2">
+                                <icon-BrowsFile></icon-BrowsFile>
+                            </div>
+                            <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                            <span class="w-100 text-center mb-1">OR</span>
+                            <button class="browse-btn">Browse File</button>
+                            <input type="file" class="form-control d-none" id="inputEnumFile" #inputEnumFile>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer popup-footer d-flex">
+                    <button type="submit" class="btn btn-save p-footerbtns">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div bsModal #attendancemodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{ backdrop: 'static' }" aria-hidden="true">
+    <div class="modal-dialog popup-design modal-lg">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Employee Attendance Upload</h5>
+                <span class="d-block" (click)="attendancemodel?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="attendanceForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+
+                <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+                    <div class="col-12 p-0">
+                        <div class="col-lg-12">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Sync Type</mat-label>
+                                <mat-select formControlName="syncType" required>
+                                    <mat-option [value]="'1'">Excel</mat-option>
+                                    <mat-option [value]="'2'">Application</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="cursor"
+                                *ngIf="!files.length && attendanceForm.controls['syncType'].value === '1'" appDrag
+                                (files)="filesDropped($event)" (fileSizeError)="handleFileSizeErrors($event)"
+                                (click)="triggerProfileFileInput(fileInput)">
+                                <div
+                                    class="input-group choose-file dragdrop-file d-flex flex-wrap w-100 flex-wrap justify-content-center">
+                                    <div class="browse-icn w-100 text-center mb-2">
+                                        <icon-BrowsFile></icon-BrowsFile>
+                                    </div>
+                                    <p class="w-100 text-center mb-1">Drag & Drop Upload File</p>
+                                    <span class="w-100 text-center mb-1">OR</span>
+                                    <button class="browse-btn">Browse File</button>
+                                    <input type="file" #fileInput style="display: none;" id="filename"
+                                        class="form-control" accept=".xlsx" formControlName="filename" name="filename"
+                                        (change)="onFileChange($event)" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 file-info mt-2" *ngFor="let file of files">
+                            <i *ngIf="file.name.endsWith('.xls') || file.name.endsWith('.xlsx')"
+                                class="fas fa-file-excel me-2" style="color:#FA6060;"></i>
+                            <span class="file-name">{{ file.name }}</span>
+                            <button type="button" class="btn btn-close" (click)="removeFile()"></button>
+                        </div>
+                        <div class="col-12 w-100 mt-3">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Description</mat-label>
+                                <input type="text" matInput formControlName="description" name="description"
+                                    placeholder="Description">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 w-100 mt-3">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Month</mat-label>
+                                        <mat-select formControlName="month" required>
+                                            <mat-option *ngFor="let month of monthData" [value]="month.id">
+                                                {{ month.monthName }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Year</mat-label>
+                                        <mat-select formControlName="year" required>
+                                            <mat-option *ngFor="let year of years" [value]="year"
+                                                [selected]="year === currentYear">
+                                                {{ year }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-4">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Total Working Days</mat-label>
+                                        <input matInput type="number" formControlName="totalWorkingDays"
+                                            name="totalWorkingDays" placeholder="Total Working Days" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer popup-footer d-flex">
+                        <button type="submit" class="btn btn-save p-footerbtns">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div bsModal #attendancemodelData="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{backdrop:'static'}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fs-5" id="exampleModalLabel">Employee Attendance Uploaded Files</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="attendancemodelData?.hide()">
+                </button>
+            </div>
+            <div class="modal-body p-0 mt-2 px-3 mb-3">
+                <div class="table-responsive mt-2 border rounded-2">
+                    <table class="table table-bordered popup-table mb-0">
+                        <thead class="position-sticky top-0">
+                            <tr>
+                                <th class="w-25 fw-medium">File Name</th>
+                                <th class="w-25 fw-medium">Description</th>
+                                <th class="w-25 fw-medium">Upload Date</th>
+                                <th class="w-25 text-center fw-medium">Status Name</th>
+                                <th class="text-center fw-medium">Download File</th>
+                                <th class="w-15 text-center fw-medium">Error File</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let employee of attendanceData">
+                                <td>{{ employee.displayedFile }}</td>
+                                <td>{{ employee.description }}</td>
+                                <td>{{ employee.uploadDate | date: 'dd-MM-yyyy'}}</td>
+                                <td class="text-center">
+                                    <div class="position-relative d-inline" style="padding: 5px 8px !important;">
+                                        <p class="d-inline" [ngStyle]="{'color': (employee.colorCode)}">{{
+                                            employee.statusName }}
+                                        </p>
+                                        <span
+                                            class="status-btn-bg text-center py-2 position-absolute top-0 start-0 h-100 w-100"
+                                            [ngStyle]="{'background-color': (employee.colorCode)}">
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="d-flex justify-content-center align-items-center" style=" padding-top:
+                                    7px !important; padding-bottom:
+                                    7px !important;">
+                                    <button
+                                        class="icn-bg bg-skyblue btn-download d-flex justify-content-center align-items-center border-0"
+                                        mat-raised-button matTooltip="Uploaded Files" [matTooltipPosition]="'right'"
+                                        [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+                                        aria-label="Uploaded Files" (click)="employeeDownloadFiles(employee)">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </td>
+                                <td class="text-center" style="padding-top:
+                                7px !important; padding-bottom:
+                                7px !important;">
+                                    <div class=" d-flex justify-content-center align-items-center p-0 m-0">
+                                        <button *ngIf="employee.errorFile" class="icn-bg bg-red border-0"
+                                            (click)="downloadErrorFile(employee.errorFile)" mat-raised-button
+                                            matTooltip="Download Error Files" [matTooltipPosition]="'right'"
+                                            [matTooltipShowDelay]="showDelay.value"
+                                            [matTooltipHideDelay]="hideDelay.value" aria-label="Download Error Files">
+                                            <icon-errorFile></icon-errorFile>
+                                        </button>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

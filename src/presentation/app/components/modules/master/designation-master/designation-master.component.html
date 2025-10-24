@@ -1,0 +1,57 @@
+<div class="container-fuild p-0 m-0">
+    <div class="row m-0 p-0">
+        <div class="col p-0 m-0">
+            <div class="row p-0 m-0">
+                <div class="col p-0 m-0 mb-4 fix-height-full">
+                    <!-- master content start -->
+                    <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                        [exportVisibility]="false" [title]="'Designation'" (edit)="onEdit($any($event))"
+                        (delete)="onDelete($any($event))" (insert)="addDesignation()" [isVisibleDisplayedColoum]="false"
+                        (recodeValueChange)="onRecodeValueChange($event)" (pageNumber)="onPageChange($event)"
+                        (searchTearm)="onSearch($event)" [isBreadCurmbsShow]="false" (orderBy)="orderBy($event)">
+                    </tg-grid>
+                    <!-- master content end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #designationModel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design">
+        <div class="modal-content px-4">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel" *ngIf="designationId === 0">Create Designation</h5>
+                <h5 class="modal-title pt-2" id="exampleModalLabel" *ngIf="designationId !== 0">Edit Designation</h5>
+
+                <span class="d-block" (click)="closeModel()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <form [formGroup]="designationMstForm" #designationForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body bg-white pt-4 pb-3">
+                    <div class="w-100 mb-2">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>Search or add new designation</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" name="name" required
+                                [matAutocomplete]="auto">
+                        </mat-form-field>
+
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let suggestion of filteredSuggestions$ | async" [value]="suggestion">
+                                {{ suggestion }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+
+                </div>
+                <div class="modal-footer popup-footer d-flex">
+                    <button type="submit" *ngIf="designationId === 0" class="btn btn-save p-footerbtns">Save</button>
+                    <button type="submit" class="btn btn-save p-footerbtns" *ngIf="designationId !== 0">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

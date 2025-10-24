@@ -1,0 +1,195 @@
+@import '../../../../../../styles/styles.scss';
+
+// wizard tabs
+
+.wizard {
+    margin: 10px 0px;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 0;
+    margin-left: 100px;
+    margin-right: 100px;
+    padding: 0px !important;
+
+    .nav {
+        border: 0px;
+    }
+
+    li {
+        position: relative;
+
+        .wizard-tab {
+            cursor: pointer;
+            width: 243px;
+            padding: 4px;
+            display: flex;
+            border: 1px solid $border-color !important;
+            border-radius: 50px;
+            background-color: $white-color;
+
+            .wizard-no {
+                height: 40px !important;
+                width: 40px !important;
+                border-radius: 50px;
+                border: 1px solid transparent;
+                background-color: $border-color;
+                font-size: 16px !important;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700 !important;
+            }
+
+            p {
+                display: inline;
+                margin-left: 10px !important;
+                font-size: $fonts-content;
+                color: $icon-color;
+                align-self: center;
+                font-weight: 500;
+            }
+
+            &.active {
+                .wizard-no {
+                    color: var(--theme-color);
+                    border-color: var(--theme-color);
+                    background-color: transparent !important;
+                }
+            }
+
+            &.completed {
+                .wizard-no {
+                    color: $white-color;
+                    border-color: var(--theme-color);
+                    background-color: var(--theme-color) !important;
+                }
+            }
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1px;
+        background-color: $border-color;
+        z-index: -1;
+    }
+}
+
+.borad-footer {
+    border-radius: 0px 0px 8px 8px;
+    bottom: 1px !important;
+}
+
+.margin-top {
+    margin-top: -30px;
+}
+
+.margin-top-title {
+    margin-top: -15px;
+}
+
+.cdk-overlay-container {
+    z-index: 99999 !important;
+    /* or a value higher than Bootstrap's modal z-index */
+}
+
+
+.wizard-body {
+    max-height: calc(100% - 120px);
+    height: calc(100% - 120px);
+    overflow-y: auto;
+}
+
+@media only screen and (max-width:1440px) {
+
+    .borad-footer {
+        position: static !important;
+    }
+}
+
+.onBorad .wizard-body {
+    overflow: auto !important;
+    max-height: calc(100vh - 260px) !important;
+}
+
+.wizard-table {
+    height: calc(100vh - 400px) !important;
+    max-height: calc(100vh - 400px) !important;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width:1440px) {
+
+    .wizard-tab {
+        width: 180px !important;
+    }
+}
+
+@media screen and (max-width:1199px) {
+    .wizard {
+        margin-left: 50px !important;
+        margin-right: 50px !important;
+
+        .wizard-tab {
+            p {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:991px) {
+    .wizard {
+        margin-left: 50px !important;
+        margin-right: 50px !important;
+
+        .wizard-tab {
+            border: transparent;
+            width: auto !important;
+
+            p {
+                display: none !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:1250px) {
+    .menu-collapsed {
+        .wizard {
+            margin-left: 50px !important;
+            margin-right: 50px !important;
+
+            .wizard-tab {
+                border: transparent;
+                width: auto !important;
+
+                p {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:425px) {
+    .wizard {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .mdc-label {
+        font-size: 10px !important;
+    }
+}

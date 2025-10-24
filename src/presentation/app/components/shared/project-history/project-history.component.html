@@ -1,0 +1,144 @@
+<div class="borad-body">
+    <div class="d-flex justify-content-between px-5 align-items-center">
+        <h4 class="innerform-title mb-3 ms-4 mt-3">
+            <p *ngIf="showTitle"></p>
+        </h4>
+        <div class="header-buttons d-flex mt-2" (click)="addProjectHistorys()">
+            <div class="add-newBtn cursor d-flex justify-content-center align-items-center gap-1">
+                <icon-Add></icon-Add>
+                Add New
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <table class="w-100 position-relative table tr-table-hover table mt-3">
+            <thead>
+                <tr>
+                    <th class=" ps-4 cursor fw-medium">Project Name</th>
+                    <th class="text-start cursor fw-medium">Project Role</th>
+                    <th class="text-start cursor fw-medium">Start Date</th>
+                    <th class="text-start cursor fw-medium">End Date</th>
+                    <th class="text-center pe-4 fw-medium">Action</th>
+                </tr>
+
+            </thead>
+            <!-- <tr class="text-center my-2">
+                <td colspan="100%" class="text-center py-3">No data found</td>
+            </tr> -->
+            <tbody>
+                <tr class="text-center" *ngIf="projectDetails.length === 0">
+                    <td colspan="100%" class="text-center"
+                        style="padding-top:12px !important; padding-bottom:12px !important;">No data found</td>
+                </tr>
+                <tr class="text-center" *ngFor="let item of projectDetails">
+                    <td class="text-start ps-4" style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                        {{item.projectName}}</td>
+                    <td class="text-start " style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                        {{item.role}}</td>
+                    <td class="text-start" style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                        {{item.formattedStartDate}}</td>
+                    <td class="text-start " style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                        {{item.formattedEndDate}}</td>
+                    <td class="d-flex align-items-center justify-content-center w-100 pe-4 edit-icns gap-2">
+                        <div class="justify-content-center p-0">
+                            <div (click)="editProjectHistory(item)" *ngIf="item.endDate === null"
+                                class="delete-icon d-flex justify-content-center align-items-center action-icn cursor">
+                                <span class="icn-bg bg-skyblue" mat-raised-button matTooltip="Edit"
+                                    [matTooltipPosition]="'left'" [matTooltipShowDelay]="showDelay.value"
+                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                    <icon-edit></icon-edit>
+                                </span>
+                            </div>
+                            <div style="width: 32px; height: 32px;" *ngIf="item.endDate !== null"></div>
+
+                        </div>
+                        <div class="justify-content-center p-0">
+                            <div (click)="deleteProjectHistory(item)"
+                                class="delete-icon d-flex justify-content-center align-items-center action-icn cursor">
+                                <span class="icn-bg bg-red" mat-raised-button matTooltip="Delete"
+                                    [matTooltipPosition]="'right'" [matTooltipShowDelay]="showDelay.value"
+                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">
+                                    <icon-delete></icon-delete>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Project History  popup modal -->
+<div bsModal #addProjectHistory="bs-modal" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+    [config]="{backdrop: 'static'}" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+        <div class="modal-content px-2">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title" id="exampleModalLabel">Add Project History</h5>
+                <span class="d-block" (click)="onCloseModalProjectHistory()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
+            <div class="modal-body bg-white py-4">
+                <form [formGroup]="projecthistoryForm" #formDirective="ngForm">
+                    <div class="row gy-3">
+                        <div class="col-12" *ngIf="!isEditMode">
+                            <ng-select [items]="getprojectname" bindLabel="name" bindValue="id"
+                                placeholder="Search & Select Project Name*" formControlName="projectName"
+                                [disabled]="isEditMode"
+                                [ngClass]="{'invalid-select': submitted && projecthistoryForm.get('projectName')?.invalid}"
+                                class="w-100" required>
+                            </ng-select>
+                        </div>
+                        <div class="col-12" *ngIf="isEditMode">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Project Name</mat-label>
+                                <input matInput [value]="editableProjectName" disabled>
+                            </mat-form-field>
+
+
+                        </div>
+                        <div class="col-12" style="margin-top: 20px !important;">
+                            <div class="row">
+                                <div [ngClass]="{
+                                      'col-12': !isEditMode,
+                                      'col-12 col-md-6 mt-md-0 mt-2': isEditMode
+                                    }">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>Start Date</mat-label>
+                                        <input matInput [matDatepicker]="startdate" formControlName="startDate" required
+                                            (dateChange)="onStartDateChange($event)" [max]="todayDate"
+                                            [disabled]="isEditMode" />
+                                        <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+                                        <mat-datepicker #startdate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-6 mt-md-0 mt-2" *ngIf="isEditMode">
+                                    <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                        <mat-label>End Date</mat-label>
+                                        <input matInput [matDatepicker]="enddate" formControlName="endDate" required
+                                            [min]="currentMonthStart" [max]="currentMonthEnd" />
+                                        <mat-datepicker-toggle matIconSuffix [for]="enddate"></mat-datepicker-toggle>
+                                        <mat-datepicker #enddate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                                <mat-label>Project Role</mat-label>
+                                <input matInput name="role" formControlName="role" [disabled]="isEditMode" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="modal-footer popup-footer px-0 d-flex mt-3">
+                            <button (click)="onSubmit()" type="submit"
+                                class="btn btn-save mx-0 p-footerbtns w-100">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

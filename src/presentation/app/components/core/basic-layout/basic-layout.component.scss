@@ -1,0 +1,24 @@
+
+@import '../../../../../styles/styles.scss';
+
+
+
+.mainDash{
+    margin-left: 73px !important;
+}
+
+.mainDash.menu-collapsed,
+.mainDash.enable{
+    margin-left: 230px !important;
+}
+
+@media screen and (max-width:991px){
+    .mainDash{
+        margin-left: 0px !important;
+        padding: 0px 15px !important;
+    }
+    .mainDash.menu-collapsed,
+    .mainDash.enable{
+        margin-left: 0px !important;
+    }
+}

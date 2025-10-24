@@ -1,0 +1,52 @@
+@import '../../../../../styles/styles.scss';
+
+.borad-body{
+    p{
+        color: #464B52;
+    }
+    .example-section{
+        margin-top: 10px;
+        color: #8F8F8F;
+      .mdc-label{
+        color: #8F8F8F;
+      }
+      .mdc-checkbox__background{
+        border-color: #8F8F8F;
+      }
+}
+}
+
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+  color: var(--theme-color) !important;
+}
+
+.mdc-checkbox:hover .mdc-checkbox__native-control:checked~.mdc-checkbox__background{
+  border-color: var(--theme-color) !important;
+  background-color: var(--theme-color) !important;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:focus~.mdc-checkbox__ripple{
+  background-color: var(--light-theme);
+  opacity: 1;
+}
+
+.card-header{
+  color: var(--light-theme);
+}
+
+@media screen and (max-width:767px) {
+  .example-section{
+    // margin-top: 5px !important;
+    .mdc-label{
+      padding-top: 15px !important;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: normal !important ;
+      margin-bottom: 10px !important;
+    }
+  }
+}
+
+.mdc-checkbox{
+  margin-top: -3px !important;
+}

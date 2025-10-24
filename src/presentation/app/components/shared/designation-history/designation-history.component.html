@@ -1,0 +1,59 @@
+<div class="borad-body p-4">
+    <form [formGroup]="designationForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-4">
+                <!-- <mat-form-field appearance="outline" class="w-100  custom-mat-form-field">
+                    <mat-label>Select Designation</mat-label>
+                    <mat-select formControlName="designationId" name="designationId">
+                        <div class="search-field">
+                            <input class="w-100" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="getAllDesignation($event)" aria-label="search Designation"
+                                placeholder="search Designation" />
+                        </div>
+                        <mat-option *ngFor="let employee of designationList" [value]="employee.id">
+                            {{ employee.name }}
+                        </mat-option>
+                        <mat-option *ngIf="designationList.length === 0">No data found
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+                <ng-select #designationSelect [items]="designationList" bindLabel="name" bindValue="id"
+                    formControlName="designationId" [clearable]="true" placeholder="Search & Select Designation*"
+                    class="w-100" [ngClass]="{
+                        'ng-invalid ng-touched': designationForm.get('designationId')?.invalid && designationForm.get('designationId')?.touched
+                      }" (search)="onDesignationSearch($event.term)" [clearable]="true" required>
+                </ng-select>
+            </div>
+            <div class="col">
+                <div class="modal-footer popup-footer d-flex justify-content-start">
+                    <button type="submit" class="btn btn-save p-footerbtns px-4">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="">
+    <table class="w-100 position-relative table tr-table-hover table mt-2">
+        <tr class=" border-bottom">
+            <th class="w-25 ps-4 cursor fw-medium">Designation Name</th>
+            <th class="w-25 ps-4 cursor fw-medium">Current</th>
+        </tr>
+        <tr class="text-center" *ngFor="let item of designationData">
+            <td class="text-start ps-4" style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                {{item.designationName }}
+            </td>
+            <td class="text-start ps-4" style="padding-top: 12px !important; padding-bottom: 12px !important;">
+                <span *ngIf="item.isCurrent">
+                    <icon-right-sign></icon-right-sign>
+                </span>
+                <span *ngIf="!item.isCurrent">
+                    <icon-close></icon-close>
+                </span>
+            </td>
+        </tr>
+        <div *ngIf="!designationData || designationData.length === 0" class="text-center mt-3">
+            <p class="text-muted" style="text-align: center !important;">No data found</p>
+        </div>
+    </table>
+</div>

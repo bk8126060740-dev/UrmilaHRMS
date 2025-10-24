@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects_SourceCode\\nirghosh-frontend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\presentation\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\authentication.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\domain\\services\\authentication.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\models\\login.model.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\domain\\models\\login.model.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\directive.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\directive\\directive.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\restrictInput.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\directive\\restrictInput.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\maxNumber.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\directive\\maxNumber.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\emailInput.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\directive\\emailInput.directive.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\department-master.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\domain\\services\\department-master.service.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\presentation\\app\\app.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\presentation\\app\\app.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "app.module.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.module.ts",
+              "RelativeDocumentMoniker": "src\\presentation\\app\\app.module.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.module.ts",
+              "RelativeToolTip": "src\\presentation\\app\\app.module.ts",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAA8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:32:49.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "authentication.service.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\authentication.service.ts",
+              "RelativeDocumentMoniker": "src\\domain\\services\\authentication.service.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\authentication.service.ts",
+              "RelativeToolTip": "src\\domain\\services\\authentication.service.ts",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAQwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:31:12.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "login.model.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\models\\login.model.ts",
+              "RelativeDocumentMoniker": "src\\domain\\models\\login.model.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\models\\login.model.ts",
+              "RelativeToolTip": "src\\domain\\models\\login.model.ts",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwA8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:30:43.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "directive.module.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\directive.module.ts",
+              "RelativeDocumentMoniker": "src\\directive\\directive.module.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\directive.module.ts",
+              "RelativeToolTip": "src\\directive\\directive.module.ts",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAA4AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:24:36.22Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "restrictInput.directive.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\restrictInput.directive.ts",
+              "RelativeDocumentMoniker": "src\\directive\\restrictInput.directive.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\restrictInput.directive.ts",
+              "RelativeToolTip": "src\\directive\\restrictInput.directive.ts",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwA8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:11:53.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "maxNumber.directive.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\maxNumber.directive.ts",
+              "RelativeDocumentMoniker": "src\\directive\\maxNumber.directive.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\maxNumber.directive.ts",
+              "RelativeToolTip": "src\\directive\\maxNumber.directive.ts",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:11:45.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "emailInput.directive.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\emailInput.directive.ts",
+              "RelativeDocumentMoniker": "src\\directive\\emailInput.directive.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\directive\\emailInput.directive.ts",
+              "RelativeToolTip": "src\\directive\\emailInput.directive.ts",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:11:08.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "department-master.service.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\department-master.service.ts",
+              "RelativeDocumentMoniker": "src\\domain\\services\\department-master.service.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\domain\\services\\department-master.service.ts",
+              "RelativeToolTip": "src\\domain\\services\\department-master.service.ts",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T05:07:43.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "app.component.ts",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.ts",
+              "RelativeDocumentMoniker": "src\\presentation\\app\\app.component.ts",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.ts",
+              "RelativeToolTip": "src\\presentation\\app\\app.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-09-10T04:57:43.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "app.component.html",
+              "DocumentMoniker": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.html",
+              "RelativeDocumentMoniker": "src\\presentation\\app\\app.component.html",
+              "ToolTip": "D:\\Projects_SourceCode\\nirghosh-frontend\\src\\presentation\\app\\app.component.html",
+              "RelativeToolTip": "src\\presentation\\app\\app.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-09-09T11:36:26.934Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

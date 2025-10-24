@@ -1,0 +1,88 @@
+/* custom scrollbar start */
+/* Vertical scrollbar only */
+::-webkit-scrollbar:vertical {
+  width: 8px;
+  background-color: transparent !important;
+}
+
+/* Thumb (scroll handle) */
+::-webkit-scrollbar-thumb:vertical {
+  background: #ddd !important;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+  background: #ddd !important;
+}
+
+/* Transparent track */
+::-webkit-scrollbar-track:vertical {
+  background: transparent;
+  /* fully transparent */
+  border-radius: 8px;
+  box-shadow: none;
+  /* optional: remove shadow if you want clean transparency */
+}
+
+/* Horizontal scrollbar — hidden or transparent */
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: transparent;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* custom scrollbar end */
+
+
+// pagination start
+.page-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.page-item.active .page-link {
+  background-color: var(--theme-color) !important;
+  color: $white-color !important;
+  border-radius: 50px !important;
+  padding: 5px 8px !important;
+  text-align: center;
+  height: 30px !important;
+  width: 30px !important;
+
+}
+
+.page-link {
+  padding: 15px !important;
+  font-size: $fonts-content !important;
+}
+
+.page-link:hover {
+  color: $grey-text !important;
+}
+
+.page-link {
+  color: $grey-text !important;
+}
+
+.page-link:focus {
+  box-shadow: none !important;
+}
+
+.pagination li a {
+  border-color: transparent !important;
+
+  &:hover {
+    background-color: transparent !important;
+    color: $black-color !important;
+  }
+}
+
+// pagination end

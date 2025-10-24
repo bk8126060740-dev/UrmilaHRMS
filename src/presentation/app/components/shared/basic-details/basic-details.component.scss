@@ -1,0 +1,136 @@
+@import '../../../../../styles/styles.scss';
+
+.profile-info {
+
+    height: 94px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(224, 230, 237, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-theme);
+
+    .pro-pic {
+
+        svg {
+            height: 32px;
+            width: 32px;
+            fill: $icon-color;
+        }
+
+        .profile-pic {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: $border8;
+        }
+    }
+
+    p {
+        margin-top: 4px !important;
+        font-size: 13px;
+        color: $grey-text;
+        font-weight: 500;
+    }
+}
+
+.paddind-remove {
+    padding-right: 0px;
+}
+
+.profile-error {
+    border-color: $error-color;
+}
+
+
+.close-resume-icn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(10%, -30%);
+    height: 18px;
+    width: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid $error-color;
+    background-color: $white-color;
+
+    svg {
+        height: 10px !important;
+        width: 10px !important;
+        color: $error-color !important;
+    }
+}
+
+.pdf-icn {
+    svg {
+        height: 35px !important;
+        width: 35px !important;
+        color: $icon-color !important;
+    }
+}
+
+.close-pdf-icn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid $error-color;
+    background-color: $white-color;
+    transform: translate(50%, -50%) !important;
+
+    svg {
+        height: 12px !important;
+        width: 12px !important;
+        color: $error-color !important;
+    }
+}
+
+.pdf-icn {
+    svg {
+        height: 45px !important;
+        width: 45px !important;
+    }
+}
+
+
+@media screen and (max-width:991px) {
+    .profile-input {
+        flex-wrap: wrap !important;
+    }
+
+
+}
+
+@media screen and (max-width:1400px) {
+    .profile-info p {
+        font-size: 10px;
+    }
+}
+
+.search-field {
+    padding: 5px !important;
+
+    input {
+        border: 1px solid #ddd !important;
+        border-radius: 6px !important;
+        padding: 5px 10px;
+    }
+}
+
+
+.profile-info .pro-pic:has(.profile-pic)~p {
+    display: none;
+}

@@ -1,0 +1,30 @@
+export class AccountReport {
+    Id: number = 0;
+    taxInvoiceDate: string | null = '';
+    taxInvoiceAmount: number = 0;
+    taxInvoiceNumber: string | null = '';
+    id: number = 0;
+    invoicePrefix: string = '';
+    buyerId: number = 0;
+    projectId: number = 0;
+    invoiceDate: string = '';
+    payrollId: number = 0;
+    paymentMode: string = '';
+    termsofDelivery: string = '';
+    igstRate: number = 0;
+    igstAmount: number = 0;
+    cgstAmount: number | null = 0;
+    cgstRate: number | null = 0;
+    sgstAmount: number | null = 0;
+    sgstRate: number | null = 0;
+    grossValue: number = 0;
+    invoiceValue: number = 0;
+    totalTax: number = 0;
+    holdAmount: number = 0;
+    creditNote: number = 0;
+    gstDeduction: number = 0;
+    tdsDeduction: number = 0;
+    balanceAmount: number = 0;
+    creditRemark: string | null = null;
+    creditAttachment: File | null = null;
+}

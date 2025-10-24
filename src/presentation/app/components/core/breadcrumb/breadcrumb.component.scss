@@ -1,0 +1,32 @@
+@import '../../../../../styles/styles.scss';
+
+.breadcrumb{
+    font-family: $fonts;
+    li{
+        a{
+            color: $breadcrumb-icon;
+            text-decoration: none;
+        }
+        .home-icn{
+            svg{
+                height: 18px;
+                width: 18px;
+            }
+        }
+        .greter-icn{
+            margin-right: 17px;
+            margin-left: 17px;
+            svg{
+                height: 13px;
+                width: 13px;
+            }
+        }
+        .breadcrumb-link{
+            text-decoration: none;
+            font-size: $fonts-content;
+        }
+        .active-page{
+            color: var(--theme-color);
+        }
+    }
+}

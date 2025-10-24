@@ -1,0 +1,110 @@
+<div class="row m-0 sidebar" (mouseenter)="onHover()" (mouseleave)="onMouseLeave()">
+    <div class="col-2">
+        <div class="side-bar">
+            <div class="sidebar-logo">
+                <a href="#"> <img src="assets/image/us_logo.png"></a>
+            </div>
+
+            <ul class="sidebar-menus list-style-none">
+
+                <li *ngFor="let menuItem of menuItems" class="sidebar-menu sidebar-main-menu"
+                    [ngClass]="[menuItem.class]" [routerLink]="menuItem.class === '' ? [menuItem.link] : null"
+                    (click)="toggleSidebarMenu($event, menuItem)"
+                    [routerLinkActive]="menuItem.subMenus.length != 0 ? '' : 'active'"
+                    [routerLinkActiveOptions]="{exact: false}">
+
+                    <a [routerLink]="menuItem.class === '' ? [menuItem.link] : null"
+                        *ngIf="menuItem.isMenu && menuItem.permissions.length > 0">
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Dashboard'">
+                            <icon-menu-dashborad></icon-menu-dashborad>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Master'">
+                            <icon-menu-master></icon-menu-master>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Holiday Calendar'">
+                            <icon-menu-holidayCal></icon-menu-holidayCal>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Client'">
+                            <icon-menu-client></icon-menu-client>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Project'">
+                            <icon-menu-project></icon-menu-project>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Recruitment'">
+                            <icon-menu-recruitment></icon-menu-recruitment>
+                        </div>
+                        <div class="sidebarmenu-icon"
+                            *ngIf="menuItem.label === 'On Boarding' || menuItem.label === 'On Board Wizard'">
+                            <icon-menu-onborad></icon-menu-onborad>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Employee'">
+                            <icon-menu-employee></icon-menu-employee>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Permission'">
+                            <icon-menu-permission></icon-menu-permission>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Attendance'">
+                            <icon-menu-attendance></icon-menu-attendance>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Grievance'">
+                            <icon-menu-grivance></icon-menu-grivance>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Compliance'">
+                            <icon-menu-compliance></icon-menu-compliance>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Payroll'">
+                            <icon-menu-payroll></icon-menu-payroll>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Payment In'">
+                            <icon-menu-payment></icon-menu-payment>
+                        </div>
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Account'">
+                            <icon-menu-account></icon-menu-account>
+                        </div>
+
+                        <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Reporting'">
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                class="">
+                                <g>
+                                    <path
+                                        d="M414 28.055h-19.992c8.6 15.789 13.492 33.885 13.492 53.104 0 24.862-20.187 45.088-45 45.088h-213c-24.813 0-45-20.227-45-45.088 0-19.219 4.892-37.314 13.492-53.104H98c-24.813 0-45 20.227-45 45.088v393.769C53 491.773 73.187 512 98 512h316c24.813 0 45-20.227 45-45.088V73.143c0-24.862-20.187-45.088-45-45.088zM203.272 426.106l-32.666 32.73c-5.857 5.869-15.355 5.87-21.213 0l-16-16.031c-5.858-5.869-5.858-15.385 0-21.254 5.857-5.87 15.355-5.87 21.213 0l5.394 5.404 22.06-22.102c5.857-5.87 15.355-5.87 21.213 0 5.857 5.868 5.857 15.383-.001 21.253zm0-86.169-32.666 32.73c-5.857 5.869-15.355 5.87-21.213 0l-16-16.031c-5.858-5.869-5.858-15.385 0-21.254 5.857-5.87 15.355-5.87 21.213 0l5.394 5.404 22.06-22.102c5.857-5.87 15.355-5.87 21.213 0 5.857 5.868 5.857 15.384-.001 21.253zm-28.666-60.785c-5.857 5.87-15.355 5.87-21.213 0-5.858-5.869-5.858-15.385 0-21.254l54-54.106c5.857-5.87 15.355-5.87 21.213 0L274 249.273l35.787-35.857H308c-8.284 0-15-6.729-15-15.029s6.716-15.029 15-15.029c41.306 0 44.827-1.771 50.474 6.686 3.444 5.158 2.526 6.903 2.526 46.418 0 8.3-6.716 15.029-15 15.029s-15-6.729-15-15.029v-1.791l-46.394 46.484c-5.857 5.869-15.355 5.87-21.213 0L218 235.674l-43.394 43.478zM367 446.873H246c-8.284 0-15-6.729-15-15.029s6.716-15.029 15-15.029h121c8.284 0 15 6.729 15 15.029s-6.716 15.029-15 15.029zm0-86.169H246c-8.284 0-15-6.729-15-15.029s6.716-15.029 15-15.029h121c8.284 0 15 6.729 15 15.029s-6.716 15.029-15 15.029z"
+                                        fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                    <path
+                                        d="M296.5 0h-81c-44.664 0-81 36.408-81 81.159 0 8.3 6.716 15.029 15 15.029h213c8.284 0 15-6.729 15-15.029C377.5 36.408 341.164 0 296.5 0z"
+                                        fill="currentColor" opacity="1" data-original="#000000" class=""></path>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="sidebarmenu-name">
+                            {{ menuItem.label }}
+                        </p>
+                        <div class="down-arrow ms-auto">
+                            <span [ngClass]="{'rotate': menuItem.isOpen}" class="mb-0 d-flex align-items-center"
+                                style="margin-right: 0px !important; transition: transform 0.3s;">
+                                <svg class="mb-0 me-0" style="margin-right: 0px !important;"
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275t.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062" />
+                                </svg>
+                            </span>
+                        </div>
+                    
+                    </a>
+                    <ul class="sidebar-submenus card card-body list-style-none" [id]="'subMenus-' + menuItem.id"
+                        *ngIf="menuItem.subMenus != null">
+                        <li *ngFor="let menuSubItem of menuItem.subMenus" class="sidebar-submenu"
+                            [routerLinkActive]="menuSubItem.subMenus.length > 0 ? '' : 'active'"
+                            [routerLinkActiveOptions]="{exact: true}"
+                            [routerLink]="menuSubItem.subMenus.length > 0 ? null : [menuSubItem.link]">
+                            <a *ngIf="menuSubItem.isMenu">
+                                <span class="menu-title">{{menuSubItem.label}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

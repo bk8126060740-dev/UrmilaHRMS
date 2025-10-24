@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\presentation",
+    "\\src\\presentation\\app",
+    "\\src\\presentation\\app\\components",
+    "\\src\\presentation\\app\\components\\shared",
+    "\\src\\presentation\\app\\components\\shared\\designation-history",
+    "\\src\\styles"
+  ],
+  "SelectedNode": "\\src\\presentation\\app\\app.module.ts",
+  "PreviewInSolutionExplorer": false
+}

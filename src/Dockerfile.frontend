@@ -1,0 +1,19 @@
+# Windows container to host static frontend via IIS
+# Base image must match your host OS. You're on Windows Server 2022, so use ltsc2022.
+FROM mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2022
+
+# Switch to IIS site root
+WORKDIR C:/inetpub/wwwroot
+
+# Copy your built frontend (HTML/CSS/JS) into the site root.
+# At build time, place Dockerfile.frontend next to your built files (index.html, assets, etc.)
+COPY . .
+
+# Optional: for Single Page Apps (React/Angular/Vue) ensure client-side routing works.
+# We include a default web.config with rewrite rules (copied alongside your build).
+# If you already have a web.config in your build output, it will be used instead.
+
+EXPOSE 80
+
+# IIS starts automatically as the container entrypoint in this base image.
+# No additional ENTRYPOINT/CMD needed.

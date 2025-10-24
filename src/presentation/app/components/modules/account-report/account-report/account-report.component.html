@@ -1,0 +1,36 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-3 mb-3 justify-content-between align-items-center flex-wrap gap-3">
+            <div class="col-12 col-md">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <div class="col-12 col-md justify-content-end d-flex project-dropdown">
+                <div class="dropdown ms-3 project-btn year-select ">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <input matInput [matDatepicker]="yearPicker" placeholder="Select Year" [formControl]="yearCtrl" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="chosenYearHandler($event, yearPicker)" panelClass="year-picker"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+         
+        <div class="row m-0 p-0 mb-0" *appIsGranted="'Read'">
+            <!-- <div class="col p-0 m-0">
+                <tg-grid [columns]="columns" [rowData]="clientList" [totalCount]="totalCount"
+                    [title]="'Payroll'" [exportVisibility]="false" (orderBy)="orderBy($event)" (edit)="onEdit($any($event))"
+                    [isInsertButton]="true" [isEditButton]="false" (delete)="onDelete($any($event))"
+                    (searchTearm)="onSearch($event)" (recodeValueChange)="onTotalPayrollValueChange($event)"
+                    (pageNumber)="onPageChange($event)" (insert)="onInsert()" (buttonClick)="InvoiceFile($event)"
+                    (viewClick)="viewRecord($any($event))" (reGenerateClick)="changePayrollStatus($event)"
+                    (onDownloadBankTransferSheet)="downloadBankTransferSheet($event)">
+                </tg-grid>
+
+ 
+            </div> -->
+        </div>
+    </div>
+</div>
+
+ 
+ 

@@ -1,0 +1,65 @@
+<div class="borad-body p-4">
+    <div class="row gy-2">
+        <div class="col-xxl-4 col-lg-6 col-12 gy-2">
+            <div class="row">
+                <div class="col-12 col-md-6 ">
+                    <div class="example-section mt-0 mb-2">
+                        <mat-checkbox [(ngModel)]="isWageRate" (change)="onCheckBoxChange($event)">Wages
+                            Rate</mat-checkbox>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form>
+            <div class="row gy-2">
+                <ng-container *ngFor="let attribute of employeePayrollAttributeDetils">
+                    <div class="col-lg-4 col-md-6 col-12" *ngIf="attribute.payrollAttributeId === 1 && !isWageRate">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>{{ attribute.name }}</mat-label>
+                            <input matInput name="{{ attribute.defaultValue }}" type="number"
+                                [(ngModel)]="attribute.defaultValue" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12" *ngIf="attribute.payrollAttributeId === 60 && isWageRate">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                            <mat-label>{{ attribute.name }}</mat-label>
+                            <input matInput name="{{ attribute.defaultValue }}" type="number"
+                                [(ngModel)]="attribute.defaultValue" />
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngFor="let attribute of employeePayrollAttributeDetils">
+                    <div class="col-lg-4 col-md-6 col-12"
+                        *ngIf="attribute.payrollAttributeId != 1 && attribute.payrollAttributeId != 60">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field"
+                            [ngSwitch]="attribute.payrollAttributeId">
+                            <mat-label>{{ attribute.name }}</mat-label>
+                            <input matInput name="{{ attribute.defaultValue }}" type="number"
+                                [(ngModel)]="attribute.defaultValue" [disabled]="!attribute.allowOverride" />
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+
+
+        <!-- <form>
+            <div class="row gy-2">
+                <ng-container *ngFor="let attribute of employeePayrollAttributeDetils">
+                    <div class="col-lg-4 col-md-6 col-12"
+                        *ngIf="attribute.payrollAttributeId != 1 && attribute.payrollAttributeId != 60">
+                        <mat-form-field appearance="outline" class="w-100 custom-mat-form-field"
+                            [ngSwitch]="attribute.payrollAttributeId">
+                            <mat-label>{{ attribute.name }}</mat-label>
+                            <input matInput name="{{ attribute.defaultValue }}" type="number"
+                                [(ngModel)]="attribute.defaultValue" [disabled]="!attribute.allowOverride" />
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+            </div>
+        </form> -->
+    </div>
+</div>

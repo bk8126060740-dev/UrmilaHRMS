@@ -1,0 +1,489 @@
+<div class="container-fluid p-0">
+  <div class="row mt-3 mb-0 mx-0 mx-md-4 p-0">
+    <div class="col-12 p-0 d-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="board-title d-flex align-items-center fw-semibold"> Payroll Attributes</h3>
+      </div>
+      <!-- <app-breadcrumb></app-breadcrumb> -->
+      <div class="add-icn">
+        <button class=" header-btn header-btn-blue btn-hover d-flex justify-content-center align-items-center"
+          (click)="addPayrollAttribute()" *appIsGranted="'Write'" mat-raised-button matTooltip="Create"
+          [matTooltipPosition]="'above'" [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+          aria-label="Create">
+          <icon-Add></icon-Add>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- accordian start -->
+
+  <div class="row mt-2 mx-0 mx-md-4 p-0">
+    <div class="col-12 p-0" *appIsGranted="'Read'">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item payroll-card overflow-hidden mt-2" *ngFor="let item of groupedArray; let i = index">
+          <h2 class="accordion-header fw-medium w-100" [id]="'heading' + i">
+            <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"
+              [attr.aria-expanded]="i === 0 ? 'true' : 'false'" [class.collapsed]="i !== 0">
+              {{ item.groupName }}
+            </button>
+          </h2>
+          <div [id]="'collapse' + i" class="accordion-collapse w-100 collapse" [class.show]="i === 0"
+            [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
+            <div class="accordion-body pt-1">
+              <div class="payroll-inner mt-3">
+                <div class="innercard-table table-width overflow-hidden">
+                  <div style="border-radius: 6px 6px 0px 0px;">
+                    <div class="bg-sky w-100">
+                      <div class="row p-0 flex-nowrap">
+                        <div class="" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Sequence</div>
+                        </div>
+                        <div class="" style="width: 20%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Attribute</div>
+                        </div>
+                        <div class="text-center" style="width: 173px;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Status
+                          </div>
+                        </div>
+                        <div class=" text-center" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Attendance</div>
+                        </div>
+                        <div class="text-center" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Calculated</div>
+                        </div>
+                        <div class="text-center" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Deductible</div>
+                        </div>
+                        <div class="text-center" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Percentage</div>
+                        </div>
+                        <div class="text-center" style="width: 10%;">
+                          <div class="fw-medium text-dark px-4" style="padding-top: 13px; padding-bottom: 13px;">
+                            Total</div>
+                        </div>
+                        <div style="width: 10%;">
+                          <div class="fw-medium text-dark px-4 text-end pe-4"
+                            style="padding-top: 13px; padding-bottom: 13px; padding-right: 40px !important;">
+                            Action</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div cdkDropList (cdkDropListDropped)="drop($event, item.items,i)" class="cursor-move w-100">
+                      <div class="row flex-nowrap p-0" cdkDrag *ngFor="let subItem of item.items">
+                        <div class="border-bottom sequence" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;">{{ subItem.sequence }}
+                          </div>
+                        </div>
+                        <div class="border-bottom" style="width: 20%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;">
+                            {{ subItem.name }}
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 173px;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;" *ngIf="subItem.isActive">
+                            <div
+                              class="status-btn text-center position-relative overflow-hidden d-flex justify-content-center">
+                              <p style="z-index: 2; color: #f5b849; background-color:#f5b9492a; border-radius: 4px; width: fit-content;"
+                                class="px-2">
+                                Active</p>
+                            </div>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;" *ngIf="!subItem.isActive">
+                            <div
+                              class="status-btn text-center position-relative overflow-hidden d-flex justify-content-center">
+                              <p style="z-index: 2; color: #59AAAA; background-color:#EEF6F6; border-radius: 4px; width: fit-content;"
+                                class="px-2">
+                                In Active</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="subItem.isAttendance">
+                            <icon-right-sign></icon-right-sign>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="!subItem.isAttendance">
+                            <icon-close></icon-close>
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="subItem.isCalculated">
+                            <icon-right-sign></icon-right-sign>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="!subItem.isCalculated">
+                            <icon-close></icon-close>
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="subItem.isDeductable">
+                            <icon-right-sign></icon-right-sign>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="!subItem.isDeductable">
+                            <icon-close></icon-close>
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="subItem.isPercentage">
+                            <icon-right-sign></icon-right-sign>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;"
+                            *ngIf="!subItem.isPercentage">
+                            <icon-close></icon-close>
+                          </div>
+                        </div>
+                        <div class="border-bottom text-center" style="width: 10%;">
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;" *ngIf="subItem.isTotal">
+                            <icon-right-sign></icon-right-sign>
+                          </div>
+                          <div class="px-4" style="padding-top:12px; padding-bottom: 12px;" *ngIf="!subItem.isTotal">
+                            <icon-close></icon-close>
+                          </div>
+                        </div>
+                        <div class="border-bottom" style="padding-top:0px; padding-bottom: 0px; width: 10%;">
+                          <div class="py-0 px-2">
+                            <div class="action d-flex justify-content-end w-100 pe-2">
+                              <div class="d-flex justify-content-end" style="width: 72px;">
+                                <div (click)="onEditClicked(subItem)" *appIsGranted="'Update'"
+                                  class="edit-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                  style="padding-top:7px !important; padding-bottom: 7px !important;">
+                                  <span class="icn-bg bg-skyblue" mat-raised-button matTooltip="Edit"
+                                    [matTooltipPosition]="'left'" [matTooltipShowDelay]="showDelay.value"
+                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Edit">
+                                    <icon-edit></icon-edit>
+                                  </span>
+                                </div>
+                                <div (click)="onDelete(subItem)" *appIsGranted="'Delete'"
+                                  class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                                  style="padding-top:7px !important; padding-bottom: 7px !important;">
+                                  <span class="ms-2 icn-bg bg-red" *ngIf="!subItem.isMaster" mat-raised-button
+                                    matTooltip="Delete" [matTooltipPosition]="'right'"
+                                    [matTooltipShowDelay]="showDelay.value" [matTooltipHideDelay]="hideDelay.value"
+                                    aria-label="Delete">
+                                    <icon-delete></icon-delete>
+                                  </span>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 accordion" id="accordionExample">
+      <div class="accordion-item overflow-hidden">
+        <div class="d-flex justify-content-between accordion-header fw-medium w-100 py-2 align-items-center ps-4"
+          data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          <p class="table-tr">Empoyee Screen</p>
+          <div class="text-end">
+            <button class="accordion-button py-2" type="button">
+            </button>
+          </div>
+        </div>
+        <div class="w-100 border-top permission accordion-collapse collapse innercard-table m-4" id="collapseOne"
+          aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div #tableContainer class="table-responsive  d-block accordion-body p-0">
+            <table class="w-100">
+              <tr class="bg-sky">
+                <th class="ps-5">Sequence</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Attendance</th>
+                <th> Calculated</th>
+                <th> Deductible</th>
+                <th> Percentage</th>
+                <th class="text-end pe-5"> Action</th>
+              </tr>
+              <tr>
+                <td class="ps-5">1</td>
+                <td>Service Charge Amt</td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td class="pe-5">
+                  <div class="action d-flex justify-content-end">
+                    <div class="edit-icon d-flex justify-content-center align-items-center action-icn me-2 cursor">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="30px" viewBox="0 0 36 36">
+                        <path fill="currentColor"
+                          d="m4.22 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0L13 32l15.84-15.78L20 7.4Z"
+                          class="clr-i-solid clr-i-solid-path-1" />
+                        <path fill="currentColor"
+                          d="m33.82 8.32l-5.9-5.9a2.07 2.07 0 0 0-2.92 0L21.72 5.7l8.83 8.83l3.28-3.28a2.07 2.07 0 0 0-.01-2.93"
+                          class="clr-i-solid clr-i-solid-path-2" />
+                        <path fill="none" d="M0 0h36v36H0z" />
+                      </svg>
+                    </div>
+                    <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="18px" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+            </table>
+            <button type="submit" class="header-btn btn-save checks mb-2 ms-2 mt-2">
+              <p>Save</p>
+              <svg class="d-none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M9.84 17.08a1 1 0 0 1-.707-.293l-3.84-3.84a1 1 0 1 1 1.414-1.414l3.133 3.133l7.453-7.453a1 1 0 0 1 1.414 1.414l-8.16 8.16a1 1 0 0 1-.707.293" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item overflow-hidden">
+        <div class="d-flex justify-content-between accordion-header fw-medium w-100 py-2 align-items-center ps-4"
+          data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+          <p class="table-tr">Empoyee Screen</p>
+          <div class="text-end">
+            <button class="accordion-button py-2" type="button">
+            </button>
+          </div>
+        </div>
+        <div class="w-100 border-top permission accordion-collapse collapse innercard-table m-4" id="collapse2"
+          aria-labelledby="heading2" data-bs-parent="#accordionExample">
+          <div #tableContainer class="table-responsive  d-block accordion-body p-0">
+            <table class="w-100">
+              <tr class="bg-sky">
+                <th class="ps-5">Sequence</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Attendance</th>
+                <th> Calculated</th>
+                <th> Deductible</th>
+                <th> Percentage</th>
+                <th class="text-end pe-5"> Action</th>
+              </tr>
+              <tr>
+                <td class="ps-5">1</td>
+                <td>Service Charge Amt</td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container>
+                    <mat-checkbox class="example-margin" />
+                  </ng-container>
+                </td>
+                <td class="pe-5">
+                  <div class="action d-flex justify-content-end">
+                    <div class="edit-icon d-flex justify-content-center align-items-center action-icn me-2 cursor">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="30px" viewBox="0 0 36 36">
+                        <path fill="currentColor"
+                          d="m4.22 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0L13 32l15.84-15.78L20 7.4Z"
+                          class="clr-i-solid clr-i-solid-path-1" />
+                        <path fill="currentColor"
+                          d="m33.82 8.32l-5.9-5.9a2.07 2.07 0 0 0-2.92 0L21.72 5.7l8.83 8.83l3.28-3.28a2.07 2.07 0 0 0-.01-2.93"
+                          class="clr-i-solid clr-i-solid-path-2" />
+                        <path fill="none" d="M0 0h36v36H0z" />
+                      </svg>
+                    </div>
+                    <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="18px" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+            </table>
+            <button type="submit" class="header-btn btn-save checks mb-2 ms-2 mt-2">
+              <p>Save</p>
+              <svg class="d-none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M9.84 17.08a1 1 0 0 1-.707-.293l-3.84-3.84a1 1 0 1 1 1.414-1.414l3.133 3.133l7.453-7.453a1 1 0 0 1 1.414 1.414l-8.16 8.16a1 1 0 0 1-.707.293" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div> -->
+  </div>
+
+
+  <!-- <div class="fix-height" *appIsGranted="'Read'">
+  <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount" (edit)="onEditClicked($any($event))"
+    (delete)="onDelete($any($event))" (insert)="addPayrollAttribute()" (pageNumber)="onPageChange($event)"
+    (recodeValueChange)="onTotalAttributePerPageValueChange($event)" (searchTearm)="onSearch($event)"
+    (switchChange)="onSwitchChange($event)" [title]="'Payroll Attribute'" [isBreadCurmbsShow]="true"
+    (orderBy)="orderBy($event)" [exportVisibility]="false"></tg-grid>
+</div> -->
+
+  <div bsModal #attributemodel="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog popup-design right-sidebar-panel">
+      <div class="modal-content px-4">
+        <div class="modal-header popup-header justify-content-between d-flex">
+          <h5 class="modal-title pt-2" id="exampleModalLabel">Add/Edit Payroll Attribute</h5>
+          <span class="d-block" (click)="attributemodel?.hide()">
+            <icon-ModalClose></icon-ModalClose>
+          </span>
+        </div>
+        <form [formGroup]="payrollAttributeForm" (ngSubmit)="onSubmit()" #ngattributeForm="ngForm">
+          <div class="row align-items-center justify-content-center g-4 p-0 m-0">
+            <div class="col-12 p-0">
+              <div class="w-100">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Name" formControlName="name" appAllowOnlyChars />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-12 p-0">
+              <div class="w-100">
+                <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
+                  <mat-label>Group</mat-label>
+                  <mat-select formControlName="groupId">
+                    <mat-option *ngFor="let group of groupList" [value]="group.id">
+                      {{ group.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="w-100">
+                <label class="toggle-btn">
+                  <mat-label>Attendance</mat-label>
+                  <input type="checkbox" formControlName="isAttendance" />
+                  <span class="mt-2" [class.bg-toggle-on]="payrollAttributeForm.get('isAttendance')?.value"
+                    [class.bg-toggle-off]="!payrollAttributeForm.get('isAttendance')?.value"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="w-100">
+                <label class="toggle-btn">
+                  <mat-label>Calculated</mat-label>
+                  <input type="checkbox" formControlName="isCalculated" />
+                  <span class="mt-2" [class.bg-toggle-on]="payrollAttributeForm.get('isCalculated')?.value"
+                    [class.bg-toggle-off]="!payrollAttributeForm.get('isCalculated')?.value"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="w-100">
+                <label class="toggle-btn">
+                  <mat-label>Deductible</mat-label>
+                  <input type="checkbox" formControlName="isDeductable" />
+                  <span class="mt-2" [class.bg-toggle-on]="payrollAttributeForm.get('isDeductable')?.value"
+                    [class.bg-toggle-off]="!payrollAttributeForm.get('isDeductable')?.value"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="w-100">
+                <label class="toggle-btn">
+                  <mat-label>Percentage</mat-label>
+                  <input type="checkbox" formControlName="isPercentage" />
+                  <span class="mt-2" [class.bg-toggle-on]="payrollAttributeForm.get('isPercentage')?.value"
+                    [class.bg-toggle-off]="!payrollAttributeForm.get('isPercentage')?.value"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-4 me-auto">
+              <div class="w-100">
+                <label class="toggle-btn">
+                  <mat-label>Total</mat-label>
+                  <input type="checkbox" formControlName="isTotal" />
+                  <span class="mt-2" [class.bg-toggle-on]="payrollAttributeForm.get('isTotal')?.value"
+                    [class.bg-toggle-off]="!payrollAttributeForm.get('isTotal')?.value"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="modal-footer popup-footer d-flex px-0">
+              <ng-container *appIsGranted="'Write'">
+                <button type="submit" class="btn btn-save p-footerbtns w-100"
+                  *ngIf="!payrollAttributeForm.get('id')?.value">
+                  Save
+                </button>
+              </ng-container>
+              <ng-container *appIsGranted="'Update'">
+                <button type="submit" class="btn btn-save p-footerbtns w-100"
+                  *ngIf="payrollAttributeForm.get('id')?.value">
+                  Update
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>

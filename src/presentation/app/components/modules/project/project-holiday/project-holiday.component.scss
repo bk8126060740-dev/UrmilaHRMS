@@ -1,0 +1,137 @@
+@import "../../../../../../styles/styles.scss";
+
+* {
+  font-family: $fonts;
+}
+
+input[type="checkbox"] {
+  &.toggle {
+    opacity: 0;
+    position: absolute;
+    left: -99999px;
+
+    &+label {
+      height: 40px;
+      line-height: 29px;
+      background-color: var(--theme-color);
+      padding: 0px 16px;
+      width: 55%;
+      border-radius: 50px;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      @include transition(all 0.25s ease-in);
+      @include box-shadow(inset 0px 0px 2px rgba(0, 0, 0, 0.5));
+
+      &:before,
+      &:hover:before {
+        content: " ";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 90px;
+        height: 32px;
+        background: $white-color;
+        z-index: 2;
+        transition: all 0.25s ease-in;
+        border-radius: 100px;
+      }
+
+      .off,
+      .on {
+        top: 5px;
+        color: $white-color;
+        width: -webkit-fill-available !important;
+      }
+
+      .off {
+        display: inline-block;
+        z-index: 99;
+        position: relative;
+        color: $white-color !important;
+        margin-left: 25px;
+      }
+
+      .on {
+        margin-left: 10px;
+        z-index: 99;
+        position: relative;
+        margin-left: 5px;
+        color: var(--theme-color) !important;
+      }
+    }
+
+    &:checked+label {
+      .on {
+        color: $white-color !important;
+        z-index: 999;
+        position: relative;
+      }
+
+      .off {
+        color: var(--theme-color) !important;
+        z-index: 999;
+        position: relative;
+      }
+    }
+
+    &:checked+label,
+    &:focus:checked+label {
+      background-color: var(--theme-color);
+
+      &:before,
+      &:hover:before {
+        background-position: 0 0;
+        top: 4px;
+        left: 100%;
+        margin-left: -94px;
+      }
+    }
+  }
+}
+
+.grid-view {
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .grid-header {
+    .grid-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: $sub-title;
+      line-height: 38px;
+    }
+
+    .add-newBtn {
+      svg {
+        color: var(--theme-color);
+        margin-right: 3px;
+        height: 18px;
+        width: 18px;
+      }
+
+      font-size: $fonts-content;
+      color: $grey-text;
+      padding: 8px 12px;
+      border: 1px dashed $grey-text;
+      border-radius: $border6;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .grid-body {
+    .border-bottom {
+      border-style: dashed !important;
+    }
+
+    .border-top {
+      border-style: dashed !important;
+    }
+  }
+
+  .cdk-overlay-container {
+    z-index: 99999 !important;
+  }
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Opening App...</title>
+    <script>
+        setTimeout(() => {
+            window.location.href = environment.webUrl + "eonboard/"; // Fallback web
+        }, 2000);
+        window.location.href = "intent://reset?Token=5C7E315E1AF18E4E3811616B9128AB9C7E4A7BAAE9ED9E539108DBAB6CAE4C24#Intent;scheme=myapp;package=com.teamopine.nirghosh;end"; // App attempt
+    </script>
+</head>
+
+<body>
+    <p>If you are not redirected, <a href="https://yourdomain.com/reset-password?token=abc123">click here</a>.</p>
+</body>
+
+</html>

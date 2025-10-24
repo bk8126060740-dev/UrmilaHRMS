@@ -1,0 +1,98 @@
+<div class="dashborad-main p-0 my-4 mx-0 m-lg-4">
+    <!-- <div class="row mb-3">
+        <div class="col-12">
+            <app-breadcrumb></app-breadcrumb>
+        </div>
+    </div> -->
+    <div class="row p-0 m-0">
+        <div class="col-12 p-0 m-0">
+            <div class="borad-parent p-0 position-relative">
+                <div class="main-board onBorad pb-0">
+                    <div class="borad-header mt-0 pb-3 pt-3 border-bottom d-flex align-items-center justify-content-between position-sticky top-0"
+                        style="z-index: 2 !important;">
+                        <p class="board-title">On Board Wizard</p>
+                    </div>
+
+                    <div class="borad-body p-4 pt-2 px-0 pb-0 wizard-body">
+                        <div class="wizard px-0 d-flex">
+                            <ul class="d-flex justify-content-between w-100 gap-3 nav nav-tabs list-style-none position-relative"
+                                id="myTab" role="tablist">
+                                <li class="d-flex nav-item active" *ngFor="let item of tabList">
+                                    <button class="wizard-tab nav-link " [ngClass]="{
+                                            'active': selectedTabId === item.id, 
+                                            'completed': item.completed && selectedTabId !== item.id
+                                            }" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"
+                                        (click)="onTabClick(item)">
+                                        <div class="wizard-no">
+                                            {{item.id}}
+                                        </div>
+                                        <p>{{item.name}}</p>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent">
+                            <!-- profile page -->
+                            <div *ngIf="selectedTabId === 1">
+                                <h4 class="innerform-title ms-4 mt-3 fw-medium">Personal Details</h4>
+                                <app-basic-details [employeeId]="employeeId" [userTypeId]="userTypeId"
+                                    (formSubmit)="onFormSubmit($event,'Basic Detils')"
+                                    (isFormValid)="formvalidation($event,'Basic Detils')"></app-basic-details>
+                                <div class="margin-top">
+                                    <app-address [employeeId]="employeeId"
+                                        (formSubmit)="onFormSubmit($event,'Address Detils')" [userTypeId]="userTypeId"
+                                        (isFormValid)="formvalidation($event,'Address Detils')"></app-address>
+                                </div>
+                            </div>
+                            <!-- experience page -->
+                            <div *ngIf="selectedTabId === 2" class="margin-top-title">
+                                <!-- <h4 class="innerform-title mb-3 ms-4 mt-5">Experience</h4> -->
+                                <app-experience [employeeId]="employeeId"
+                                    (experienceCount)="handleExperienceCount($event)"></app-experience>
+
+                            </div>
+                            <div *ngIf="selectedTabId === 3" class="margin-top-title">
+                                <!-- <h4 class="innerform-title mb-3 ms-4 mt-5">Qualification</h4> -->
+                                <app-qualifications [employeeId]="employeeId"
+                                    (qualificationsCount)="handleQualificationsCount($event)"></app-qualifications>
+                            </div>
+                            <!-- <div *ngIf="selectedTabId === 4" class="margin-top-title">
+                                <app-salary-slip [employeeId]="employeeId"
+                                    (salarySlipCount)="handlesalarySlipCount($event)"></app-salary-slip>
+                            </div> -->
+                            <div *ngIf="selectedTabId === 4" class="margin-top-title">
+                                <!-- <h4 class="innerform-title mb-3 ms-4 mt-5">Finance Details</h4> -->
+                                <app-finacial-details [employeeId]="employeeId"
+                                    (financeCount)="handlefinanceCount($event)"></app-finacial-details>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="borad-footer pt-3 border-top d-flex justify-content-end  bottom-0 pb-3 w-100 px-0 bg-white position-sticky pe-4">
+                        <div class="footer-buttons d-flex">
+                            <!-- <button type="submit" class="header-btn btn-cancel me-3">
+                                <p>Skip</p><svg class="d-none" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4" />
+                                </svg>
+                            </button> -->
+                            <button class="header-btn btn-save cursor" (click)="moveToPreviousTab()"
+                                *ngIf="selectedTabId != 1">Previous</button>
+                            <button type="submit" class="header-btn btn-save ms-2 cursor" *ngIf="selectedTabId < 4"
+                                (click)="submit()">
+                                Next
+                            </button>
+                            <button type="submit" class="header-btn btn-save ms-2 cursor" *ngIf="selectedTabId === 4"
+                                (click)="submit()">
+                                Finish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

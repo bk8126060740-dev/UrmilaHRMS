@@ -1,0 +1,50 @@
+<div class="master-content  client-page">
+    <div class="container-fluid">
+        <div class="row m-4 mt-3 mb-0 ms-0 ms-lg-4">
+            <div class="col-12 p-0">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+        </div>
+        <div class="borad-body p-4 pb-0">
+            <!-- select options -->
+            <form action="">
+                <div class="row gy-2">
+                    <div class="col-xl-3 col-lg-6 col-12">
+                        <ng-select [items]="clientList" bindLabel="text" bindValue="value"
+                            [(ngModel)]="selectedClientId" [ngModelOptions]="{standalone: true}"
+                            (change)="onClientChange()" placeholder="Search & Select Client *"
+                            [class.ng-select-unselected]="isSubmitted && !selectedClientId" class="w-100"
+                            [required]="true">
+                        </ng-select>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-12 search-input">
+                        <ng-select [items]="projectList" bindLabel="name" bindValue="id" [(ngModel)]="selectedProjectId"
+                            [ngModelOptions]="{standalone: true}" [multiple]="true"
+                            placeholder="Search & Select Project">
+                        </ng-select>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-12">
+                        <button (click)="viewPaymentReceivableReport()" type="button" class="header-btn btn-save w-auto"
+                            style="padding-left: 18px !important; padding-right: 18px !important;">
+                            <icon-Save></icon-Save>
+                            View
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+            <!-- Rest of your dashboard content -->
+        </div>
+    </div>
+    <div class="row m-0 p-0 ">
+        <div class="col p-0 m-0 borad payment-recivable-dash">
+            <tg-grid [columns]="columns" [rowData]="rowData" [totalCount]="totalCount"
+                [isBreadCurmbsShow]="false" [title]="'Transaction List'" (pageNumber)="onPageChange($event)"
+                (recodeValueChange)="onPageSizeChange($event)" (sortChange)="onSortChange($event)"
+                [isEditButton]="false" (filterChange)="onFilterChange($event)" [isSearch]="false"
+                [exportVisibility]="false" (delete)="onDelete($any($event))" [isVisibleDisplayedColoum]="false"
+                (insert)="onInsert()" (buttonClick)="fileDownload($event)" (orderBy)="orderBy($event)">
+            </tg-grid>
+        </div>
+    </div>
+</div>
