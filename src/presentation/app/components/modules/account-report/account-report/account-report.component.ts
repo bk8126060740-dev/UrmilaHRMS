@@ -6,18 +6,23 @@ import { HttpParams } from '@angular/common/http';
 import { ToasterService } from '../../../../../../common/toaster-service';
 import { Router } from '@angular/router';
 import { AccountreportService } from '../../../../../../domain/services/account-report.service';
-import { AccountReport } from '../../../../../../domain/models/accountreport.model';
+
 @Component({
   selector: 'app-account-report',
   templateUrl: './account-report.component.html',
   encapsulation: ViewEncapsulation.None,
   styleUrl: './account-report.component.scss'
 })
-
 export class AccountReportComponent implements OnInit {
-  accountReport: AccountReport[] = [];
-  yearCtrl: FormControl = new FormControl(null);
-  selectedYear: number | null = null;
+  rowData: any = [];
+  yearCtrl: FormControl = new FormControl(new Date());
+  selectedYear: number | null = new Date().getFullYear();
+  pipe: string = 'currency';
+  
+  // Pagination properties
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalRecords: number = 0;
 
   constructor(
     private accountreportService: AccountreportService,
@@ -28,56 +33,104 @@ export class AccountReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClientList();
-    
   }
 
-  onCancel() {
-    this.router.navigate(['/accountreport/dashboard']);
+  // Computed property for total pages
+  get totalPages(): number {
+    return Math.ceil(this.totalRecords / this.pageSize);
   }
-  
- 
-  getClientList(): void {
-    const params = new HttpParams()
-      .set('isSkipPaging', true)
 
-    this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params).subscribe({
+getClientList(): void {
+  const selectedDate: Date = this.yearCtrl.value || new Date();
+
+  const formattedDate =
+    selectedDate.getFullYear() + '-' +
+    String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
+    String(selectedDate.getDate()).padStart(2, '0');
+
+  let params = new HttpParams()
+    .set('isSkipPaging', 'false')
+    .set('date', formattedDate)
+    .set('pageNumber', this.currentPage.toString())
+    .set('pageSize', this.pageSize.toString());
+
+  this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
+    .subscribe({
       next: (response) => {
-        if (response.success) {
-          this.accountReport = response.data as AccountReport[];
+        console.log('API Response:', response);
+        
+        this.rowData = response.data || [];
+        
+        
+        if (this.rowData.length > 0) {
+          this.totalRecords = this.rowData[0].TotalRecords || 0;
         } else {
-          this.accountReport = [];
+          this.totalRecords = 0;
         }
+        
+        console.log('Total Records:', this.totalRecords);
+        console.log('Current Page:', this.currentPage);
+        console.log('Total Pages:', this.totalPages);
+      },
+      error: (error) => {
+        this.toasterService.errorToaster('Failed to load data');
+        console.error('Error fetching data:', error);
+        this.rowData = [];
+        this.totalRecords = 0;
       }
     });
-  }
+}
 
-  // Handler for year selection from the datepicker's year view
-  chosenYearHandler(normalizedYear: Date, datepicker: MatDatepicker<Date>) {
-    // create a date with the selected year and set to Jan 1
-    const ctrlValue = this.yearCtrl.value ? new Date(this.yearCtrl.value) : new Date();
-    ctrlValue.setFullYear(normalizedYear.getFullYear());
-    ctrlValue.setMonth(0);
-    ctrlValue.setDate(1);
-    this.yearCtrl.setValue(ctrlValue);
-    this.selectedYear = ctrlValue.getFullYear();
-    datepicker.close();
-    this.onYearChange(this.selectedYear);
-  }
-
-  // Called when year changes — keep minimal: set value and refresh list (customize as needed)
-  onYearChange(year: any) {
-    this.selectedYear = typeof year === 'number' ? year : (year && year.getFullYear ? year.getFullYear() : year);
-    // If you want to reload data based on year, call a method here.
-    // For now, re-fetch the client list (adjust to your actual filtering behavior).
+  onDateChange(event: any): void {
+    this.yearCtrl.setValue(event.value);
+    this.currentPage = 1; 
     this.getClientList();
   }
 
-   
- 
- 
+  
+  onPageSizeChange(): void {
+    this.currentPage = 1; 
+    this.getClientList();
+  }
 
-   
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
+    this.getClientList();
+  }
 
-   
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+    
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+  getStartRecord(): number {
+    if (this.totalRecords === 0) return 0;
+    return (this.currentPage - 1) * this.pageSize + 1;
+  }
+
+  getEndRecord(): number {
+    const end = this.currentPage * this.pageSize;
+    return Math.min(end, this.totalRecords);
+  }
+
+  viewDetails(item: any): void {
+    console.log('View details for:', item);
+    
+  }
 }
-

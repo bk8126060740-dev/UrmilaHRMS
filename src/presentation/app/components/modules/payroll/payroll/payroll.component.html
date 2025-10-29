@@ -284,12 +284,12 @@
 
                                                             <td class="ps-4 text-center w-10"
                                                                 style="padding-top: 5px !important; padding-bottom: 5px !important;">
-                                                                <button class="btn btn-outline-dark"
+                                                                <button class="btn btn-outline-primary"
                                                                     matTooltip="Generate Invoice"
                                                                     [matTooltipPosition]="'right'"
                                                                     aria-label="Generate Invoice"
                                                                     (click)="InvoiceFile(item)"
-                                                                    *ngIf="item.status === 146">
+                                                                    *ngIf="item.status === 146 && item.payrollPath==null">
                                                                     Generate Invoice
                                                                 </button>
 
@@ -319,7 +319,7 @@
                                                                     [matTooltipHideDelay]="hideDelay.value"
                                                                     aria-label="Download"
                                                                     (click)="DownloadInvoice(item)"
-                                                                    *ngIf="item.status === 146">
+                                                                    *ngIf="item.status === 146 && item.payrollPath!=null">
 
 
                                                                     <icon-fileDownload></icon-fileDownload>

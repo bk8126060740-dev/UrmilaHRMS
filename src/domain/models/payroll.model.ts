@@ -21,6 +21,7 @@ export class PayrollModel {
     bankSheetId: number = 0;
     projectName: string = "";
     InvoiceUrl: string = "";
+    payrollPath: string = "";
     taxInvoices:PayrollList[] =[];
     isTaxInvoice:IsTaxInvoice[]=[];
 }
