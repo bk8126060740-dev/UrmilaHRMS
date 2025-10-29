@@ -198,7 +198,7 @@ export class AppConstant {
   public static readonly PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
   public static readonly GET_PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
   public static readonly GET_CLIENT_SEARCH: string = 'Client/Search';
-  public static readonly GET_Account_SEARCH: string = 'Payroll/GetAccountReport';
+  public static readonly GET_Account_SEARCH: string = 'CustomReport/GetAccountColumn';
   public static readonly GET_PERFORMA_INVOICE: string = 'Project/GenerateInvoice';
   public static readonly OPERATORS: string[] = ["+", "-", "*", "/", "(", ")", "IF", ",", "%", "<", ">", "=", "ROUNDUP", "ROUND", "&&", "||"];
   public static readonly PROJECT_DROPDOWN: number[] = [2, 5, 6, 7, 8, 9, 12, 10,];
