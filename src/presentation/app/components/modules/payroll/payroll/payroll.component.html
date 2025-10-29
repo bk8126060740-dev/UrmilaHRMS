@@ -166,10 +166,10 @@
                                                                 style=" padding-top: 12px !important; padding-bottom: 12px !important;">
                                                                 View Record
                                                             </th>
-                                                            <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
+                                                            <!-- <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
                                                                 style=" padding-top: 12px !important; padding-bottom: 12px !important;">
                                                                 Regenerate
-                                                            </th>
+                                                            </th> -->
                                                             <th class="text-dark pe-2 w-10 text-dark p-2 cursor fw-medium ps-4 text-center w-10"
                                                                 style=" padding-top: 12px !important; padding-bottom: 12px !important;">
                                                                 Generate Invoice
@@ -263,7 +263,7 @@
                                                                     </div>
                                                                 </ng-container>
                                                             </td>
-                                                            <td class="ps-4 text-center w-10"
+                                                            <!-- <td class="ps-4 text-center w-10"
                                                                 style=" padding-top: 5px !important; padding-bottom: 5px !important;">
                                                                 <ng-container
                                                                     *ngIf="item.status === 145 || item.status === 143 || item.status === 147">
@@ -280,11 +280,20 @@
                                                                         </span>
                                                                     </div>
                                                                 </ng-container>
-                                                            </td>
+                                                            </td> -->
 
                                                             <td class="ps-4 text-center w-10"
                                                                 style="padding-top: 5px !important; padding-bottom: 5px !important;">
-                                                                <div class="attributes-icon d-flex justify-content-center align-items-center cursor ms-auto me-auto"
+                                                                <button class="btn btn-outline-dark"
+                                                                    matTooltip="Generate Invoice"
+                                                                    [matTooltipPosition]="'right'"
+                                                                    aria-label="Generate Invoice"
+                                                                    (click)="InvoiceFile(item)"
+                                                                    *ngIf="item.status === 146">
+                                                                    Generate Invoice
+                                                                </button>
+
+                                                                <!-- <div class="attributes-icon d-flex justify-content-center align-items-center cursor ms-auto me-auto"
                                                                     style="width: fit-content;" mat-raised-button
                                                                     matTooltip="Generate Invoice"
                                                                     [matTooltipPosition]="'right'" aria-label="Generate"
@@ -299,7 +308,7 @@
                                                                         </ng-container>
                                                                     </ng-container>
 
-                                                                </div>
+                                                                </div> -->
                                                             </td>
                                                             <td class="ps-4 text-center w-10"
                                                                 style="padding-top: 5px !important; padding-bottom: 5px !important;">
@@ -1027,5 +1036,3 @@
         </div>
     </div>
 </div>
-
- 
