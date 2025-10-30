@@ -64,9 +64,7 @@ getClientList(): void {
           this.totalRecords = 0;
         }
         
-        console.log('Total Records:', this.totalRecords);
-        console.log('Current Page:', this.currentPage);
-        console.log('Total Pages:', this.totalPages);
+       
       },
       error: (error) => {
         this.toasterService.errorToaster('Failed to load data');

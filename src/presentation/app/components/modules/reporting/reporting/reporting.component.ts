@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { AppConstant } from '../../../../../../common/app-constant';
 import swal from "sweetalert";
 import { CustomReportTemplateList } from '../../../../../../domain/models/reporting.model';
@@ -12,7 +12,8 @@ import { ToasterService } from '../../../../../../common/toaster-service';
 @Component({
   selector: 'app-reporting',
   templateUrl: './reporting.component.html',
-  styleUrl: './reporting.component.scss'
+  styleUrl: './reporting.component.scss',
+   encapsulation: ViewEncapsulation.None,
 })
 
 export class ReportingComponent {
