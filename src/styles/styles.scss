@@ -196,17 +196,12 @@ body {
   list-style: none !important;
 }
 
-/* Hide the number input spinners in Chrome, Safari, Edge */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
-  /* Hide the spinner */
   margin: 0;
-  /* Reset margin */
 }
 
-/* Hide the number input spinners in Firefox */
 input[type=number] {
   -moz-appearance: textfield;
-  /* Change appearance to textfield */
 }

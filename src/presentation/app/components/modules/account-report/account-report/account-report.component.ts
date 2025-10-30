@@ -18,8 +18,7 @@ export class AccountReportComponent implements OnInit {
   yearCtrl: FormControl = new FormControl(new Date());
   selectedYear: number | null = new Date().getFullYear();
   pipe: string = 'currency';
-  
-  // Pagination properties
+ 
   currentPage: number = 1;
   pageSize: number = 10;
   totalRecords: number = 0;
@@ -34,8 +33,8 @@ export class AccountReportComponent implements OnInit {
   ngOnInit(): void {
     this.getClientList();
   }
+  
 
-  // Computed property for total pages
   get totalPages(): number {
     return Math.ceil(this.totalRecords / this.pageSize);
   }
@@ -57,10 +56,7 @@ getClientList(): void {
   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
     .subscribe({
       next: (response) => {
-        console.log('API Response:', response);
-        
         this.rowData = response.data || [];
-        
         
         if (this.rowData.length > 0) {
           this.totalRecords = this.rowData[0].TotalRecords || 0;

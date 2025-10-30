@@ -5,7 +5,6 @@
                 <app-breadcrumb></app-breadcrumb>
             </div>
             <div class="col-12 col-md justify-content-end d-flex project-dropdown">
-                <!-- Payroll Year Dropdown List -->
                 <div class="dropdown ms-3 project-btn year-select ">
                     <ng-select [items]="yearsList" bindLabel="label" bindValue="value" [clearable]="false"
                         placeholder="Select Year" [(ngModel)]="selectedYear" (change)="onYearChange($event)">
