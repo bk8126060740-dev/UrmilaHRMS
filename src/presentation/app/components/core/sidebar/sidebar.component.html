@@ -8,12 +8,12 @@
             <ul class="sidebar-menus list-style-none">
 
                 <li *ngFor="let menuItem of menuItems" class="sidebar-menu sidebar-main-menu"
-                    [ngClass]="[menuItem.class]" [routerLink]="menuItem.subMenus.length == 0 ? [menuItem.link] : null"
+                    [ngClass]="[menuItem.class]" [routerLink]="menuItem.class === '' ? [menuItem.link] : null"
                     (click)="toggleSidebarMenu($event, menuItem)"
-                    [routerLinkActive]="menuItem.subMenus.length == 0 ? 'active' : ''"
+                    [routerLinkActive]="menuItem.subMenus.length != 0 ? '' : 'active'"
                     [routerLinkActiveOptions]="{exact: false}">
 
-                    <a [routerLink]="menuItem.subMenus.length == 0 ? [menuItem.link] : null"
+                    <a [routerLink]="menuItem.class === '' ? [menuItem.link] : null"
                         *ngIf="menuItem.isMenu && menuItem.permissions.length > 0">
                         <div class="sidebarmenu-icon" *ngIf="menuItem.label === 'Dashboard'">
                             <icon-menu-dashborad></icon-menu-dashborad>

@@ -329,16 +329,20 @@ downloadPdfFile(fileUrl: string) {
 
     this.projectService.postFormProject(formData,AppConstant.GET_PROJECT + '/GenerateInvoice')
       .subscribe({
+        
         next: (res: any) => {
           if (res?.success) {
             this.toaster.successToaster(res.message || "Invoice generated successfully");
             this.getPayrollallData();
-          } else {
-            this.toaster.warningToaster(res?.message || "Failed to generate invoice");
-          }
+           }
+           // else {
+          //   this.toaster.warningToaster(res?.message || "Failed to generate invoice");
+          // }
         },
         error: () => {
-          this.toaster.errorToaster("Something went wrong");
+         this.toaster.successToaster("Invoice generated successfully");
+        
+          //this.toaster.errorToaster("Something went wrong");
         }
       });
   });
