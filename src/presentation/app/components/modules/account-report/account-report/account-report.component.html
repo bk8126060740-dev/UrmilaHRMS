@@ -5,15 +5,36 @@
                 <app-breadcrumb></app-breadcrumb>
             </div>
             <div class="col-12 col-md justify-content-end d-flex project-dropdown">
-                <div class="dropdown ms-3 project-btn year-select">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <input matInput [matDatepicker]="datePicker" placeholder="Select Date" [formControl]="yearCtrl"
-                            (dateChange)="onDateChange($event)">
-                        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                        <mat-datepicker #datePicker></mat-datepicker>
-                    </mat-form-field>
+                <div class="row">
+                    <!-- From Date -->
+                    <div class="col-md-4">
+                        <div class="dropdown ms-3 project-btn year-select">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>From Date</mat-label>
+                                <input matInput [matDatepicker]="fromDatePicker" placeholder="Select From Date"
+                                    [formControl]="fromDateCtrl" (dateChange)="onDateChange()" />
+                                <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #fromDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- To Date -->
+                    <div class="col-md-4">
+                        <div class="dropdown ms-3 project-btn year-select">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>To Date</mat-label>
+                                <input matInput [matDatepicker]="toDatePicker" placeholder="Select To Date"
+                                    [formControl]="toDateCtrl" (dateChange)="onDateChange()" />
+                                <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #toDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="borad-body">
@@ -65,22 +86,25 @@
                                     </td>
 
                                     <td>
-                                        
-                                        <div *ngIf="item.AttachmentId > 0" class="cursor" appDrag (files)="filesDropped($event)"
+
+                                        <div *ngIf="item.AttachmentId > 0" class="cursor" appDrag
+                                            (files)="filesDropped($event)"
                                             (fileSizeError)="handleFileSizeErrors($event)"
                                             (click)="triggerProfileFileInput(fileInput)">
 
-                                            <div 
+                                            <div
                                                 class="input-group choose-file dragdrop-file d-flex flex-wrap w-20 justify-content-center">
                                                 <button class="browse-btn">Browse File</button>
-                                                <input type="file" #fileInput hidden multiple accept=".jpg,.jpeg,.png,.pdf" name="fileName"
-                                                    (change)="signtaxonDocumentFileSelected($event,item)"  />
+                                                <input type="file" #fileInput hidden multiple
+                                                    accept=".jpg,.jpeg,.png,.pdf" name="fileName"
+                                                    (change)="signtaxonDocumentFileSelected($event,item)" />
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="text-center pe-4">
-                                        <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(item)" *ngIf="item.AttachmentId > 0">
+                                        <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(item)"
+                                            *ngIf="item.AttachmentId > 0">
                                             <i class="bi bi-eye"></i> View
                                         </button>
                                     </td>
@@ -177,27 +201,28 @@
                                     </thead>
 
                                     <tbody>
-                                         <tr *ngFor="let item of InvoicefilerowData" class="align-middle">
-                                            <td class="text-start ps-4"><span class="fw-medium">{{item.TaxInvoiceNo}}</span></td>
+                                        <tr *ngFor="let item of InvoicefilerowData" class="align-middle">
+                                            <td class="text-start ps-4"><span
+                                                    class="fw-medium">{{item.TaxInvoiceNo}}</span></td>
                                             <td class="text-start ps-4">{{item.Amount}}</td>
-                                        <td class="text-start ps-4">{{ item.TaxInvoiceDate| date: 'dd-MMM-yyyy' }}</td>
+                                            <td class="text-start ps-4">{{ item.TaxInvoiceDate| date: 'dd-MMM-yyyy' }}
+                                            </td>
 
-                                           <td class="ps-4 text-start w-10"
-                                                                style="padding-top: 5px !important; padding-bottom: 5px !important;">
-                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                    style="width: fit-content;" mat-raised-button
-                                                                    matTooltip="Download" [matTooltipPosition]="'right'"
-                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                    [matTooltipHideDelay]="hideDelay.value"
-                                                                    aria-label="Download"
-                                                                    (click)="DownloadAttachmentfile(item)">
-
-
-                                                                    <icon-fileDownload></icon-fileDownload>
+                                            <td class="ps-4 text-start w-10"
+                                                style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                    style="width: fit-content;" mat-raised-button matTooltip="Download"
+                                                    [matTooltipPosition]="'right'"
+                                                    [matTooltipShowDelay]="showDelay.value"
+                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Download"
+                                                    (click)="DownloadAttachmentfile(item)">
 
 
-                                                                </div>
-                                                            </td>
+                                                    <icon-fileDownload></icon-fileDownload>
+
+
+                                                </div>
+                                            </td>
 
                                         </tr>
 
@@ -210,7 +235,7 @@
                             <div class="w-100 d-flex justify-content-between align-items-center">
                                 <p class="text-muted small mb-0">Summary of Invoice</p>
 
-                                
+
                             </div>
                         </div>
                     </div>

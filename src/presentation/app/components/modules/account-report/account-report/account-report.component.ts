@@ -9,6 +9,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileHandle } from '../../../../../../directive/dragDrop.directive';
 import { DomSanitizer } from '@angular/platform-browser';
 import { boolean } from 'mathjs';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 @Component({
   selector: 'app-account-report',
@@ -44,7 +46,7 @@ useProxyDownload: any =boolean;
   }
 
   ngOnInit(): void {
-    this.getClientList();
+    this.getClientList(new Date(), new Date());
   }
   
 
@@ -52,17 +54,24 @@ useProxyDownload: any =boolean;
     return Math.ceil(this.totalRecords / this.pageSize);
   }
 
-getClientList(): void {
-  const selectedDate: Date = this.yearCtrl.value || new Date();
+getClientList(fromdate:any, Todate:any): void {
+  const FromDate: Date = fromdate || new Date();
+  const TodDate: Date = Todate || new Date();
 
-  const formattedDate =
-    selectedDate.getFullYear() + '-' +
-    String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
-    String(selectedDate.getDate()).padStart(2, '0');
+  const FromformattedDate =
+    FromDate.getFullYear() + '-' +
+    String(FromDate.getMonth() + 1).padStart(2, '0') + '-' +
+    String(FromDate.getDate()).padStart(2, '0');
+    
+  const ToformattedDate =
+    TodDate.getFullYear() + '-' +
+    String(TodDate.getMonth() + 1).padStart(2, '0') + '-' +
+    String(TodDate.getDate()).padStart(2, '0');
 
   let params = new HttpParams()
     .set('isSkipPaging', 'false')
-    .set('date', formattedDate)
+    .set('fromDate', FromformattedDate)
+    .set('toDate', ToformattedDate)
     .set('pageNumber', this.currentPage.toString())
     .set('pageSize', this.pageSize.toString());
 
@@ -87,17 +96,32 @@ getClientList(): void {
       }
     });
 }
+ 
+ fromDateCtrl = new FormControl();
+toDateCtrl = new FormControl();
 
-  onDateChange(event: any): void {
-    this.yearCtrl.setValue(event.value);
-    this.currentPage = 1; 
-    this.getClientList();
+fromDate: Date | null = null;
+toDate: Date | null = null;
+
+ 
+onDateChange(): void {
+  this.fromDate = this.fromDateCtrl.value;
+  this.toDate = this.toDateCtrl.value;
+
+  if (this.fromDate && this.toDate) {
+    if (this.fromDate > this.toDate) {
+      console.warn('From Date cannot be after To Date');
+      return;
+    }
+
+    this.currentPage = 1;
+    this.getClientList(this.fromDate, this.toDate);
   }
+}
 
-  
   onPageSizeChange(): void {
     this.currentPage = 1; 
-    this.getClientList();
+    this.getClientList(this.fromDate, this.toDate);
   }
 
   goToPage(page: number): void {
@@ -105,7 +129,7 @@ getClientList(): void {
       return;
     }
     this.currentPage = page;
-    this.getClientList();
+   this.getClientList(this.fromDate, this.toDate);
   }
 
   getPageNumbers(): number[] {
@@ -227,6 +251,7 @@ signtaxonDocumentFileSelected(event: Event, item: any): void {
   }
 }
 
+
     
 onSubmit(files: File[], attachmentId: number): void {
   const formData = new FormData();
@@ -244,7 +269,7 @@ onSubmit(files: File[], attachmentId: number): void {
       next: (response) => {
         this.rowData = response.data || [];
         this.totalRecords = this.rowData.length > 0 ? (this.rowData[0].TotalRecords || 0) : 0;
-        this.getClientList()
+        this.getClientList(this.fromDate, this.toDate); 
         this.toasterService.successToaster('Files uploaded successfully.');
       },
       error: (error) => {
