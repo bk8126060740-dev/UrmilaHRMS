@@ -42,6 +42,8 @@ export class ProjectDaum {
   formattedStartDate?: string;
   formattedEndDate?: string;
   statusColorCode?: string;
+  pfNumber: string = "";
+  esiNumber: string = "";
 }
 
 export class ProjectModel {
