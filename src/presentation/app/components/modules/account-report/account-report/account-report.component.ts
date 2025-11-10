@@ -19,7 +19,6 @@ import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
   styleUrl: './account-report.component.scss'
 })
 export class AccountReportComponent implements OnInit {
-  rowData: any = [];
   InvoicefilerowData: any = [];
   yearCtrl: FormControl = new FormControl(new Date());
   selectedYear: number | null = new Date().getFullYear();
@@ -29,10 +28,15 @@ useProxyDownload: any =boolean;
    showDelay = new FormControl(100);
   hideDelay = new FormControl(103);
 
-  currentPage: number = 1;
-  pageSize: number = 10;
-  totalRecords: number = 0;
   files: FileHandle[] = [];
+
+
+  // Add near top of component properties
+allRowData: any[] = []; // will hold up to 500 records returned from API
+rowData: any[] = [];    // currently visible page slice
+currentPage: number = 1;
+pageSize: number = 10;  // ensure this is a number type
+totalRecords: number = 0;
 
   constructor(
     private accountreportService: AccountreportService,
@@ -50,53 +54,138 @@ useProxyDownload: any =boolean;
   }
   
 
-  get totalPages(): number {
-    return Math.ceil(this.totalRecords / this.pageSize);
-  }
+get totalPages(): number {
+  return this.pageSize > 0 ? Math.ceil(this.totalRecords / this.pageSize) : 0;
+}
+// getClientList(fromdate:any, Todate:any): void {
+//   const FromDate: Date = fromdate || new Date();
+//   const TodDate: Date = Todate || new Date();
 
-getClientList(fromdate:any, Todate:any): void {
+//   const FromformattedDate =
+//     FromDate.getFullYear() + '-' +
+//     String(FromDate.getMonth() + 1).padStart(2, '0') + '-' +
+//     String(FromDate.getDate()).padStart(2, '0');
+    
+//   const ToformattedDate =
+//     TodDate.getFullYear() + '-' +
+//     String(TodDate.getMonth() + 1).padStart(2, '0') + '-' +
+//     String(TodDate.getDate()).padStart(2, '0');
+
+//   let params = new HttpParams()
+//     .set('isSkipPaging', 'false')
+//     .set('fromDate', FromformattedDate)
+//     .set('toDate', ToformattedDate)
+//     .set('pageNumber', this.currentPage.toString())
+//     .set('pageSize', "500");
+
+//   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
+//     .subscribe({
+//       next: (response) => {
+//         this.rowData = response.data || [];
+        
+//         if (this.rowData.length > 0) {
+//           this.totalRecords = this.rowData[0].TotalRecord || this.rowData.length;
+//         } else {
+//           this.totalRecords = 0;
+//         }
+       
+//       },
+//       error: (error) => {
+//         this.toasterService.errorToaster('Failed to load data');
+//         console.error('Error fetching data:', error);
+//         this.rowData = [];
+//         this.totalRecords = 0;
+//       }
+//     });
+// }
+  // After API fetch — store allRowData, set totalRecords, set currentPage and show page 1
+getClientList(fromdate: any, Todate: any): void {
   const FromDate: Date = fromdate || new Date();
   const TodDate: Date = Todate || new Date();
 
   const FromformattedDate =
-    FromDate.getFullYear() + '-' +
-    String(FromDate.getMonth() + 1).padStart(2, '0') + '-' +
-    String(FromDate.getDate()).padStart(2, '0');
-    
+    `${FromDate.getFullYear()}-${String(FromDate.getMonth() + 1).padStart(2, '0')}-${String(FromDate.getDate()).padStart(2, '0')}`;
+
   const ToformattedDate =
-    TodDate.getFullYear() + '-' +
-    String(TodDate.getMonth() + 1).padStart(2, '0') + '-' +
-    String(TodDate.getDate()).padStart(2, '0');
+    `${TodDate.getFullYear()}-${String(TodDate.getMonth() + 1).padStart(2, '0')}-${String(TodDate.getDate()).padStart(2, '0')}`;
 
   let params = new HttpParams()
     .set('isSkipPaging', 'false')
     .set('fromDate', FromformattedDate)
     .set('toDate', ToformattedDate)
-    .set('pageNumber', this.currentPage.toString())
-    .set('pageSize', this.pageSize.toString());
+    .set('pageNumber', '1')
+    .set('pageSize', '500'); // fetch first 500
 
   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
     .subscribe({
       next: (response) => {
-        this.rowData = response.data || [];
-        
-        if (this.rowData.length > 0) {
-          this.totalRecords = this.rowData[0].TotalRecords || 0;
-        } else {
-          this.totalRecords = 0;
-        }
-        
-       
+     //   this.rowData = response.data || [];
+        this.allRowData = Array.isArray(response.data) ? response.data : [];
+        this.totalRecords = this.allRowData.length;
+        this.currentPage = 1;
+        this.pageSize = 10; // default visible per page
+        this.updatePagedData();
       },
       error: (error) => {
         this.toasterService.errorToaster('Failed to load data');
         console.error('Error fetching data:', error);
+        this.allRowData = [];
         this.rowData = [];
         this.totalRecords = 0;
       }
     });
 }
- 
+
+// Helper to update visible slice from allRowData
+updatePagedData(): void {
+  // ensure numeric values
+  const ps = Number(this.pageSize) || 10;
+  const cp = Number(this.currentPage) || 1;
+
+  const startIndex = (cp - 1) * ps;
+  const endIndex = Math.min(startIndex + ps, this.totalRecords);
+
+  this.rowData = this.allRowData.slice(startIndex, endIndex);
+}
+
+// Called when changing page (buttons)
+goToPage(page: number): void {
+  if (page < 1) page = 1;
+  if (page > this.totalPages) page = this.totalPages;
+  if (page === this.currentPage) return;
+  this.currentPage = page;
+  this.updatePagedData();
+}
+
+// Called when user changes page size from dropdown
+onPageSizeChange(event?: Event | number): void {
+  // Accept either event (from DOM) or direct number
+  if (typeof event === 'number') {
+    this.pageSize = event;
+  } else if (event instanceof Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.pageSize = Number(value) || 10;
+  } else {
+    // fallback
+    this.pageSize = Number(this.pageSize) || 10;
+  }
+
+  // reset to first page to avoid out-of-range page
+  this.currentPage = 1;
+  this.updatePagedData();
+}
+
+// Start / end record helpers (no change needed)
+getStartRecord(): number {
+  if (this.totalRecords === 0) return 0;
+  return (this.currentPage - 1) * this.pageSize + 1;
+}
+
+getEndRecord(): number {
+  const end = this.currentPage * this.pageSize;
+  return Math.min(end, this.totalRecords);
+}
+
  fromDateCtrl = new FormControl();
 toDateCtrl = new FormControl();
 
@@ -119,49 +208,26 @@ onDateChange(): void {
   }
 }
 
-  onPageSizeChange(): void {
-    this.currentPage = 1; 
-    this.getClientList(this.fromDate, this.toDate);
+ 
+ 
+getPageNumbers(): number[] {
+  const pages: number[] = [];
+  const maxPagesToShow = 5;
+  let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+  let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+
+  if (endPage - startPage < maxPagesToShow - 1) {
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
   }
 
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages) {
-      return;
-    }
-    this.currentPage = page;
-   this.getClientList(this.fromDate, this.toDate);
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
   }
 
-  getPageNumbers(): number[] {
-    const pages: number[] = [];
-    const maxPagesToShow = 5;
-    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = Math.min(this.totalPages, startPage + maxPagesToShow - 1);
+  return pages;
+}
 
-    
-    if (endPage - startPage < maxPagesToShow - 1) {
-      startPage = Math.max(1, endPage - maxPagesToShow + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    return pages;
-  }
-
-  getStartRecord(): number {
-    if (this.totalRecords === 0) return 0;
-    return (this.currentPage - 1) * this.pageSize + 1;
-  }
-
-  getEndRecord(): number {
-    const end = this.currentPage * this.pageSize;
-    return Math.min(end, this.totalRecords);
-  }
-
-
-//Popup Methods and Properties can be added here
+  
  tallyPartialForm!: FormGroup;
   selectedFiles: File[] = [];
   @ViewChild("tallyPartialmodal", { static: false }) public tallyPartialmodal: | ModalDirective | undefined;
@@ -177,11 +243,10 @@ onDateChange(): void {
         this.InvoicefilerowData = response.data || [];
         
         if (this.InvoicefilerowData.length > 0) {
-          this.totalRecords = this.rowData[0].TotalRecords || 0;
+          this.totalRecords = this.rowData[0].TotalRecord  || this.rowData.length;
         } else {
           this.totalRecords = 0;
         }
-        
        
       },
       error: (error) => {
@@ -262,12 +327,10 @@ onSubmit(files: File[], attachmentId: number): void {
 
   formData.append('AttachmentId', attachmentId.toString());
   formData.append('IsPublic', 'false'); 
-  // formData.append('ExtraPath', 'optional-folder'); // optional
-
   this.accountreportService.postAccountreport(AppConstant.Save_MultipleInvoice_Files, formData)
     .subscribe({
       next: (response) => {
-        this.rowData = response.data || [];
+       this.allRowData = Array.isArray(response.data) ? response.data : [];
         this.totalRecords = this.rowData.length > 0 ? (this.rowData[0].TotalRecords || 0) : 0;
         this.getClientList(this.fromDate, this.toDate); 
         this.toasterService.successToaster('Files uploaded successfully.');

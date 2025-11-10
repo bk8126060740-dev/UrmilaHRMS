@@ -87,7 +87,7 @@
 
                                     <td>
 
-                                        <div *ngIf="item.AttachmentId > 0" class="cursor" appDrag
+                                        <div class="cursor" appDrag
                                             (files)="filesDropped($event)"
                                             (fileSizeError)="handleFileSizeErrors($event)"
                                             (click)="triggerProfileFileInput(fileInput)">
@@ -104,7 +104,7 @@
 
                                     <td class="text-center pe-4">
                                         <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(item)"
-                                            *ngIf="item.AttachmentId > 0">
+                                            >
                                             <i class="bi bi-eye"></i> View
                                         </button>
                                     </td>

@@ -336,8 +336,9 @@
                                                                     [matTooltipPosition]="'right'"
                                                                     [matTooltipShowDelay]="showDelay.value"
                                                                     [matTooltipHideDelay]="hideDelay.value"
-                                                                    aria-label="Upload"
-                                                                    (click)="uploadTaxInvoiceFile(item)">
+                                                                    aria-label="Upload">
+<!--                                                                     
+                                                                    (click)="uploadTaxInvoiceFile(item) -->
 
                                                                     <ng-container
                                                                         *ngIf="item.isTaxInvoice && item.isTaxInvoice.length > 0; else showIcon">
