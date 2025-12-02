@@ -121,7 +121,7 @@
             <thead>
                 <tr>
                     <th colspan="4" class="text-center" style="border-left: transparent !important;">Project Data</th>
-                    <th colspan="3" class="text-center">Invoice Data</th>
+                    <th colspan="5" class="text-center">Invoice Data</th>
                     <th colspan="3" class="text-center">Employee Data</th>
                     <th class="text-center">Attendance</th>
                     <th colspan="3" class="text-center">Employee Contribution (EE)</th>
@@ -138,10 +138,12 @@
                     <th class="text-center">Period</th>
                     <th class="text-center">Invoice No</th>
                     <th class="text-center">Invoice Date</th>
+                    <th class="text-center">Taxinvoice No</th>
+                    <th class="text-center">Taxinvoice Date</th>
                     <th class="text-center">Employee Id</th>
                     <th class="text-center">Employee Name</th>
                     <th class="text-center">UAN No</th>
-                    <th class="text-center">Present Days</th>
+                    <th class="text-center">Absent Days</th>
                     <th class="text-center">Employee</th>
                     <th class="text-center">Department</th>
                     <th class="text-center">Difference</th>
@@ -169,7 +171,9 @@
                     <td class="text-center">{{ row.location }}</td>
                     <td class="text-center">{{ row.period }}</td>
                     <td class="text-center">{{ row.invoiceNo }}</td>
-                    <td class="text-center">{{ row.invoiceDate }}</td>
+                    <td class="text-center">{{ row.invoiceDate | date:'dd-MM-yyyy' }}</td>
+                    <td class="text-center">{{ row.taxInvoiceNo }}</td>
+                    <td class="text-center">{{ row.taxInvoiceDate | date:'dd-MM-yyyy' }}</td>
                     <td class="text-center">{{ row.employeeCode }}</td>
                     <td class="text-center">{{ row.employeeName }}</td>
                     <td class="text-center">{{ row.uanNo }}</td>

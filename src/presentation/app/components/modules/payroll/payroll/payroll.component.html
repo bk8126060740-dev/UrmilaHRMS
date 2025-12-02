@@ -288,9 +288,10 @@
                                                                     [matTooltipPosition]="'right'"
                                                                     aria-label="Generate Invoice"
                                                                     (click)="InvoiceFile(item)"
-                                                                    *ngIf="item.status === 146 && (item.genratedStatus==false || item.genratedStatus==null)">
+                                                                    *ngIf="item.status === 146 && (!item.genratedStatus)">
                                                                     Generate Invoice
                                                                 </button>
+
 
                                                                 <!-- <div class="attributes-icon d-flex justify-content-center align-items-center cursor ms-auto me-auto"
                                                                     style="width: fit-content;" mat-raised-button
@@ -336,9 +337,8 @@
                                                                     [matTooltipPosition]="'right'"
                                                                     [matTooltipShowDelay]="showDelay.value"
                                                                     [matTooltipHideDelay]="hideDelay.value"
-                                                                    aria-label="Upload" 
-                                                                    (click)="viewDetails(item)">  
-<!-- uploadTaxInvoiceFile(item) -->
+                                                                    aria-label="Upload" (click)="viewDetails(item)">
+                                                                    <!-- uploadTaxInvoiceFile(item) -->
                                                                     <ng-container
                                                                         *ngIf="item.isTaxInvoice && item.isTaxInvoice.length > 0; else showIcon">
                                                                         <span *ngFor="let t of item.taxInvoices"
@@ -1037,75 +1037,72 @@
 </div>
 
 
-    <div bsModal #tallyPartialmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true" [config]="{ backdrop: 'static' }">
-        <div class="modal-dialog popup-design modal-lg">
-            <div class="modal-content px-4">
+<div bsModal #tallyPartialmodal="bs-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div class="modal-dialog popup-design modal-lg">
+        <div class="modal-content px-4">
 
-                <div class="modal-header popup-header justify-content-between d-flex">
-                    <h5 class="modal-title pt-2" id="exampleModalLabel">Invoice Details</h5>
-                    <span class="d-block cursor-pointer" (click)="tallyPartialmodal?.hide()">
-                        <icon-ModalClose></icon-ModalClose>
-                    </span>
-                </div>
-
-
-                <form [formGroup]="tallyPartialForm">
-                    <div class="col-12">
-                        <div class="wizard-table">
-                            <div class="grid-body mt-3 border rounded-2 overflow-hidden position-relative">
-                                <table class="table w-100 m-0 p-0 align-middle">
-                                    <thead class="position-sticky top-0 bg-light">
-                                        <tr class="table-title" style="border: none !important">
-                                            <th class="ps-3 fw-medium">Tax Invoice No.</th>
-                                            <th class="fw-medium">Amount</th>
-                                            <th class="fw-medium">TaxInvoice Date</th>
-                                            <th class="fw-medium">Download</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr *ngFor="let item of InvoicefilerowData" class="align-middle">
-                                            <td class="text-start ps-4"><span
-                                                    class="fw-medium">{{item.TaxInvoiceNo}}</span></td>
-                                            <td class="text-start ps-4">{{item.Amount}}</td>
-                                            <td class="text-start ps-4">{{ item.TaxInvoiceDate| date: 'dd-MMM-yyyy' }}
-                                            </td>
-
-                                            <td class="ps-4 text-start w-10"
-                                                style="padding-top: 5px !important; padding-bottom: 5px !important;">
-                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                    style="width: fit-content;" mat-raised-button matTooltip="Download"
-                                                    [matTooltipPosition]="'right'"
-                                                    [matTooltipShowDelay]="showDelay.value"
-                                                    [matTooltipHideDelay]="hideDelay.value" aria-label="Download"
-                                                    (click)="DownloadAttachmentfile(item)">
+            <div class="modal-header popup-header justify-content-between d-flex">
+                <h5 class="modal-title pt-2" id="exampleModalLabel">Invoice Details</h5>
+                <span class="d-block cursor-pointer" (click)="tallyPartialmodal?.hide()">
+                    <icon-ModalClose></icon-ModalClose>
+                </span>
+            </div>
 
 
-                                                    <icon-fileDownload></icon-fileDownload>
+            <form [formGroup]="tallyPartialForm">
+                <div class="col-12">
+                    <div class="wizard-table">
+                        <div class="grid-body mt-3 border rounded-2 overflow-hidden position-relative">
+                            <table class="table w-100 m-0 p-0 align-middle">
+                                <thead class="position-sticky top-0 bg-light">
+                                    <tr class="table-title" style="border: none !important">
+                                        <th class="ps-3 fw-medium">Tax Invoice No.</th>
+                                        <th class="fw-medium">Amount</th>
+                                        <th class="fw-medium">TaxInvoice Date</th>
+                                        <th class="fw-medium">Download</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let item of InvoicefilerowData" class="align-middle">
+                                        <td class="text-start ps-4"><span class="fw-medium">{{item.TaxInvoiceNo}}</span>
+                                        </td>
+                                        <td class="text-start ps-4">{{item.Amount}}</td>
+                                        <td class="text-start ps-4">{{ item.TaxInvoiceDate| date: 'dd-MMM-yyyy' }}
+                                        </td>
+
+                                        <td class="ps-4 text-start w-10"
+                                            style="padding-top: 5px !important; padding-bottom: 5px !important;">
+                                            <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                                style="width: fit-content;" mat-raised-button matTooltip="Download"
+                                                [matTooltipPosition]="'right'" [matTooltipShowDelay]="showDelay.value"
+                                                [matTooltipHideDelay]="hideDelay.value" aria-label="Download"
+                                                (click)="DownloadAttachmentfile(item)">
 
 
-                                                </div>
-                                            </td>
-
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer popup-footer mt-4 border-0">
-                            <div class="w-100 d-flex justify-content-between align-items-center">
-                                <p class="text-muted small mb-0">Summary of Invoice</p>
+                                                <icon-fileDownload></icon-fileDownload>
 
 
-                            </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </form>
-            </div>
+
+                    <div class="modal-footer popup-footer mt-4 border-0">
+                        <div class="w-100 d-flex justify-content-between align-items-center">
+                            <p class="text-muted small mb-0">Summary of Invoice</p>
+
+
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
-    
+</div>

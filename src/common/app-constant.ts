@@ -196,6 +196,7 @@ export class AppConstant {
   public static readonly PAYROLL_PDF_ATTACHMENT: string = 'PayrollPFAttachment';
   public static readonly PAYROLL_ESIC_ATTACHMENT: string = 'PayrollESICAttachment';
   public static readonly PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
+    public static readonly Bank_Transfer_List: string = 'Payments';
   public static readonly GET_PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
   public static readonly GET_CLIENT_SEARCH: string = 'Client/Search';
   public static readonly GET_Account_SEARCH: string = 'CustomReport/GetAccountColumn';

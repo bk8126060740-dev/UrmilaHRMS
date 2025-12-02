@@ -18,7 +18,7 @@ import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
   encapsulation: ViewEncapsulation.None,
   styleUrl: './account-report.component.scss'
 })
-export class AccountReportComponent implements OnInit {
+export  class  AccountReportComponent implements OnInit {
   InvoicefilerowData: any = [];
   yearCtrl: FormControl = new FormControl(new Date());
   selectedYear: number | null = new Date().getFullYear();
@@ -37,6 +37,9 @@ rowData: any[] = [];    // currently visible page slice
 currentPage: number = 1;
 pageSize: number = 10;  // ensure this is a number type
 totalRecords: number = 0;
+tallyPartialForm!: FormGroup;
+  selectedFiles: File[] = [];
+  @ViewChild("tallyPartialmodal", { static: false }) public tallyPartialmodal: | ModalDirective | undefined;
 
   constructor(
     private accountreportService: AccountreportService,
@@ -119,11 +122,10 @@ getClientList(fromdate: any, Todate: any): void {
   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
     .subscribe({
       next: (response) => {
-     //   this.rowData = response.data || [];
         this.allRowData = Array.isArray(response.data) ? response.data : [];
         this.totalRecords = this.allRowData.length;
         this.currentPage = 1;
-        this.pageSize = 10; // default visible per page
+        this.pageSize = 10;  
         this.updatePagedData();
       },
       error: (error) => {
@@ -148,7 +150,6 @@ updatePagedData(): void {
   this.rowData = this.allRowData.slice(startIndex, endIndex);
 }
 
-// Called when changing page (buttons)
 goToPage(page: number): void {
   if (page < 1) page = 1;
   if (page > this.totalPages) page = this.totalPages;
@@ -157,7 +158,6 @@ goToPage(page: number): void {
   this.updatePagedData();
 }
 
-// Called when user changes page size from dropdown
 onPageSizeChange(event?: Event | number): void {
   // Accept either event (from DOM) or direct number
   if (typeof event === 'number') {
@@ -175,7 +175,6 @@ onPageSizeChange(event?: Event | number): void {
   this.updatePagedData();
 }
 
-// Start / end record helpers (no change needed)
 getStartRecord(): number {
   if (this.totalRecords === 0) return 0;
   return (this.currentPage - 1) * this.pageSize + 1;
@@ -228,10 +227,7 @@ getPageNumbers(): number[] {
 }
 
   
- tallyPartialForm!: FormGroup;
-  selectedFiles: File[] = [];
-  @ViewChild("tallyPartialmodal", { static: false }) public tallyPartialmodal: | ModalDirective | undefined;
-
+ 
   viewDetails(item: any): void {
  let params = new HttpParams()
     .set('isSkipPaging', 'false')
