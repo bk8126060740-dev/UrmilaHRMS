@@ -158,6 +158,7 @@ export class AppConstant {
   public static readonly GET_CHALLAN_HISTORY_BY_ID_ESIC = 'PayrollESIC/ChallanHistorybyId'
   public static readonly DELETE_ESIC_CHALLAN: string = 'PayrollESIC/Delete';
   public static readonly GET_REPORT: string = 'Report';
+  public static readonly Get_MissingEFPO: string = 'Report/GetMissingEFPOReportRequest';
   public static readonly K_TOKEN: string = 'access_token';
   public static readonly T_TOKEN: string = 'Taccess_token';
   public static readonly PROJECTID: string = 'PROJECTID';

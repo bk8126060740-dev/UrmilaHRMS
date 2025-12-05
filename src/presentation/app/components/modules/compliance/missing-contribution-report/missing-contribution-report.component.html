@@ -1,0 +1,65 @@
+<div class="table-container m-4">
+    <div class="table-responsive">
+        <table class="table table-hover compliance-table">
+            <thead>
+                <tr>
+                    <th class="text-center" style="border-left: transparent !important;">Project Name</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">UAN Number</th>
+                    <th class="text-center">EPFO</th>
+                    <!-- <th class="text-center">Days</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of EpfContributionReportlist">
+                       <td class="text-center">{{ row.projectName }}</td>
+                    <td class="text-center">{{ row.name }}</td>
+                    <td class="text-center">{{ row.uan}}</td>
+                    <td class="text-center">{{ row.epf}}</td>
+                    <!-- <td class="text-center">{{ row.ncpdays }}</td> -->
+                    
+                </tr>
+                <tr *ngIf="EpfContributionReportlist.length === 0">
+                    <td colspan="22" class="text-center">No records found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3 px-4 py-2 border-top">
+        <div>
+        <select class="form-select form-select-sm" style="width: auto"
+                [(ngModel)]="recordCount"
+                (change)="onTotalRecoredChange(recordCount)">
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+        </select>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination mb-0">
+
+            <!-- Previous -->
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+                <a class="page-link" href="javascript:void(0)" 
+                   (click)="onPageChange(pageNumber - 1)">Previous</a>
+            </li>
+
+            <!-- Current Page -->
+            <li class="page-item active">
+                <a class="page-link">{{ pageNumber }}</a>
+            </li>
+
+            <!-- Next -->
+            <li class="page-item" [class.disabled]="nextDisabled">
+                <a class="page-link" href="javascript:void(0)"
+                   (click)="onPageChange(pageNumber + 1)">Next</a>
+            </li>
+
+        </ul>
+    </nav>
+    </div>
+</div>

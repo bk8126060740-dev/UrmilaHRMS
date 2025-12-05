@@ -1,0 +1,99 @@
+.master-content {
+  .container-fluid {
+    .row {
+      .col-12 {
+        .borad-body {
+          .row {
+            .col-md-4 {
+              .custom-mat-form-field {
+                .mat-mdc-form-field {
+                  .mat-mdc-text-field-wrapper {
+                    .mat-mdc-form-field-flex {
+                      .mat-mdc-form-field-infix {
+                        .mat-mdc-select {
+                          .mat-mdc-select-value {
+                            .mat-mdc-select-placeholder {
+                              color: #6c757d;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.row {
+  .col {
+    .borad {
+      .col-12 {
+        .overflow-x-auto {
+          .table {
+            .table-responsive {
+              .w-100 {
+                thead {
+                  tr {
+                    th {
+                      background-color: #f8f9fa;
+                      border-bottom: 2px solid #dee2e6;
+                      font-weight: 600;
+                      color: #495057;
+                      padding: 12px 8px;
+                      text-align: left;
+                      white-space: nowrap;
+                    }
+                  }
+                }
+                tbody {
+                  tr {
+                    td {
+                      padding: 8px;
+                      border-bottom: 1px solid #dee2e6;
+                      vertical-align: middle;
+                      color: #495057;
+                    }
+                    &:hover {
+                      background-color: #f8f9fa;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.btn-save {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+}
+.month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+.month-picker .mat-calendar-arrow {
+  display: none;
+}

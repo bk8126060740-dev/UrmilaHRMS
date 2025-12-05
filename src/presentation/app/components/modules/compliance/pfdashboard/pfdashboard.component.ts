@@ -30,7 +30,6 @@ export class PFDashboardComponent implements OnInit {
   pfFilterForm!: FormGroup;
   PfUploadForm!: FormGroup;
   isUploadSubmitted: boolean = false;
-
   showDelay = new FormControl(100);
   hideDelay = new FormControl(103);
   pfChallanHistory: PfChallanHistory[] = [];
@@ -360,6 +359,7 @@ viewDetails(): void {
 
       this.pfChallanService.postDownloadPfChallan(AppConstant.POST_PF_CHALLAN, formData).subscribe({
         next: (response) => {
+          debugger
           const blob = new Blob([response], { type: 'text/plain' });
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
@@ -406,6 +406,7 @@ viewDetails(): void {
     window.open(challan.errorFilePath, '_blank');
   }
   uploadPFDocument(): void {
+    debugger
   this.isUploadSubmitted = true;
   this.PfUploadForm.markAllAsTouched();
 
@@ -418,7 +419,6 @@ viewDetails(): void {
     payrollList.forEach((item: any, index: number) => {
       formData.append(`Id[${index}]`, item.id);
     });
-
     formData.append('TRRNNo', this.PfUploadForm.value.trrnNo);
     formData.append('ChallanGeneratedDate', this.PfUploadForm.value.challanDate.toISOString());
     formData.append('Amount', this.PfUploadForm.value.amount);
