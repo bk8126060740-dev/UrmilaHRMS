@@ -72,9 +72,22 @@
                                         <span class="fw-medium">{{item.ProjectName}}</span>
                                     </td>
                                     <td class="text-start">{{item.ProjectNature}}</td>
-                                    <td class="text-start">
-                                        <span class="badge bg-light text-dark">{{item.InvoicePrefix}}</span>
+                                    <td class="ps-4 text-center w-10"
+                                        style="padding-top: 5px !important; padding-bottom: 5px !important;">
+
+                                        <a class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
+                                            style="width: fit-content; text-decoration: none;" mat-raised-button
+                                            matTooltip="Download" [matTooltipPosition]="'right'"
+                                            [matTooltipShowDelay]="showDelay.value"
+                                            [matTooltipHideDelay]="hideDelay.value" aria-label="Download"
+                                            *ngIf="item.PayrollPath != null"
+                                            (click)="DownloadInvoice(item)">
+                                        <span class="badge bg-light text-dark"> {{item.InvoicePrefix}}</span>
+                                            <icon-fileDownload></icon-fileDownload>
+                                        </a>
+
                                     </td>
+
                                     <td class="text-start">{{item.PayrollMonthYear}}</td>
                                     <td class="text-end">{{item.ServiceChargeAmount | currency:'INR':'symbol':'1.2-2'}}
                                     </td>
@@ -88,19 +101,20 @@
                                     <td class="text-center">
                                         <span class="circle">{{ item.NoOfInvoice }}</span>
                                     </td>
-                                     <td>
+                                    <td>
 
-                                    <div class="cursor" appDrag (files)="filesDropped($event)"
-                                        (fileSizeError)="handleFileSizeErrors($event)"
-                                        (click)="triggerProfileFileInput(fileInput)">
+                                        <div class="cursor" appDrag (files)="filesDropped($event)"
+                                            (fileSizeError)="handleFileSizeErrors($event)"
+                                            (click)="triggerProfileFileInput(fileInput)">
 
-                                        <div
-                                            class="input-group choose-file dragdrop-file d-flex flex-wrap w-20 justify-content-center">
-                                            <button class="browse-btn">Browse File</button>
-                                            <input type="file" #fileInput hidden multiple accept=".jpg,.jpeg,.png,.pdf"
-                                                name="fileName" (change)="signtaxonDocumentFileSelected($event,item)" />
+                                            <div
+                                                class="input-group choose-file dragdrop-file d-flex flex-wrap w-20 justify-content-center">
+                                                <button class="browse-btn">Browse File</button>
+                                                <input type="file" #fileInput hidden multiple
+                                                    accept=".jpg,.jpeg,.png,.pdf" name="fileName"
+                                                    (change)="signtaxonDocumentFileSelected($event,item)" />
+                                            </div>
                                         </div>
-                                    </div>
                                     </td>
 
                                     <td class="text-center pe-4">

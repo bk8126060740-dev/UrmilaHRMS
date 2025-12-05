@@ -117,7 +117,7 @@ getClientList(fromdate: any, Todate: any): void {
     .set('fromDate', FromformattedDate)
     .set('toDate', ToformattedDate)
     .set('pageNumber', '1')
-    .set('pageSize', '500'); // fetch first 500
+    .set('pageSize', '500'); 
 
   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)
     .subscribe({
@@ -137,6 +137,21 @@ getClientList(fromdate: any, Todate: any): void {
       }
     });
 }
+ DownloadInvoice(item: any) {
+     const filePath: string = item.PayrollPath;
+    if (filePath) {
+      item.downloadUrl = filePath;
+      this.lastDownloadedPath = filePath;
+
+      if (this.useProxyDownload) {
+        AppConstant.getDownloadFile(filePath);
+      } else {
+        this.downloadPdfFile(filePath);
+      }
+    } else {
+      this.toasterService.warningToaster('No file available for download.');
+    }
+  }
 
 // Helper to update visible slice from allRowData
 updatePagedData(): void {

@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AppConstant } from '../../../../../../common/app-constant';
 import { PfChallanService } from '../../../../../../domain/services/pfChallan.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-missing-contribution-report',
@@ -13,29 +14,43 @@ export class MissingContributionReportComponent {
   EpfContributionReportlist: any[] = [];
   totalCount: number = 0;
 
+  fromDateCtrl = new FormControl(new Date());
+  fromDate: Date = new Date();
+
   pageNumber: number = 1;
   recordCount: number = 10;
-
   nextDisabled: boolean = false;
 
   constructor(private pfChallanService: PfChallanService) { }
 
   ngOnInit(): void {
-    this.getMissingEFPOList();
+    this.getMissingEFPOList(this.fromDate);
   }
+onDateChange(): void {
+  const selectedDate = this.fromDateCtrl.value;
 
-  getMissingEFPOList() {
+  if (selectedDate) {
+    const date = new Date(selectedDate);
+    date.setDate(date.getDate() + 1);
+
+    this.fromDate = date;
+    this.pageNumber = 1;
+
+    this.getMissingEFPOList(this.fromDate);
+  }
+}
+
+ 
+  getMissingEFPOList(date: Date) {
     const params = new HttpParams()
       .set('PageNumber', this.pageNumber)
       .set('PageSize', this.recordCount)
-      .set('FilterBy', new Date().toISOString());
+      .set('FilterBy', date.toISOString());
 
-    this.pfChallanService
-      .getPaginationData(AppConstant.Get_MissingEFPO, params)
+    this.pfChallanService.getPaginationData(AppConstant.Get_MissingEFPO, params)
       .subscribe({
         next: (response: any) => {
           if (response.success) {
-
             this.EpfContributionReportlist = response.data.list;
             this.totalCount = response.data.totalCount;
 
@@ -48,7 +63,7 @@ export class MissingContributionReportComponent {
   onTotalRecoredChange(event: any): void {
     this.recordCount = event;
     this.pageNumber = 1;
-    this.getMissingEFPOList();
+    this.getMissingEFPOList(this.fromDate);
   }
 
   onPageChange(page: number): void {
@@ -56,6 +71,7 @@ export class MissingContributionReportComponent {
     if (page > 1 && this.nextDisabled) return;
 
     this.pageNumber = page;
-    this.getMissingEFPOList();
+    this.getMissingEFPOList(this.fromDate);
   }
+
 }
