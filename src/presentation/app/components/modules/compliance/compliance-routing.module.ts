@@ -5,6 +5,7 @@ import { PFContributionReportComponent } from './pfcontribution-report/pfcontrib
 import { ReportComponent } from './report/report.component';
 import { EsicDashboardComponent } from './esic-dashboard/esic-dashboard.component';
 import { EsicContributionReportComponent } from './esic-contribution-report/esic-contribution-report.component';
+import { MissingContributionReportComponent } from './missing-contribution-report/missing-contribution-report.component';
 const routes: Routes = [
   {
     path: '',
@@ -36,7 +37,15 @@ const routes: Routes = [
     data: {
       title: 'ESIC Contribution Report'
     }
-  }, {
+  },
+  {
+    path: 'missing-contribution-report',
+    component: MissingContributionReportComponent,
+    data: {
+      title: 'Missing EPFO Contribution Report'
+    }
+  },
+  {
     path: 'report',
     component: ReportComponent,
     data: {

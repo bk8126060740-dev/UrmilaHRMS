@@ -17,6 +17,7 @@ import { PFContributionReportComponent } from './pfcontribution-report/pfcontrib
 import { ReportComponent } from './report/report.component';
 import { EsicContributionReportComponent } from './esic-contribution-report/esic-contribution-report.component';
 import { EsicDashboardComponent } from './esic-dashboard/esic-dashboard.component';
+import { MissingContributionReportComponent } from './missing-contribution-report/missing-contribution-report.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { EsicDashboardComponent } from './esic-dashboard/esic-dashboard.componen
     PFContributionReportComponent,
     ReportComponent,
     EsicContributionReportComponent,
-    EsicDashboardComponent
+    EsicDashboardComponent,
+    MissingContributionReportComponent
   ],
   imports: [
     CommonModule,

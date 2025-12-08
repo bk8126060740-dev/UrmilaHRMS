@@ -176,6 +176,7 @@ export class FinanceDetails {
   attachmentFile: string = "";
   ifscCode: string = "";
   attachmentURL: string = "";
+  createdDate: string = "";
 }
 export class ContactInfos {
   id: number = 0;

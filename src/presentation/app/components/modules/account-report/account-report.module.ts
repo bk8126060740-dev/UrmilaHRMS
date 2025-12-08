@@ -19,10 +19,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TongGridModule } from '@teamopine/to-ng-grid';
 import { AccountReportComponent } from './account-report/account-report.component';
 import { AccountReportRoutingModule } from './account-report-routing.module';
+import { BankIntiatePaymentsComponent } from './bank-intiate-payments/bank-intiate-payments.component';
 
 @NgModule({
   declarations: [
     AccountReportComponent,
+    BankIntiatePaymentsComponent,
   ],
   imports: [
     CommonModule,

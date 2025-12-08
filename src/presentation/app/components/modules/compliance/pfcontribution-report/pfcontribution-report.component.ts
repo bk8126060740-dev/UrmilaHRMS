@@ -206,7 +206,8 @@ export class PFContributionReportComponent implements OnInit, OnDestroy {
     if (this.pfContributionReportForm.valid) {
       this.pfContributionReportForm.markAllAsTouched();
       if (this.pfContributionReportForm.value.selectedType === 2) {
-
+         this.rowData = [];
+        debugger
         const params = new HttpParams()
           .set('clientId', this.pfContributionReportForm.value.selectedClientId)
           .set('projectId', this.pfContributionReportForm.value.selectedProjectId)
@@ -239,6 +240,7 @@ export class PFContributionReportComponent implements OnInit, OnDestroy {
               this.totalCount = 0;
             }
           }
+          
         });
       } else {
 
@@ -269,7 +271,7 @@ export class PFContributionReportComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(row: any, type: string): void {
-
+    
     let url = '';
     if (type === 'Challan') {
       const attachment = this.attachments.find(a => a.payrollPFId === row.payrollPfId)?.attachments;

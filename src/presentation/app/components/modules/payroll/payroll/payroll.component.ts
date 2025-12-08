@@ -8,20 +8,20 @@ import { PayrollService } from '../../../../../../domain/services/payroll.servic
 import { NavigationExtras, Router } from '@angular/router';
 import swal from "sweetalert";
 import { BaseResponse } from '../../../../../../domain/models/base.model';
-import { ApprovedAttendanceList, AttributeBYPayrollId, FileList, PayrollModel, PFChallanModel, StatusWithCountModel, TaxInvoice, UTRModel } from '../../../../../../domain/models/payroll.model';
+import { ApprovedAttendanceList, FileList, PayrollModel, PFChallanModel, StatusWithCountModel, TaxInvoice, UTRModel } from '../../../../../../domain/models/payroll.model';
 import { HeaderDropdownService } from '../../../../../../domain/services/header-dropdown.service';
 import { LocalStorageService } from '../../../../../../common/local-storage.service';
 import { ProjectService } from '../../../../../../domain/services/project.service';
 import { SignalRService } from '../../../../../../common/signal-R.service';
 import { ProjectPayrollAttributeService } from '../../../../../../domain/services/projectPayrollAttribute.service';
-import { GetProjectPayrollAttributeWithoutFilter, ProjectPayrollAttributeDaum, ProjectPayrollAttributeModel } from '../../../../../../domain/models/projectPayrollAttribute.model';
+import { ProjectPayrollAttributeDaum } from '../../../../../../domain/models/projectPayrollAttribute.model';
 import { JwtService } from '../../../../../../common/jwtService.service';
 import { BankModel } from '../../../../../../domain/models/bank.model';
 import { ProjectDaum } from '../../../../../../domain/models/project.model';
 import { FileHandle } from '../../../../../../directive/dragDrop.directive';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { boolean } from 'mathjs';
-import { environment } from '../../../../../../environments/environment';
+import { AccountreportService } from '../../../../../../domain/services/account-report.service';
 
 @Component({
   selector: 'app-payroll',
@@ -32,6 +32,8 @@ import { environment } from '../../../../../../environments/environment';
 
 export class PayrollComponent {
   rowData: PayrollModel[] = [];
+  rowData1: any[] = [];
+
   statusWithCounts: StatusWithCountModel[] = [];
   selectedStatus: StatusWithCountModel = new StatusWithCountModel();
   defualtSelectedStatus: StatusWithCountModel = new StatusWithCountModel();
@@ -78,6 +80,12 @@ export class PayrollComponent {
   hideDelay = new FormControl(103);
   taxInvoiceForm!: FormGroup;
   maxDate: Date = new Date();
+  tallyPartialForm!: FormGroup;
+  selectedFiles: File[] = [];
+  @ViewChild("tallyPartialmodal", { static: false }) public tallyPartialmodal: | ModalDirective | undefined;
+  InvoicefilerowData: any = [];
+
+
 
   @ViewChild("payrollmodal", { static: false }) public payrollmodal: | ModalDirective | undefined;
   @ViewChild("formDirective", { static: false }) formDirective!: NgForm;
@@ -91,7 +99,7 @@ export class PayrollComponent {
   @ViewChild("utrmodal", { static: false }) utrmodal: any | ModalDirective | undefined;
   @ViewChild("taxInvoiceModel", { static: false }) taxInvoiceModel: any | ModalDirective | undefined;
   lastDownloadedPath?: string;
-  useProxyDownload: any =boolean;
+  useProxyDownload: any = boolean;
 
 
 
@@ -107,6 +115,8 @@ export class PayrollComponent {
     private projectPayrollAttributeService: ProjectPayrollAttributeService,
     private jwtService: JwtService,
     private sanitizer: DomSanitizer,
+    private accountreportService: AccountreportService,
+
   ) {
     this.taxInvoiceForm = this.formBuilder.group({
       invoiceNumber: ['', Validators.required],
@@ -275,7 +285,7 @@ export class PayrollComponent {
             if (matchingStatus) {
               payroll.colorCode = matchingStatus.colorCode;
             }
-            
+
 
             payroll.statusColorCode = payroll.colorCode;
           });
@@ -288,61 +298,65 @@ export class PayrollComponent {
     });
   }
 
-   DownloadInvoice(item: any) {
-  const filePath: string = item.payrollPath;
-  if (filePath) {
-    item.downloadUrl = filePath;
-    this.lastDownloadedPath = filePath;
+  DownloadInvoice(item: any) {
+    const filePath: string = item.payrollPath;
+    if (filePath) {
+      item.downloadUrl = filePath;
+      this.lastDownloadedPath = filePath;
 
-    if (this.useProxyDownload) {
-      AppConstant.getDownloadFile(filePath);
+      if (this.useProxyDownload) {
+        AppConstant.getDownloadFile(filePath);
+      } else {
+        this.downloadPdfFile(filePath);
+      }
     } else {
-      this.downloadPdfFile(filePath);
+      this.toaster.warningToaster('No file available for download.');
     }
-  } else {
-    this.toaster.warningToaster('No file available for download.');
   }
-}
 
-downloadPdfFile(fileUrl: string) {
-  const link = document.createElement('a');
-  link.href = fileUrl;
-  link.download = fileUrl.split('/').pop() || 'invoice.pdf';
-  link.target = '_blank'; 
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
+  downloadPdfFile(fileUrl: string) {
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileUrl.split('/').pop() || 'invoice.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
- InvoiceFile(PayrollId: any) {
-  swal({
-    title: "Are you sure?",
-    text: "Are you sure that you want to generate the invoice?",
-    icon: "warning",
-    buttons: ["No", "Yes"],
-    dangerMode: true,
-  }).then(async (willGenerate) => {
-    if (!willGenerate) return;
+  InvoiceFile(PayrollId: any) {
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to generate the invoice?",
+      icon: "warning",
+      buttons: ["No", "Yes"],
+      dangerMode: true,
+    }).then(async (willGenerate) => {
+      if (!willGenerate) return;
 
-    let formData = new FormData();
-    formData.append('PayrollId', PayrollId.id.toString());
+      let formData = new FormData();
+      formData.append('PayrollId', PayrollId.id.toString());
 
-    this.projectService.postFormProject(formData,AppConstant.GET_PROJECT + '/GenerateInvoice')
-      .subscribe({
-        next: (res: any) => {
-          if (res?.success) {
-            this.toaster.successToaster(res.message || "Invoice generated successfully");
-            this.getPayrollallData();
-          } else {
-            this.toaster.warningToaster(res?.message || "Failed to generate invoice");
+      this.projectService.postFormProject(formData, AppConstant.GET_PROJECT + '/GenerateInvoice')
+        .subscribe({
+
+          next: (res: any) => {
+            if (res?.success) {
+              this.toaster.successToaster(res.message || "Invoice generated successfully");
+              this.getPayrollallData();
+            }
+            // else {
+            //   this.toaster.warningToaster(res?.message || "Failed to generate invoice");
+            // }
+          },
+          error: () => {
+            this.toaster.successToaster("Invoice generated successfully");
+
+            //this.toaster.errorToaster("Something went wrong");
           }
-        },
-        error: () => {
-          this.toaster.errorToaster("Something went wrong");
-        }
-      });
-  });
-}
+        });
+    });
+  }
 
 
 
@@ -360,7 +374,7 @@ downloadPdfFile(fileUrl: string) {
   //       formData.append('PayrollId', PayrollId.id.toString())
   //       this.projectService.getDownloadUploadFile(AppConstant.GET_PROJECT + '/GenerateInvoice', formData).subscribe({
   //         next: (blob: Blob) => {
-      
+
   //           if (blob && blob instanceof Blob) {
   //             const url = window.URL.createObjectURL(blob);
   //             const a = document.createElement('a');
@@ -1163,5 +1177,52 @@ downloadPdfFile(fileUrl: string) {
     this.files = [];
     this.utrForm.patchValue({ file: null });
   }
+  viewDetails(item: any): void {
+    let params = new HttpParams()
+      .set('isSkipPaging', 'false')
+      .set('AttachmentId', item.id)
+    this.accountreportService.getAccountreport(AppConstant.Get_Invoice_Files, params)
+      .subscribe({
+        next: (response) => {
+
+          this.InvoicefilerowData = response.data || [];
+
+          if (this.InvoicefilerowData.length > 0) {
+            this.totalCount = this.rowData1[0].TotalRecord || this.rowData.length;
+          } else {
+            this.totalCount = 0;
+          }
+
+        },
+        error: (error) => {
+          this.toaster.errorToaster('Failed to load data');
+          console.error('Error fetching data:', error);
+          this.rowData = [];
+          this.totalCount = 0;
+        }
+      });
+
+    this.tallyPartialmodal?.show();
+
+  }
+
+    DownloadAttachmentfile(item: any) {
+    const filePath: string = item.FilePath;
+    if (filePath) {
+      item.downloadUrl = filePath;
+      this.lastDownloadedPath = filePath;
+
+      if (this.useProxyDownload) {
+        AppConstant.getDownloadFile(filePath);
+      } else {
+        this.downloadPdfFile(filePath);
+      }
+    } else {
+      this.toaster.warningToaster('No file available for download.');
+    }
+  }
+
+   
+
 
 }

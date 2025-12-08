@@ -14,25 +14,23 @@
 
                     </div>
                     <div class="borad-body p-4">
-
-                        <!-- Form Details -->
-                        <form [formGroup]="pfFilterForm">
+                      <form [formGroup]="pfFilterForm">
                             <div class="row gy-3">
-                                <div class="col-xl-4 col-lg-6 col-12">
+                                <div class="col-xl-2 col-lg-4 col-12">
                                     <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
                                         <mat-label>Enter Name</mat-label>
                                         <input matInput formControlName="name" name="Enter Name" required />
                                     </mat-form-field>
                                 </div>
-                                <div class="col-xl col-lg-6 col-12">
+
+                                <div class="col-xl-3 col-lg-6 col-12">
                                     <ng-select [items]="clientList" bindLabel="text" bindValue="value"
                                         [class.ng-select-unselected]="isViewMode && pfFilterForm.controls['selectedClientId'].errors"
                                         formControlName="selectedClientId" (change)="onClientChange()"
                                         placeholder="Search & Select Client *" required>
                                     </ng-select>
                                 </div>
-                            </div>
-                            <div class="row gy-3 mt-1">
+
                                 <div class="col-xl-4 col-lg-6 col-12">
                                     <ng-select [items]="projectList" bindLabel="name" bindValue="id"
                                         [class.ng-select-unselected]="isViewMode && pfFilterForm.controls['selectedProjectId'].errors"
@@ -40,31 +38,50 @@
                                         [multiple]="false" placeholder="Search & Select Project *" required>
                                     </ng-select>
                                 </div>
-                                <div class="col-xl-4 col-lg-6 col-12">
+
+                                <div class="col-xl-3 col-lg-6 col-12">
+                                    <ng-select bindLabel="shortName" bindValue="id" formControlName="selectedMonth"
+                                        (change)="onProjectChange()"
+                                        [class.ng-select-unselected]="isViewMode && pfFilterForm.controls['selectedMonth'].errors"
+                                        [items]="monthList" [clearable]="false" placeholder="Select Month *" required>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="row gy-3 mt-1">
+                                <div class="col-xl-3 col-lg-6 col-12">
+                                    <ng-select bindLabel="text" bindValue="value" formControlName="selectedYear"
+                                        [class.ng-select-unselected]="isViewMode && pfFilterForm.controls['selectedYear'].errors"
+                                        [items]="yearList" [clearable]="false" placeholder="Select Year *" required
+                                        (change)="onProjectChange()">
+                                    </ng-select>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12">
                                     <ng-select [items]="payrollList" bindLabel="displayName" bindValue="id"
                                         [class.ng-select-unselected]="isViewMode && pfFilterForm.controls['selectedPayrollId'].errors"
                                         formControlName="selectedPayrollId" [multiple]="true"
                                         placeholder="Search & Select Payroll *" required>
                                     </ng-select>
                                 </div>
-                                <div class="col-xl-4 col-lg-6 col-12 header-btns">
-                                    <div class="row gy-3">
-                                        <div class="col-12 col-md-6">
-                                            <button (click)="exportReport()"
-                                                class="btn btn-light w-100 d-flex gap-2 justify-content-center align-items-center">
-                                                <icon-ExportBtn></icon-ExportBtn>
-                                                Export Report
-                                            </button>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <button (click)="viewDetails()"
-                                                class="btn btn-save hover-none w-100 d-flex gap-2 justify-content-center align-items-center">
-                                                <icon-filter></icon-filter>
-                                                View Details
-                                            </button>
-                                        </div>
-                                    </div>
+
+
+                                <div class="col-xl-3 col-12 col-md-6">
+                                    <button (click)="exportReport()"
+                                        class="btn btn-light w-100 d-flex gap-2 justify-content-center align-items-center">
+                                        <icon-ExportBtn></icon-ExportBtn>
+                                        Export Report
+                                    </button>
                                 </div>
+                                <div class="col-xl-3 col-lg-6 col-12 ">
+
+                                    <button (click)="viewDetails()"
+                                        class="btn btn-save hover-none w-100 d-flex gap-2 justify-content-center align-items-center">
+                                        <icon-filter></icon-filter>
+                                        View Details
+                                    </button>
+
+                                </div>
+
                             </div>
                         </form>
                     </div>
@@ -115,7 +132,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <ng-container *ngFor="let pf of pfchallan">
-                                                        <!-- Group by Project -->
+
                                                         <tr (click)="toggleChild(pf.id.toString())">
                                                             <td colspan="100" style="cursor: pointer;">
                                                                 <span class="icon-dropdown"
@@ -129,125 +146,97 @@
                                                             </td>
                                                         </tr>
 
-                                                        <!-- Child Row (conditionally shown) -->
+
                                                         <tr *ngIf="isExpanded[pf.id.toString()]">
                                                             <td colspan="100" class="p-0">
                                                                 <table class="nested-table w-100">
                                                                     <tbody>
-                                                                        <tr *ngFor="let challan of pf.pfChallanHistory">
-                                                                            <td style="width: 420px;">{{challan.tag}}
-                                                                            </td>
-                                                                            <td style="width: 226px;">{{challan.trrnNo}}
-                                                                            </td>
+
+
+                                                                        <tr
+                                                                            *ngIf="pf.pfChallanHistory && pf.pfChallanHistory.length > 0">
+
+                                                                            <td style="width: 420px;">Batch</td>
+
                                                                             <td style="width: 226px;">
-                                                                                {{challan.challanGeneratedDate |
-                                                                                date:'dd-MMM-yyyy'}}</td>
-                                                                            <td style="width: 160px;">{{challan.amount |
-                                                                                number:'1.2-2'}}</td>
-                                                                            <td style="width: 160px;">{{challan.remark
-                                                                                || '-'}}</td>
-                                                                            <td style="width: 235px;">{{challan.crnNo}}
+                                                                                {{ pf.pfChallanHistory[0].trrnNo }}
                                                                             </td>
+
+                                                                            <td style="width: 226px;">
+                                                                                {{
+                                                                                pf.pfChallanHistory[0].challanGeneratedDate
+                                                                                | date:'dd-MMM-yyyy' }}
+                                                                            </td>
+
+                                                                            <td style="width: 160px;">
+                                                                                {{ pf.pfChallanHistory[0].amount |
+                                                                                number:'1.2-2' }}
+                                                                            </td>
+
+                                                                            <td style="width: 160px;">
+                                                                                {{ pf.pfChallanHistory[0].remark || '-'
+                                                                                }}
+                                                                            </td>
+
+                                                                            <td style="width: 235px;">
+                                                                                {{ pf.pfChallanHistory[0].crnNo }}
+                                                                            </td>
+
                                                                             <td style="width: 120px;">
-                                                                                <div class="status-btn text-center position-relative overflow-hidden"
-                                                                                    style="z-index: 1;">
-                                                                                    <p style="z-index: 4; " [ngStyle]="{
-                                                                                        'color': challan.status.color 
-                                                                                      }">
-                                                                                        {{challan.status.name}}
-                                                                                        <!-- pending -->
-                                                                                    </p>
+                                                                                <div class="status-btn"
+                                                                                    [ngStyle]="{ 'color': pf.pfChallanHistory[0].status.color}">
+                                                                                    {{
+                                                                                    pf.pfChallanHistory[0].status.name
+                                                                                    }}
+                                                                                </div>
+                                                                            </td>
+
+                                                                            <td style="width: 120px;">
+                                                                                <div *ngIf="pf.pfChallanHistory[0].status.id === 578"
+                                                                                    (click)="reDownloadChallan(pf)">
                                                                                     <span
-                                                                                        class="position-absolute top-0 left-0 h-100 w-100 card-status-opacity"
-                                                                                        style="z-index:1; "
-                                                                                        [ngStyle]="{'background-color': challan.status.color}">
-                                                                                    </span>
+                                                                                        class="icn-bg bg-skyblue"><icon-Regenrate></icon-Regenrate></span>
                                                                                 </div>
                                                                             </td>
-                                                                            <td style=" width: 120px;">
-                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                                    (click)="reDownloadChallan(challan)"
-                                                                                    *ngIf="challan.status.id === 578"
-                                                                                    style="width: fit-content;"
-                                                                                    mat-raised-button
-                                                                                    matTooltip="Re-Download"
-                                                                                    [matTooltipPosition]="'right'"
-                                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                                    [matTooltipHideDelay]="hideDelay.value"
-                                                                                    aria-label="Upload">
-                                                                                    <span class="icn-bg bg-skyblue">
-                                                                                        <icon-Regenrate></icon-Regenrate>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td style=" width: 120px;">
-                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                                    (click)="openPfchallanModal(challan.id)"
-                                                                                    *ngIf="challan.status.id === 578"
-                                                                                    style="width: fit-content;"
-                                                                                    mat-raised-button
-                                                                                    matTooltip="Upload"
-                                                                                    [matTooltipPosition]="'right'"
-                                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                                    [matTooltipHideDelay]="hideDelay.value"
-                                                                                    aria-label="Upload">
-                                                                                    <span class="icn-bg bg-skyblue">
-                                                                                        <icon-FileUpload></icon-FileUpload>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </td>
+
                                                                             <td style="width: 120px;">
-                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                                    style="width: fit-content;"
-                                                                                    (click)="viewRecord(challan)"
-                                                                                    *ngIf="challan.trrnNo != null"
-                                                                                    mat-raised-button
-                                                                                    matTooltip="View Record"
-                                                                                    [matTooltipPosition]="'right'"
-                                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                                    [matTooltipHideDelay]="hideDelay.value"
-                                                                                    aria-label="Upload">
-                                                                                    <span class="icn-bg bg-green">
-                                                                                        <icon-pfChallan></icon-pfChallan>
-                                                                                    </span>
+                                                                                <div *ngIf="pf.pfChallanHistory[0].status.id === 578"
+                                                                                    (click)="openPfchallanModal(pf)">
+                                                                                    <span
+                                                                                        class="icn-bg bg-skyblue"><icon-FileUpload></icon-FileUpload></span>
                                                                                 </div>
                                                                             </td>
+
                                                                             <td style="width: 120px;">
-                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                                    style="width: fit-content;"
-                                                                                    (click)="downloadErrorFile(challan)"
-                                                                                    *ngIf="challan.errorFilePath != null && challan.errorFilePath != ''"
-                                                                                    mat-raised-button
-                                                                                    matTooltip="View Record"
-                                                                                    [matTooltipPosition]="'right'"
-                                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                                    [matTooltipHideDelay]="hideDelay.value"
-                                                                                    aria-label="Upload">
-                                                                                    <span class="icn-bg bg-green">
-                                                                                        <icon-fileDownload></icon-fileDownload>
-                                                                                    </span>
+                                                                                <div *ngIf="pf.pfChallanHistory[0].trrnNo != null"
+                                                                                    (click)="viewRecord(pf)">
+                                                                                    <span
+                                                                                        class="icn-bg bg-green"><icon-pfChallan></icon-pfChallan></span>
                                                                                 </div>
                                                                             </td>
+
                                                                             <td style="width: 120px;">
-                                                                                <div class="attributes-icon d-flex justify-content-center align-items-center uploaded-y cursor ms-auto me-auto"
-                                                                                    style="width: fit-content;"
-                                                                                    (click)="deleteChallan(challan.id)"
-                                                                                    *ngIf="challan.status.id === 578"
-                                                                                    mat-raised-button
-                                                                                    matTooltip="Delete"
-                                                                                    [matTooltipPosition]="'right'"
-                                                                                    [matTooltipShowDelay]="showDelay.value"
-                                                                                    [matTooltipHideDelay]="hideDelay.value">
-                                                                                    <span class="icn-bg bg-red">
-                                                                                        <icon-delete></icon-delete>
-                                                                                    </span>
+                                                                                <div *ngIf="pf.pfChallanHistory[0].errorFilePath"
+                                                                                    (click)="downloadErrorFile(pf)">
+                                                                                    <span
+                                                                                        class="icn-bg bg-green"><icon-fileDownload></icon-fileDownload></span>
                                                                                 </div>
                                                                             </td>
+
+                                                                            <td style="width: 120px;">
+                                                                                <div *ngIf="pf.pfChallanHistory[0].status.id === 578"
+                                                                                    (click)="deleteChallan(pf)">
+                                                                                    <span
+                                                                                        class="icn-bg bg-red"><icon-delete></icon-delete></span>
+                                                                                </div>
+                                                                            </td>
+
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </td>
                                                         </tr>
+
                                                     </ng-container>
                                                 </tbody>
                                             </table>

@@ -1,0 +1,104 @@
+<div class="master-content">
+    <div class="container-fluid p-0">
+        <div class="row m-3 mb-3 justify-content-between align-items-center flex-wrap gap-3">
+            <div class="col-12 col-md">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <div class="col-12 col-md justify-content-end d-flex project-dropdown">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="dropdown ms-3 project-btn year-select">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Select Date</mat-label>
+                                <input matInput [matDatepicker]="fromDatePicker" placeholder="Select Date"
+                                    [formControl]="fromDateCtrl" (dateChange)="onDateChange()" />
+                                <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #fromDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <button class="btn btn-primary me-3" (click)="export()">
+                            <i class="fa fa-file-excel-o me-2" aria-hidden="true"></i> Export
+                        </button> 
+                    
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="borad-body">
+            <div class="col-12">
+         <div class="table-container m-4">
+    <div class="table-responsive">
+        <table class="table table-hover compliance-table">
+            <thead>
+                <tr>
+                    <th class="text-center" style="border-left: transparent !important;">Project Name</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">UAN Number</th>
+                    <th class="text-center">Gross</th>
+                    <th class="text-center">EPFO</th>
+                    <th class="text-center">EPS</th>
+                    <th class="text-center">Days</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of EpfContributionReportlist">
+                       <td class="text-center">{{ row.projectName }}</td>
+                    <td class="text-center">{{ row.name }}</td>
+                    <td class="text-center">{{ row.uan}}</td>
+                    <td class="text-center">{{ row.gross}}</td>
+                    <td class="text-center">{{ row.epf}}</td>
+                    <td class="text-center">{{ row.eps}}</td>
+                    <td class="text-center">{{ row.ncpDays }}</td>
+                </tr>
+                <tr *ngIf="EpfContributionReportlist.length === 0">
+                    <td colspan="22" class="text-center">No records found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3 px-4 py-2 border-top">
+        <div>
+        <select class="form-select form-select-sm" style="width: auto"
+                [(ngModel)]="recordCount"
+                (change)="onTotalRecoredChange(recordCount)">
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+        </select>
+    </div>
+
+   
+    <nav>
+        <ul class="pagination mb-0">
+
+     
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+                <a class="page-link" href="javascript:void(0)" 
+                   (click)="onPageChange(pageNumber - 1)">Previous</a>
+            </li>
+
+           
+            <li class="page-item active">
+                <a class="page-link">{{ pageNumber }}</a>
+            </li>
+
+         
+            <li class="page-item" [class.disabled]="nextDisabled">
+                <a class="page-link" href="javascript:void(0)"
+                   (click)="onPageChange(pageNumber + 1)">Next</a>
+            </li>
+
+        </ul>
+    </nav>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+ 

@@ -35,7 +35,7 @@
                             <icon-edit></icon-edit>
                         </div>
 
-                        <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor"
+                        <div class="delete-icon d-flex justify-content-center align-items-center action-icn cursor" *ngIf="IsCurrentMonth"
                             (click)="deletedoc(item);" mat-raised-button matTooltip="Delete"
                             [matTooltipPosition]="'right'" [matTooltipShowDelay]="showDelay.value"
                             [matTooltipHideDelay]="hideDelay.value" aria-label="Delete">

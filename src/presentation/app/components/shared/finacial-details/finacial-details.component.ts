@@ -168,13 +168,17 @@ export class FinacialDetailsComponent implements OnInit {
       this.getFinanceDetails();
     }
   }
+  IsCurrentMonth: boolean = false;
   async getFinanceDetails() {
     if (this.employeeId > 0) {
 
       await this.employeeService.getEmployee<FinanceDetails[]>(AppConstant.GET_EMPLOYEEBYID + "/" + this.employeeId + "/FinDetails").subscribe({
         next: (response) => {
+          const currentDate = new Date();
+          const currentMonth = currentDate.getMonth()+1;
+          const currentYear = currentDate.getFullYear();
 
-          this.financeDetailsData = response.data;
+
           let uniqueTypes = new Set();
 
           this.financeDetailsData.forEach(element => {
@@ -190,7 +194,13 @@ export class FinacialDetailsComponent implements OnInit {
           this.documentType = this.documentTypeDummy.filter(
             (item) => !this.financeDetailsData.some((doc) => doc.type === item.name)
           );
+          const currentMonthData = this.financeDetailsData.filter((fd) => {
+            const created = new Date(fd.createdDate);
+            return created.getMonth() === currentMonth && created.getFullYear() === currentYear;
+          });
 
+          this.IsCurrentMonth = currentMonthData.length > 0;
+          this.financeDetailsData = currentMonthData;
           let count = uniqueTypes.size;
           this.financeCount.emit(count);
           this.financeDetailsData = response.data.map((finance) => {

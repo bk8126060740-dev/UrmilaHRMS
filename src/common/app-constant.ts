@@ -158,6 +158,7 @@ export class AppConstant {
   public static readonly GET_CHALLAN_HISTORY_BY_ID_ESIC = 'PayrollESIC/ChallanHistorybyId'
   public static readonly DELETE_ESIC_CHALLAN: string = 'PayrollESIC/Delete';
   public static readonly GET_REPORT: string = 'Report';
+  public static readonly Get_MissingEFPO: string = 'Report/GetMissingEFPOReportRequest';
   public static readonly K_TOKEN: string = 'access_token';
   public static readonly T_TOKEN: string = 'Taccess_token';
   public static readonly PROJECTID: string = 'PROJECTID';
@@ -196,9 +197,12 @@ export class AppConstant {
   public static readonly PAYROLL_PDF_ATTACHMENT: string = 'PayrollPFAttachment';
   public static readonly PAYROLL_ESIC_ATTACHMENT: string = 'PayrollESICAttachment';
   public static readonly PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
+    public static readonly Bank_Transfer_List: string = 'Payments';
   public static readonly GET_PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
   public static readonly GET_CLIENT_SEARCH: string = 'Client/Search';
   public static readonly GET_Account_SEARCH: string = 'CustomReport/GetAccountColumn';
+  public static readonly Get_Invoice_Files: string = 'CustomReport/GetInvoiceFiles';
+  public static readonly Save_MultipleInvoice_Files: string = 'CustomReport/SaveMultipleInvoiceFiles';
   public static readonly GET_PERFORMA_INVOICE: string = 'Project/GenerateInvoice';
   public static readonly OPERATORS: string[] = ["+", "-", "*", "/", "(", ")", "IF", ",", "%", "<", ">", "=", "ROUNDUP", "ROUND", "&&", "||"];
   public static readonly PROJECT_DROPDOWN: number[] = [2, 5, 6, 7, 8, 9, 12, 10,];
