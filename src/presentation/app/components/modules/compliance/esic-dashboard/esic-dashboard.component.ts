@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ClientList, ProjectClientListModel } from '../../../../../../domain/models/paymentreciveable.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { PayrollListByProject } from '../../../../../../domain/models/payroll.model';
@@ -11,6 +11,7 @@ import { AppConstant } from '../../../../../../common/app-constant';
 import { PfChallan, PfChallanHistory } from '../../../../../../domain/models/pf-challan.model';
 import swal from "sweetalert";
 import { EsicChallan, EsicChallanList } from '../../../../../../domain/models/esic-challan.model';
+import { number, string } from 'mathjs';
 
 @Component({
   selector: 'app-esic-dashboard',
@@ -24,6 +25,8 @@ export class EsicDashboardComponent implements OnInit {
   payrollList: PayrollListByProject[] = [];
   isExpanded: { [key: string]: boolean } = {};
   isViewMode: boolean = false;
+  monthList: { id: number, monthName: string, shortName: string }[] = [];
+  yearList: number[] = [];
 
   esicFilterForm!: FormGroup;
   ESICUploadForm!: FormGroup;
@@ -38,17 +41,32 @@ export class EsicDashboardComponent implements OnInit {
   constructor(
     private pfChallanService: PfChallanService,
     private toasterService: ToasterService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
 
-  ngOnInit(): void {
-    this.esicFilterForm = new FormGroup({
+  ) {
+    this.monthList = AppConstant.MONTH_DATA;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    for (let i = 2024; i <= currentYear; i++) {
+      this.yearList.push(i);
+    }
+
+    this.esicFilterForm = this.fb.group({
       name: new FormControl('', Validators.required),
       selectedClientId: new FormControl(null, Validators.required),
       selectedProjectId: new FormControl(null, Validators.required),
       selectedPayrollId: new FormControl([], Validators.required),
-      totalWorkingDays: new FormControl('', Validators.required)
+      selectedMonth: [currentMonth === 0 ? 12 : currentMonth, Validators.required],
+      selectedYear: [currentYear, Validators.required],
+
     });
+
+  }
+
+  ngOnInit(): void {
+
     this.ESICUploadForm = new FormGroup({
       id: new FormControl(null, Validators.required),
       challanNo: new FormControl('', Validators.required),
@@ -110,8 +128,15 @@ export class EsicDashboardComponent implements OnInit {
 
     this.pfChallanService.getPfChallan(AppConstant.GET_PROJECT + '/Search', params).subscribe({
       next: (response) => {
-        if (response.success) {
-          this.projectList = response.data as ProjectClientListModel[];
+
+        if (response?.success && Array.isArray(response.data)) {
+          const allOption: ProjectClientListModel = {
+            id: 0,
+            name: 'All Projects',
+
+          };
+          this.projectList = [allOption, ...response.data];
+          //this.projectList = response.data as ProjectClientListModel[];
         } else {
           this.projectList = [];
         }
@@ -124,13 +149,27 @@ export class EsicDashboardComponent implements OnInit {
       this.esicFilterForm.patchValue({
         selectedPayrollId: []
       });
+
       let params = new HttpParams()
         .set('ProjectIds', this.esicFilterForm.value.selectedProjectId)
+        .set('clientId', this.esicFilterForm.value.selectedClientId)
+        .set('month', this.esicFilterForm.value.selectedMonth)
+        .set('year', this.esicFilterForm.value.selectedYear)
         .set('isSkipPaging', true)
 
       this.pfChallanService.getPfChallan<PayrollListByProject[]>(AppConstant.GET_PAYROLL_BY_PROJECT, params).subscribe({
         next: (response) => {
-          if (response.success) {
+
+          if (response?.success && Array.isArray(response.data)) {
+            const allOption: any = {
+              id: 0,
+              name: 'All Payrolls',
+              month: null,
+              year: null,
+              displayName: 'All Payrolls'
+            };
+
+
             this.payrollList = [];
             response.data.forEach((payroll) => {
               this.payrollList.push({
@@ -145,6 +184,7 @@ export class EsicDashboardComponent implements OnInit {
               }
               return a.month - b.month;
             });
+            this.payrollList.unshift(allOption);
 
           } else {
             this.payrollList = [];
@@ -157,217 +197,248 @@ export class EsicDashboardComponent implements OnInit {
   esicChallan: EsicChallan[] = [];
   viewDetails(): void {
     this.esicFilterForm.controls['name'].clearValidators();
-    this.esicFilterForm.controls['totalWorkingDays'].clearValidators();
+    //this.esicFilterForm.controls['totalWorkingDays'].clearValidators();
     this.esicFilterForm.controls['selectedPayrollId'].clearValidators();
     this.esicFilterForm.controls['selectedProjectId'].clearValidators();
     this.esicFilterForm.controls['name'].updateValueAndValidity();
-    this.esicFilterForm.controls['totalWorkingDays'].updateValueAndValidity();
+    //this.esicFilterForm.controls['totalWorkingDays'].updateValueAndValidity();
     this.esicFilterForm.controls['selectedPayrollId'].updateValueAndValidity();
     this.esicFilterForm.controls['selectedProjectId'].updateValueAndValidity();
 
     this.isViewMode = true;
+
+
 
     if (this.esicFilterForm.valid) {
       let params = new HttpParams()
-        .set('ClientId', this.esicFilterForm.value.selectedClientId)
-        .set('ProjectIds', this.esicFilterForm.value.selectedProjectId)
+        .set('ClientId', this.esicFilterForm.value.selectedClientId);
+      let selectedProjectId = this.esicFilterForm.value.selectedProjectId;
+      let projectIdsToSend =
+        selectedProjectId == 0
+          ? this.projectList.map((p: any) => p.id)
+          : [selectedProjectId];
 
-      if (this.esicFilterForm.value.selectedPayrollId.length > 0) {
-        this.esicFilterForm.value.selectedPayrollId.forEach((id: number, i: number) => {
-          params = params.set(`PayrollIds[${i}]`, id.toString());
-        });
-      }
+      projectIdsToSend.forEach((id: number, index: number) => {
+        params = params.append(`ProjectIds[${index}]`, id);
+      });
+      let selectedPayrollId = this.esicFilterForm.value.selectedPayrollId;
+      let payrollIdsToSend =
+        selectedPayrollId == 0
+          ? this.payrollList.map((x: any) => x.id)
+          : selectedPayrollId;
 
-      this.pfChallanService.getPaginationData<EsicChallanList>(AppConstant.GET_ESIC_CHALLAN_HISTORY, params).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.esicChallan = [];
-            // Group challans by project
-            response.data.list.forEach((challan: EsicChallanList) => {
-              challan.payrolls.forEach((payroll) => {
-                const existingPfChallan = this.esicChallan.find(p => p.id === payroll.project.id);
+      payrollIdsToSend.forEach((id: number, index: number) => {
+        params = params.append(`PayrollIds[${index}]`, id);
+      });
 
-                if (existingPfChallan) {
-                  // Combine project names if not already present
-                  if (!existingPfChallan.name.split(', ').includes(payroll.project.name)) {
-                    existingPfChallan.name += ', ' + payroll.project.name;
-                  }
-                  // Check if challan already exists in history before adding
-                  const challanExists = existingPfChallan.esicChallanHistory.some(
-                    existingChallan => existingChallan.id === challan.id
-                  );
-                  if (!challanExists) {
-                    existingPfChallan.esicChallanHistory.push(challan);
-                  }
-                } else {
-                  // Create new entry
-                  const obj = new EsicChallan();
-                  obj.id = payroll.project.id;
-                  obj.name = payroll.project.name;
-                  obj.esicChallanHistory = [challan];
-                  this.esicChallan.push(obj);
+
+
+  
+
+    this.pfChallanService.getPaginationData<EsicChallanList>(AppConstant.GET_ESIC_CHALLAN_HISTORY, params).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.esicChallan = [];
+          // Group challans by project
+          response.data.list.forEach((challan: EsicChallanList) => {
+            challan.payrolls.forEach((payroll) => {
+              const existingPfChallan = this.esicChallan.find(p => p.id === payroll.project.id);
+
+              if (existingPfChallan) {
+                // Combine project names if not already present
+                if (!existingPfChallan.name.split(', ').includes(payroll.project.name)) {
+                  existingPfChallan.name += ', ' + payroll.project.name;
                 }
-              });
+                // Check if challan already exists in history before adding
+                const challanExists = existingPfChallan.esicChallanHistory.some(
+                  existingChallan => existingChallan.id === challan.id
+                );
+                if (!challanExists) {
+                  existingPfChallan.esicChallanHistory.push(challan);
+                }
+              } else {
+                // Create new entry
+                const obj = new EsicChallan();
+                obj.id = payroll.project.id;
+                obj.name = payroll.project.name;
+                obj.esicChallanHistory = [challan];
+                this.esicChallan.push(obj);
+              }
             });
+          });
 
-          } else {
-            this.pfChallanHistory = [];
-          }
+        } else {
+          this.pfChallanHistory = [];
         }
-      });
-    }
-  }
-
-  viewRecord(challan: EsicChallanList) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        EsicChallanData: challan
-      },
-    };
-    this.router.navigate(['/compliance/esiccontribution-report'], navigationExtras);
-  }
-
-  exportReport(): void {
-    this.esicFilterForm.controls['name'].setValidators(Validators.required);
-    this.esicFilterForm.controls['totalWorkingDays'].setValidators(Validators.required);
-    this.esicFilterForm.controls['selectedPayrollId'].setValidators(Validators.required);
-    this.esicFilterForm.controls['selectedProjectId'].setValidators(Validators.required);
-    this.esicFilterForm.controls['name'].updateValueAndValidity();
-    this.esicFilterForm.controls['selectedPayrollId'].updateValueAndValidity();
-    this.esicFilterForm.controls['selectedProjectId'].updateValueAndValidity();
-    this.esicFilterForm.controls['totalWorkingDays'].updateValueAndValidity();
-
-    this.isViewMode = true;
-    if (this.esicFilterForm.valid) {
-      let formData = new FormData();
-      formData.append('Tag', this.esicFilterForm.value.name);
-      formData.append('TotalWorkingDays', this.esicFilterForm.value.totalWorkingDays);
-
-      this.esicFilterForm.value.selectedPayrollId.forEach((id: number, i: number) => {
-        formData.append(`PayrollIds[${i}]`, id.toString());
-
-      });
-
-      this.pfChallanService.postDownloadPfChallan(AppConstant.POST_ESIC_CHALLAN, formData).subscribe({
-        next: (response) => {
-          const blob = new Blob([response], { type: 'application/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${this.esicFilterForm.value.name}.csv`;
-          a.click();
-          window.URL.revokeObjectURL(url);
-        }
-      });
-    }
-  }
-
-  toggleChild(key: string): void {
-    if (key) {
-      this.isExpanded[key] = !this.isExpanded[key];
-    }
-  }
-
-  onFileChange(event: any, controlName: string) {
-    const file = event.target.files && event.target.files.length ? event.target.files[0] : null;
-
-    if (file) {
-      if (controlName === 'csvFile') {
-        // Check if file is CSV
-        if (!file.name.toLowerCase().endsWith('.csv')) {
-          this.toasterService.warningToaster('Please upload only CSV files', 'warning');
-          event.target.value = ''; // Clear the file input
-          return;
-        }
-      } else {
-        if (!file.name.toLowerCase().endsWith('.pdf')) {
-          this.toasterService.warningToaster('Please upload only PDF files', 'warning');
-          event.target.value = ''; // Clear the file input
-          return;
-        }
-      }
-
-    }
-    this.ESICUploadForm.patchValue({ [controlName]: file });
-    this.ESICUploadForm.get(controlName)?.updateValueAndValidity();
-  }
-
-  downloadErrorFile(challan: EsicChallanList) {
-    window.open(challan.errorFilePath, '_blank');
-  }
-
-  uploadESICDocument(): void {
-    this.isUploadSubmitted = true;
-    this.ESICUploadForm.markAllAsTouched();
-    if (this.ESICUploadForm.valid) {
-      let formData = new FormData();
-      formData.append('Id', this.ESICUploadForm.value.id);
-      formData.append('ChallanNo', this.ESICUploadForm.value.challanNo);
-      formData.append('ChallanSubmittedDate', this.ESICUploadForm.value.challanSubmittedDate.toISOString());
-      formData.append('TransactionNo', this.ESICUploadForm.value.transactionNo);
-      formData.append('Remark', this.ESICUploadForm.value.remark);
-      formData.append('AmountPaid', this.ESICUploadForm.value.amountPaid);
-
-      formData.append('ESICAttachments[0].filePath', this.ESICUploadForm.value.csvFile);
-      formData.append('ESICAttachments[0].fileType', '584');
-
-      formData.append('ESICAttachments[1].filePath', this.ESICUploadForm.value.ecrFile);
-      formData.append('ESICAttachments[1].fileType', '575');
-
-
-      formData.append('ESICAttachments[2].filePath', this.ESICUploadForm.value.challanFile);
-      formData.append('ESICAttachments[2].fileType', '585');
-
-
-
-      this.pfChallanService.putPfChallan(AppConstant.GET_ESIC_CHALLAN_HISTORY + '/' + this.ESICUploadForm.value.id, formData).subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.toasterService.successToaster(response.message);
-            this.closeESICchallanModal();
-          }
-        }
-      });
-    }
-  }
-
-  clearFile(controlName: string): void {
-    this.ESICUploadForm.patchValue({ [controlName]: null });
-    this.ESICUploadForm.get(controlName)?.updateValueAndValidity();
-  }
-
-  closeESICchallanModal(): void {
-    this.ESICchallanModal?.hide();
-    this.ESICUploadForm.reset();
-  }
-
-  deleteChallan(id: number): void {
-    swal({
-      title: "Are you sure?",
-      text: "You will not be able to recover this record!",
-      icon: "warning",
-      buttons: ["No", "Yes"],
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        this.pfChallanService.deletePfChallan(AppConstant.DELETE_ESIC_CHALLAN + '/' + id).subscribe({
-          next: (response) => {
-            if (response.success) {
-              this.toasterService.successToaster(response.message);
-              this.viewDetails();
-            }
-          }
-        });
-      } else {
-        return;
       }
     });
+  }
+}
+
+viewRecord(challan: EsicChallanList) {
+  const navigationExtras: NavigationExtras = {
+    state: {
+      EsicChallanData: challan
+    },
+  };
+  this.router.navigate(['/compliance/esiccontribution-report'], navigationExtras);
+}
+
+exportReport(): void {
+  this.esicFilterForm.controls['name'].setValidators(Validators.required);
+  //this.esicFilterForm.controls['totalWorkingDays'].setValidators(Validators.required);
+  this.esicFilterForm.controls['selectedPayrollId'].setValidators(Validators.required);
+  this.esicFilterForm.controls['selectedProjectId'].setValidators(Validators.required);
+  this.esicFilterForm.controls['name'].updateValueAndValidity();
+  this.esicFilterForm.controls['selectedPayrollId'].updateValueAndValidity();
+  this.esicFilterForm.controls['selectedProjectId'].updateValueAndValidity();
+  //this.esicFilterForm.controls['totalWorkingDays'].updateValueAndValidity();
+  const selectedMonth = this.esicFilterForm.value.selectedMonth;
+
+  // Convert to Date
+  const date = new Date(selectedMonth + '-01');
+
+  // Get number of days in that month
+  const daysInMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).getDate().toString();
+
+  console.log(daysInMonth);
+
+
+  this.isViewMode = true;
+  if(this.esicFilterForm.valid) {
+  let formData = new FormData();
+  formData.append('Tag', this.esicFilterForm.value.name);
+  formData.append('TotalWorkingDays', daysInMonth);
+
+  this.esicFilterForm.value.selectedPayrollId.forEach((id: number, i: number) => {
+    formData.append(`PayrollIds[${i}]`, id.toString());
+
+  });
+  debugger
+  this.pfChallanService.postDownloadPfChallan(AppConstant.POST_ESIC_CHALLAN, formData).subscribe({
+    next: (response) => {
+      const blob = new Blob([response], { type: 'application/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.esicFilterForm.value.name}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  });
+}
+  }
+
+toggleChild(key: string): void {
+  if(key) {
+    this.isExpanded[key] = !this.isExpanded[key];
+  }
+}
+
+onFileChange(event: any, controlName: string) {
+  const file = event.target.files && event.target.files.length ? event.target.files[0] : null;
+
+  if (file) {
+    if (controlName === 'csvFile') {
+      // Check if file is CSV
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        this.toasterService.warningToaster('Please upload only CSV files', 'warning');
+        event.target.value = ''; // Clear the file input
+        return;
+      }
+    } else {
+      if (!file.name.toLowerCase().endsWith('.pdf')) {
+        this.toasterService.warningToaster('Please upload only PDF files', 'warning');
+        event.target.value = ''; // Clear the file input
+        return;
+      }
+    }
+
+  }
+  this.ESICUploadForm.patchValue({ [controlName]: file });
+  this.ESICUploadForm.get(controlName)?.updateValueAndValidity();
+}
+
+downloadErrorFile(challan: EsicChallanList) {
+  window.open(challan.errorFilePath, '_blank');
+}
+
+uploadESICDocument(): void {
+  this.isUploadSubmitted = true;
+  this.ESICUploadForm.markAllAsTouched();
+  if(this.ESICUploadForm.valid) {
+  let formData = new FormData();
+  formData.append('Id', this.ESICUploadForm.value.id);
+  formData.append('ChallanNo', this.ESICUploadForm.value.challanNo);
+  formData.append('ChallanSubmittedDate', this.ESICUploadForm.value.challanSubmittedDate.toISOString());
+  formData.append('TransactionNo', this.ESICUploadForm.value.transactionNo);
+  formData.append('Remark', this.ESICUploadForm.value.remark);
+  formData.append('AmountPaid', this.ESICUploadForm.value.amountPaid);
+
+  formData.append('ESICAttachments[0].filePath', this.ESICUploadForm.value.csvFile);
+  formData.append('ESICAttachments[0].fileType', '584');
+
+  formData.append('ESICAttachments[1].filePath', this.ESICUploadForm.value.ecrFile);
+  formData.append('ESICAttachments[1].fileType', '575');
+
+
+  formData.append('ESICAttachments[2].filePath', this.ESICUploadForm.value.challanFile);
+  formData.append('ESICAttachments[2].fileType', '585');
+
+
+
+  this.pfChallanService.putPfChallan(AppConstant.GET_ESIC_CHALLAN_HISTORY + '/' + this.ESICUploadForm.value.id, formData).subscribe({
+    next: (response) => {
+      if (response.success) {
+        this.toasterService.successToaster(response.message);
+        this.closeESICchallanModal();
+      }
+    }
+  });
+}
+  }
+
+clearFile(controlName: string): void {
+  this.ESICUploadForm.patchValue({ [controlName]: null });
+  this.ESICUploadForm.get(controlName)?.updateValueAndValidity();
+}
+
+closeESICchallanModal(): void {
+  this.ESICchallanModal?.hide();
+  this.ESICUploadForm.reset();
+}
+
+deleteChallan(id: number): void {
+  swal({
+    title: "Are you sure?",
+    text: "You will not be able to recover this record!",
+    icon: "warning",
+    buttons: ["No", "Yes"],
+  dangerMode: true,
+}).then((willDelete) => {
+  if (willDelete) {
+    this.pfChallanService.deletePfChallan(AppConstant.DELETE_ESIC_CHALLAN + '/' + id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.toasterService.successToaster(response.message);
+          this.viewDetails();
+        }
+      }
+    });
+  } else {
+    return;
+  }
+});
 
   }
 
-  reDownloadChallan(challan: EsicChallanList): void {
-    let params = new HttpParams()
-      .set('PayrollESICChallanHistoryId', challan.id)
+reDownloadChallan(challan: EsicChallanList): void {
+  let params = new HttpParams()
+    .set('PayrollESICChallanHistoryId', challan.id)
     this.pfChallanService.getDownloadPfChallan(AppConstant.POST_ESIC_CHALLAN, params).subscribe({
       next: (response) => {
         const blob = new Blob([response], { type: 'application/csv' });
@@ -379,6 +450,6 @@ export class EsicDashboardComponent implements OnInit {
         window.URL.revokeObjectURL(url);
       }
     });
-  }
+}
 
 }

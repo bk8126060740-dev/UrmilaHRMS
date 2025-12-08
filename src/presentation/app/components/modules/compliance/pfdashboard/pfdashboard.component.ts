@@ -41,7 +41,7 @@ export class PFDashboardComponent implements OnInit {
   ) {
     this.monthList = AppConstant.MONTH_DATA;
     const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth(); // getMonth() returns 0-11, so add 1
+    const currentMonth = new Date().getMonth();  
 
     for (let i = 2024; i <= currentYear; i++) {
       this.yearList.push(i);

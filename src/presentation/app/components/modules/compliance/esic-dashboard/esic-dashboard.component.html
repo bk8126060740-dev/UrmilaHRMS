@@ -18,33 +18,46 @@
                         <!-- Form Details -->
                         <form [formGroup]="esicFilterForm">
                             <div class="row gy-3">
-                                <div class="col-xl-4 col-lg-6 col-12">
+                                <div class="col-xl-3 col-lg-3 col-3">
                                     <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
                                         <mat-label>Enter Name</mat-label>
                                         <input matInput formControlName="name" name="Enter Name" required />
                                     </mat-form-field>
                                 </div>
-                                <div class="col-xl-2 col-lg-6 col-12">
+                                <!-- <div class="col-xl-2 col-lg-6 col-12">
                                     <mat-form-field appearance="outline" class="w-100 custom-mat-form-field">
                                         <mat-label>Total Working Days</mat-label>
-                                        <input matInput formControlName="totalWorkingDays" name="Enter Name" required
+                                        <input  matInput formControlName="totalWorkingDays" name="Enter Name" required 
                                             type="number" />
                                     </mat-form-field>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-12">
+                                </div> -->
+                                <div class="col-xl-3 col-lg-3 col-3">
                                     <ng-select [items]="clientList" bindLabel="text" bindValue="value"
                                         [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedClientId'].errors"
                                         formControlName="selectedClientId" (change)="onClientChange()"
                                         placeholder="Search & Select Client *" required>
                                     </ng-select>
                                 </div>
-                            </div>
-                            <div class="row gy-4 mt-1">
-                                <div class="col-xl-4 col-lg-6 col-12">
+                                <div class="col-xl-3 col-lg-3 col-3">
                                     <ng-select [items]="projectList" bindLabel="name" bindValue="id"
                                         [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedProjectId'].errors"
                                         (change)="onProjectChange()" formControlName="selectedProjectId"
                                         [multiple]="false" placeholder="Search & Select Project *" required>
+                                    </ng-select>
+                                </div>
+                                 <div class="col-xl-3 col-lg-3 col-3">
+                                    <ng-select bindLabel="shortName" bindValue="id" formControlName="selectedMonth" (change)="onProjectChange()"
+                                        [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedMonth'].errors"
+                                        [items]="monthList" [clearable]="false" placeholder="Select Month *" required>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="row gy-4 mt-1">
+                                
+                                <div class="col-xl-3 col-lg-4 col-4">
+                                    <ng-select bindLabel="text" bindValue="value" formControlName="selectedYear"  (change)="onProjectChange()"
+                                        [class.ng-select-unselected]="isViewMode && esicFilterForm.controls['selectedYear'].errors"
+                                        [items]="yearList" [clearable]="false" placeholder="Select Year *" required>
                                     </ng-select>
                                 </div>
                                 <div class="col-xl-4 col-lg-6 col-12">

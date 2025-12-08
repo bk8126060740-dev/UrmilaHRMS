@@ -29,6 +29,9 @@ useProxyDownload: any =boolean;
   hideDelay = new FormControl(103);
 
   files: FileHandle[] = [];
+modalTotalRecords: number = 0;
+modalCurrentPage: number = 1;
+modalTotalPages: number = 1;
 
 
   // Add near top of component properties
@@ -153,9 +156,9 @@ getClientList(fromdate: any, Todate: any): void {
     }
   }
 
-// Helper to update visible slice from allRowData
+ 
 updatePagedData(): void {
-  // ensure numeric values
+ 
   const ps = Number(this.pageSize) || 10;
   const cp = Number(this.currentPage) || 1;
 
@@ -174,18 +177,15 @@ goToPage(page: number): void {
 }
 
 onPageSizeChange(event?: Event | number): void {
-  // Accept either event (from DOM) or direct number
   if (typeof event === 'number') {
     this.pageSize = event;
   } else if (event instanceof Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.pageSize = Number(value) || 10;
   } else {
-    // fallback
     this.pageSize = Number(this.pageSize) || 10;
   }
 
-  // reset to first page to avoid out-of-range page
   this.currentPage = 1;
   this.updatePagedData();
 }
@@ -243,34 +243,30 @@ getPageNumbers(): number[] {
 
   
  
-  viewDetails(item: any): void {
- let params = new HttpParams()
+viewDetails(item: any): void {
+  let params = new HttpParams()
     .set('isSkipPaging', 'false')
-    .set('AttachmentId', item.AttachmentId)
- this.accountreportService.getAccountreport(AppConstant.Get_Invoice_Files, params)
+    .set('AttachmentId', item.AttachmentId);
+
+  this.accountreportService.getAccountreport(AppConstant.Get_Invoice_Files, params)
     .subscribe({
       next: (response) => {
-        
         this.InvoicefilerowData = response.data || [];
-        
-        if (this.InvoicefilerowData.length > 0) {
-          this.totalRecords = this.rowData[0].TotalRecord  || this.rowData.length;
-        } else {
-          this.totalRecords = 0;
-        }
-       
+        this.modalTotalRecords = this.InvoicefilerowData.length;
+        this.modalTotalPages = 1;
+        this.modalCurrentPage = 1;
       },
-      error: (error) => {
-        this.toasterService.errorToaster('Failed to load data');
-        console.error('Error fetching data:', error);
-        this.rowData = [];
-        this.totalRecords = 0;
+      error: () => {
+        this.InvoicefilerowData = [];
+        this.modalTotalRecords = 0;
+        this.modalTotalPages = 1;
+        this.modalCurrentPage = 1;
       }
     });
 
-    this.tallyPartialmodal?.show();
-    
-  }
+  this.tallyPartialmodal?.show();
+}
+
 
   filesDropped(files: FileHandle[]): void {
       this.files = files;
