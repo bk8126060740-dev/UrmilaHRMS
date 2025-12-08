@@ -17,7 +17,10 @@
                             </mat-form-field>
                         </div>
                     </div>
-
+                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <button class="btn btn-primary me-3" (click)="export()">
+                            <i class="fa fa-file-excel-o me-2" aria-hidden="true"></i> Export
+                        </button> 
                     
                 </div>
             </div>
@@ -35,8 +38,10 @@
                     <th class="text-center" style="border-left: transparent !important;">Project Name</th>
                     <th class="text-center">Name</th>
                     <th class="text-center">UAN Number</th>
+                    <th class="text-center">Gross</th>
                     <th class="text-center">EPFO</th>
-                    <!-- <th class="text-center">Days</th> -->
+                    <th class="text-center">EPS</th>
+                    <th class="text-center">Days</th>
 
                 </tr>
             </thead>
@@ -45,9 +50,10 @@
                        <td class="text-center">{{ row.projectName }}</td>
                     <td class="text-center">{{ row.name }}</td>
                     <td class="text-center">{{ row.uan}}</td>
+                    <td class="text-center">{{ row.gross}}</td>
                     <td class="text-center">{{ row.epf}}</td>
-                    <!-- <td class="text-center">{{ row.ncpdays }}</td> -->
-                    
+                    <td class="text-center">{{ row.eps}}</td>
+                    <td class="text-center">{{ row.ncpDays }}</td>
                 </tr>
                 <tr *ngIf="EpfContributionReportlist.length === 0">
                     <td colspan="22" class="text-center">No records found</td>

@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { AppConstant } from '../../../../../../common/app-constant';
 import { PfChallanService } from '../../../../../../domain/services/pfChallan.service';
 import { FormControl } from '@angular/forms';
+ import { ExportXLSFileService } from '../../../../../../domain/services/ui-service/ExportXLSFile.service';
+
 
 @Component({
   selector: 'app-missing-contribution-report',
@@ -21,7 +23,8 @@ export class MissingContributionReportComponent {
   recordCount: number = 10;
   nextDisabled: boolean = false;
 
-  constructor(private pfChallanService: PfChallanService) { }
+  constructor(private pfChallanService: PfChallanService, private exportService: ExportXLSFileService
+  ) { }
 
   ngOnInit(): void {
     this.getMissingEFPOList(this.fromDate);
@@ -59,7 +62,11 @@ onDateChange(): void {
         }
       });
   }
+ export() {
+  this.exportService.exportAsExcelFile(this.EpfContributionReportlist, 'MissingEFPO');
+}
 
+ 
   onTotalRecoredChange(event: any): void {
     this.recordCount = event;
     this.pageNumber = 1;
