@@ -52,9 +52,9 @@
                                     <th class="w-20 text-end cursor fw-medium">Total Rate</th>
                                     <th class="w-20 text-center fw-medium">No Of Manpower</th>
                                     <th class="w-20 text-end cursor fw-medium">Total</th>
-                                    <th class="w-20 text-end cursor fw-medium">Tax Inv. <b>↑</b></th>
-                                    <th class="w-20 text-end cursor fw-medium">Upload Files</th>
-                                    <th class="w-20 py-3 text-start fw-medium">Action
+                                    <th class="w-20 text-end cursor fw-medium" *ngIf="designationId == 204">Tax Inv. <b>↑</b></th>
+                                    <th class="w-20 text-end cursor fw-medium" *ngIf="designationId == 204">Upload Files</th>
+                                    <th class="w-20 py-3 text-start fw-medium" *ngIf="designationId == 204">Action
                                     </th>
                                 </tr>
                             </thead>
@@ -98,11 +98,11 @@
                                     <td class="text-end">
                                         <strong>{{item.Total | currency:'INR':'symbol':'1.2-2'}}</strong>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" *ngIf="designationId == 204">
                                         <span class="circle">{{ item.NoOfInvoice }}</span>
                                     </td>
-                                    <td>
-
+                                     
+                                        <td  *ngIf="designationId == 204">
                                         <div class="cursor" appDrag (files)="filesDropped($event)"
                                             (fileSizeError)="handleFileSizeErrors($event)"
                                             (click)="triggerProfileFileInput(fileInput)">
@@ -117,11 +117,12 @@
                                         </div>
                                     </td>
 
-                                    <td class="text-center pe-4">
+                                    <td  *ngIf="designationId == 204" class="text-center pe-4">
                                         <button class="btn btn-sm btn-outline-primary" (click)="viewDetails(item)">
                                             <i class="bi bi-eye"></i> View
                                         </button>
                                     </td>
+
                                 </tr>
                             </tbody>
                         </table>

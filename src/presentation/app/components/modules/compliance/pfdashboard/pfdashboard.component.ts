@@ -156,6 +156,7 @@ export class PFDashboardComponent implements OnInit {
         .set('clientId', clientId.toString())
         .set('month', this.pfFilterForm.value.selectedMonth)
         .set('year', this.pfFilterForm.value.selectedYear)
+        .set('types', "EPF")
         .set('isSkipPaging', 'true');
 
       this.pfChallanService

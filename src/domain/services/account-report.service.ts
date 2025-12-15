@@ -25,6 +25,7 @@ export class AccountreportService {
   deleteAccountreport<T>(URL: any, params?: HttpParams): Observable<BaseResponse<T>> {
     return this.apiService.delete<BaseResponse<T>>(URL, params);
   }
+ 
 
 }
 

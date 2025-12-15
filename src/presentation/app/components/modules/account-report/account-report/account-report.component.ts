@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AppConstant } from '../../../../../../common/app-constant';
 import { HttpParams } from '@angular/common/http';
 import { ToasterService } from '../../../../../../common/toaster-service';
-import { Router } from '@angular/router';
 import { AccountreportService } from '../../../../../../domain/services/account-report.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FileHandle } from '../../../../../../directive/dragDrop.directive';
 import { DomSanitizer } from '@angular/platform-browser';
 import { boolean } from 'mathjs';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
+import { LocalStorageService } from '../../../../../../common/local-storage.service';
 
 @Component({
   selector: 'app-account-report',
@@ -24,8 +22,8 @@ export  class  AccountReportComponent implements OnInit {
   selectedYear: number | null = new Date().getFullYear();
   pipe: string = 'currency';
   lastDownloadedPath?: string;
-useProxyDownload: any =boolean;
-   showDelay = new FormControl(100);
+  useProxyDownload: any =boolean;
+  showDelay = new FormControl(100);
   hideDelay = new FormControl(103);
 
   files: FileHandle[] = [];
@@ -41,6 +39,7 @@ currentPage: number = 1;
 pageSize: number = 10;  // ensure this is a number type
 totalRecords: number = 0;
 tallyPartialForm!: FormGroup;
+  designationId: number = 0;
   selectedFiles: File[] = [];
   @ViewChild("tallyPartialmodal", { static: false }) public tallyPartialmodal: | ModalDirective | undefined;
 
@@ -48,17 +47,21 @@ tallyPartialForm!: FormGroup;
     private accountreportService: AccountreportService,
     private toasterService: ToasterService,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private localstorage: LocalStorageService,
   ) { 
     this.tallyPartialForm = this.fb.group({
       UploadFile: [null],
     });
+   
   }
 
   ngOnInit(): void {
+     this.designationId = parseInt(this.localstorage.getItem("designationId") || '0', 10);
+     console.log('Designation ID:', this.designationId);
     this.getClientList(new Date(), new Date());
   }
-  
+ 
 
 get totalPages(): number {
   return this.pageSize > 0 ? Math.ceil(this.totalRecords / this.pageSize) : 0;
@@ -106,6 +109,7 @@ get totalPages(): number {
 // }
   // After API fetch — store allRowData, set totalRecords, set currentPage and show page 1
 getClientList(fromdate: any, Todate: any): void {
+  
   const FromDate: Date = fromdate || new Date();
   const TodDate: Date = Todate || new Date();
 

@@ -15,6 +15,7 @@ export class User {
   isCheckIn: boolean = false;
   isHo: boolean = false;
   isOnboardComplete: boolean = false;
+  designationId: string = "";
 }
 
 export class LoginModel {

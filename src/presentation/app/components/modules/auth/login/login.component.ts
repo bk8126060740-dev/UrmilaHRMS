@@ -77,12 +77,13 @@ export class LoginComponent {
         next: async (response) => {
           if (response) {
             this.loginErrorMessage = "";
-
+              debugger
             let username: string = this.loginForm.get("username")?.value;
             this.localstorage.setItem("username", username.toUpperCase());
             this.localstorage.setItem("fullName", response.data.user.fullName);
             this.localstorage.setItem("emailId", response.data.user.emailId);
             this.localstorage.setItem("profilePic", response.data.user.profilePic);
+            this.localstorage.setItem("designationId", response.data.user.designationId);
             this.localstorage.setItem("isCheckIn", response.data.user.isCheckIn);
             this.localstorage.setItem("isHo", response.data.user.isHo);
             this.localstorage.setItem("isOnboardComplete", response.data.user.isOnboardComplete);

@@ -197,10 +197,7 @@ export class PFContributionReportComponent implements OnInit, OnDestroy {
     });
   }
 
-  onProjectChange(): void {
-
-  }
-
+ 
   onGenerate() {
     this.isViewMode = true;
     if (this.pfContributionReportForm.valid) {
