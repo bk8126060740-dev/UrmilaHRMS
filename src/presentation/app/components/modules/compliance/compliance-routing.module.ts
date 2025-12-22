@@ -6,6 +6,7 @@ import { ReportComponent } from './report/report.component';
 import { EsicDashboardComponent } from './esic-dashboard/esic-dashboard.component';
 import { EsicContributionReportComponent } from './esic-contribution-report/esic-contribution-report.component';
 import { MissingContributionReportComponent } from './missing-contribution-report/missing-contribution-report.component';
+import { AccountReportComponent } from '../account-report/account-report/account-report.component';
 const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,13 @@ const routes: Routes = [
     component: MissingContributionReportComponent,
     data: {
       title: 'Missing EPFO Contribution Report'
+    }
+  },
+    {
+    path: 'account-report',
+    component: AccountReportComponent,
+    data: {
+      title: 'Account report'
     }
   },
   {

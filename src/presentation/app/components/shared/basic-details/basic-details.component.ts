@@ -11,6 +11,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ProjectService } from '../../../../../domain/services/project.service';
+import { valHooks } from 'jquery';
 
 
 @Component({
@@ -72,7 +73,7 @@ export class BasicDetailsComponent {
   @ViewChild("salarySlipModal", { static: false }) salarySlipModal: any | ModalDirective | undefined;
 
   ngOnInit(): void {
-
+debugger
     this.salarySlipForm = this.fb.group({
       employeeId: ['', Validators.required],
       month: ['', Validators.required],
@@ -83,9 +84,9 @@ export class BasicDetailsComponent {
     if (this.isEmployed) {
       this.basicDetailsForm = this.fb.group({
         profilePic: ['', Validators.required],
-        firstName: ['', Validators.required],
-        midName: [''],
-        lastName: ['', Validators.required],
+        firstName: ['', [Validators.required, Validators.minLength(2),Validators.pattern('^[A-Za-z]{2,}(?:\\s[A-Za-z]+)*$')]],
+        midName: ['', [Validators.required, Validators.minLength(2),Validators.pattern('^[A-Za-z]{2,}(?:\\s[A-Za-z]+)*$')]],
+        lastName: [''],
         gender: ['', Validators.required],
         dateOfBirth: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -102,8 +103,8 @@ export class BasicDetailsComponent {
     } else {
       this.basicDetailsForm = this.fb.group({
         firstName: ['', Validators.required],
-        midName: [''],
-        lastName: ['', Validators.required],
+        midName: ['', Validators.required],
+        lastName: [''],
         gender: ['', Validators.required],
         dateOfBirth: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],

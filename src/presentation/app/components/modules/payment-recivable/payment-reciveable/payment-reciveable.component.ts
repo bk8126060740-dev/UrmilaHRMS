@@ -284,40 +284,44 @@ clientList: ClientList[] = [];
   isInvoiceSelected(invoiceId: number): boolean {
     return this.selectedInvoices.has(invoiceId);
   }
+  
 
-  onInvoiceSelectionChange(invoiceId: number, isSelected: boolean, invoiceValue: number): void {
-    if (isSelected) {
-      this.selectedInvoices.add(invoiceId);
-      const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
-      if (invoice) {
-        this.totalInvoiceValue += parseFloat(this.calculateItemBalance(invoice).toFixed(2));
-        this.totalInvoiceValue = Number(this.totalInvoiceValue.toFixed(2));
-      }
-    } else {
-      this.selectedInvoices.delete(invoiceId);
-      const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
-      if (invoice) {
-        this.totalInvoiceValue -= parseFloat(this.calculateItemBalance(invoice).toFixed(2));
-        this.totalInvoiceValue = Number(this.totalInvoiceValue.toFixed(2));
-        // Reset amounts when invoice is unselected
-        invoice.holdAmount = 0;
-        invoice.creditNote = 0;
-        invoice.gstDeduction = 0;
-        invoice.tdsDeduction = 0;
-        invoice.balanceAmount = 0;
-      }
+ onInvoiceSelectionChange(invoiceId: number, isSelected: boolean, invoiceValue: number): void {
+  if (isSelected) {
+    this.selectedInvoices.add(invoiceId);
+    const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+    if (invoice) {
+      const availableBalance = this.getTransactionItemBalanceAmount(invoice);
+      this.totalInvoiceValue += availableBalance;
+      this.totalInvoiceValue = Number(this.totalInvoiceValue.toFixed(2));
     }
-    this.isAnyInvoiceSelected = this.selectedInvoices.size > 0;
-    if (!this.isAnyInvoiceSelected) {
-      this.totalHoldAmount = 0;
-      this.totalCreditNote = 0;
-      this.totalGstDeduction = 0;
-      this.totalTdsDeduction = 0;
-      this.totalBalanceAmount = 0;
-      this.totalInvoiceValue = 0;
+  } else {
+    this.selectedInvoices.delete(invoiceId);
+    const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+    if (invoice) {
+      const availableBalance = this.getTransactionItemBalanceAmount(invoice);
+      this.totalInvoiceValue -= availableBalance;
+      this.totalInvoiceValue = Number(this.totalInvoiceValue.toFixed(2));
+      invoice.holdAmount = 0;
+      invoice.creditNote = 0;
+      invoice.gstDeduction = 0;
+      invoice.tdsDeduction = 0;
+      invoice.balanceAmount = 0;
     }
-    this.updateFinalInvoiceValue();
   }
+  
+  this.isAnyInvoiceSelected = this.selectedInvoices.size > 0;
+  if (!this.isAnyInvoiceSelected) {
+    this.totalHoldAmount = 0;
+    this.totalCreditNote = 0;
+    this.totalGstDeduction = 0;
+    this.totalTdsDeduction = 0;
+    this.totalBalanceAmount = 0;
+    this.totalInvoiceValue = 0;
+    this.balanceAmount = 0;
+  }
+  this.updateFinalInvoiceValue();
+}
 
   isHoldAmountDisabled(invoice: PaymentReceivableItem): boolean {
     const otherDeductions = (invoice.creditNote || 0) + (invoice.gstDeduction || 0) + (invoice.tdsDeduction || 0);
@@ -352,7 +356,6 @@ clientList: ClientList[] = [];
           invoice.holdAmount = 0;
           return;
         }
-        // Calculate deductions excluding hold amount
         const otherDeductions = (invoice.creditNote || 0) + (invoice.gstDeduction || 0) + (invoice.tdsDeduction || 0);
         const maxAllowedAmount = this.getTransactionItemBalanceAmount(invoice) - otherDeductions;
         if (amount > maxAllowedAmount) {
@@ -364,13 +367,11 @@ clientList: ClientList[] = [];
         this.calculateTotalHoldAmount();
       }
     } else {
-      // For total hold amount, check each selected invoice
       const selectedInvoices = this.paymentReceviableList.filter(item => this.selectedInvoices.has(item.id));
       const totalMaxAllowed = selectedInvoices.reduce((sum, invoice) => {
         if (this.isHoldAmountDisabled(invoice)) {
           return sum;
         }
-        // Calculate deductions excluding hold amount
         const otherDeductions = (invoice.creditNote || 0) + (invoice.gstDeduction || 0) + (invoice.tdsDeduction || 0);
         return sum + (this.getTransactionItemBalanceAmount(invoice) - otherDeductions);
       }, 0);
@@ -378,7 +379,6 @@ clientList: ClientList[] = [];
       if (totalMaxAllowed <= 0) {
         this.toasterService.warningToaster('No available balance for hold amount');
         this.totalHoldAmount = 0;
-        // Reset all hold amounts to 0
         selectedInvoices.forEach(invoice => {
           invoice.holdAmount = 0;
         });
@@ -403,7 +403,6 @@ clientList: ClientList[] = [];
           invoice.creditNote = 0;
           return;
         }
-        // Calculate deductions excluding credit note
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.gstDeduction || 0) + (invoice.tdsDeduction || 0);
         const maxAllowedAmount = this.getTransactionItemBalanceAmount(invoice) - otherDeductions;
         if (amount > maxAllowedAmount) {
@@ -415,13 +414,11 @@ clientList: ClientList[] = [];
         this.calculateTotalCreditNote();
       }
     } else {
-      // For total credit note, check each selected invoice
       const selectedInvoices = this.paymentReceviableList.filter(item => this.selectedInvoices.has(item.id));
       const totalMaxAllowed = selectedInvoices.reduce((sum, invoice) => {
         if (this.isCreditNoteDisabled(invoice)) {
           return sum;
         }
-        // Calculate deductions excluding credit note
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.gstDeduction || 0) + (invoice.tdsDeduction || 0);
         return sum + (this.getTransactionItemBalanceAmount(invoice) - otherDeductions);
       }, 0);
@@ -429,7 +426,6 @@ clientList: ClientList[] = [];
       if (totalMaxAllowed <= 0) {
         this.toasterService.warningToaster('No available balance for credit note');
         this.totalCreditNote = 0;
-        // Reset all credit notes to 0
         selectedInvoices.forEach(invoice => {
           invoice.creditNote = 0;
         });
@@ -454,7 +450,6 @@ clientList: ClientList[] = [];
           invoice.gstDeduction = 0;
           return;
         }
-        // Calculate deductions excluding GST deduction
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.creditNote || 0) + (invoice.tdsDeduction || 0);
         const maxAllowedAmount = this.getTransactionItemBalanceAmount(invoice) - otherDeductions;
         if (amount > maxAllowedAmount) {
@@ -466,13 +461,11 @@ clientList: ClientList[] = [];
         this.calculateTotalGstDeduction();
       }
     } else {
-      // For total GST deduction, check each selected invoice
       const selectedInvoices = this.paymentReceviableList.filter(item => this.selectedInvoices.has(item.id));
       const totalMaxAllowed = selectedInvoices.reduce((sum, invoice) => {
         if (this.isGstDeductionDisabled(invoice)) {
           return sum;
         }
-        // Calculate deductions excluding GST deduction
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.creditNote || 0) + (invoice.tdsDeduction || 0);
         return sum + (this.getTransactionItemBalanceAmount(invoice) - otherDeductions);
       }, 0);
@@ -480,7 +473,6 @@ clientList: ClientList[] = [];
       if (totalMaxAllowed <= 0) {
         this.toasterService.warningToaster('No available balance for GST deduction');
         this.totalGstDeduction = 0;
-        // Reset all GST deductions to 0
         selectedInvoices.forEach(invoice => {
           invoice.gstDeduction = 0;
         });
@@ -505,7 +497,6 @@ clientList: ClientList[] = [];
           invoice.tdsDeduction = 0;
           return;
         }
-        // Calculate deductions excluding TDS deduction
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.creditNote || 0) + (invoice.gstDeduction || 0);
         const maxAllowedAmount = this.getTransactionItemBalanceAmount(invoice) - otherDeductions;
         if (amount > maxAllowedAmount) {
@@ -517,13 +508,11 @@ clientList: ClientList[] = [];
         this.calculateTotalTdsDeduction();
       }
     } else {
-      // For total TDS deduction, check each selected invoice
       const selectedInvoices = this.paymentReceviableList.filter(item => this.selectedInvoices.has(item.id));
       const totalMaxAllowed = selectedInvoices.reduce((sum, invoice) => {
         if (this.isTdsDeductionDisabled(invoice)) {
           return sum;
         }
-        // Calculate deductions excluding TDS deduction
         const otherDeductions = (invoice.holdAmount || 0) + (invoice.creditNote || 0) + (invoice.gstDeduction || 0);
         return sum + (this.getTransactionItemBalanceAmount(invoice) - otherDeductions);
       }, 0);
@@ -531,7 +520,6 @@ clientList: ClientList[] = [];
       if (totalMaxAllowed <= 0) {
         this.toasterService.warningToaster('No available balance for TDS deduction');
         this.totalTdsDeduction = 0;
-        // Reset all TDS deductions to 0
         selectedInvoices.forEach(invoice => {
           invoice.tdsDeduction = 0;
         });
@@ -547,30 +535,33 @@ clientList: ClientList[] = [];
     this.updateInvoiceBalanceAmounts();
   }
 
-  calculateTotalHoldAmount(): void {
-    this.totalHoldAmount = this.paymentReceviableList
-      .filter(item => this.selectedInvoices.has(item.id))
-      .reduce((sum, item) => sum + (item.holdAmount || 0), 0);
-  }
+   calculateTotalHoldAmount(): void {
+  this.totalHoldAmount = this.paymentReceviableList
+    .filter(item => this.selectedInvoices.has(item.id))
+    .reduce((sum, item) => sum + (item.holdAmount || 0), 0);
+  this.updateFinalInvoiceValue();
+}
 
-  calculateTotalCreditNote(): void {
-    this.totalCreditNote = this.paymentReceviableList
-      .filter(item => this.selectedInvoices.has(item.id))
-      .reduce((sum, item) => sum + (item.creditNote || 0), 0);
-  }
+calculateTotalCreditNote(): void {
+  this.totalCreditNote = this.paymentReceviableList
+    .filter(item => this.selectedInvoices.has(item.id))
+    .reduce((sum, item) => sum + (item.creditNote || 0), 0);
+  this.updateFinalInvoiceValue();
+}
 
-  calculateTotalGstDeduction(): void {
-    this.totalGstDeduction = this.paymentReceviableList
-      .filter(item => this.selectedInvoices.has(item.id))
-      .reduce((sum, item) => sum + (item.gstDeduction || 0), 0);
-  }
+calculateTotalGstDeduction(): void {
+  this.totalGstDeduction = this.paymentReceviableList
+    .filter(item => this.selectedInvoices.has(item.id))
+    .reduce((sum, item) => sum + (item.gstDeduction || 0), 0);
+  this.updateFinalInvoiceValue();
+}
 
-  calculateTotalTdsDeduction(): void {
-    this.totalTdsDeduction = this.paymentReceviableList
-      .filter(item => this.selectedInvoices.has(item.id))
-      .reduce((sum, item) => sum + (item.tdsDeduction || 0), 0);
-  }
-
+calculateTotalTdsDeduction(): void {
+  this.totalTdsDeduction = this.paymentReceviableList
+    .filter(item => this.selectedInvoices.has(item.id))
+    .reduce((sum, item) => sum + (item.tdsDeduction || 0), 0);
+  this.updateFinalInvoiceValue();
+}
   updateInvoiceHoldAmounts(): void {
     const selectedCount = this.selectedInvoices.size;
     if (selectedCount > 0) {
@@ -744,48 +735,65 @@ clientList: ClientList[] = [];
   }
 
   updateFinalInvoiceValue(): void {
-    if (!this.isAnyInvoiceSelected) {
-      this.balanceAmount = 0;
-    } else {
-      this.balanceAmount = this.totalInvoiceValue
-        - this.totalHoldAmount
-        - this.totalCreditNote
-        - this.totalGstDeduction
-        - this.totalTdsDeduction;
-    }
-    const totalDeductions = this.totalHoldAmount + this.totalCreditNote + this.totalGstDeduction + this.totalTdsDeduction;
-
-    // Calculate total balance amount from selected invoices
-    const totalBalanceAmount = Array.from(this.selectedInvoices)
-      .map(invoiceId => {
-        const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
-        return invoice ? this.calculateItemBalance(invoice) : 0;
-      })
-      .reduce((sum, balance) => sum + balance, 0);
-
-    const finalValue = totalBalanceAmount - totalDeductions;
-    const invoiceValueInput = document.querySelector('input[name="InvoiceValue"]') as HTMLInputElement;
-    if (invoiceValueInput) {
-      invoiceValueInput.value = finalValue.toFixed(2);
-    }
-    this.maxChequeAmount = finalValue;
-    this.calculateBalanceAmount();
+  if (!this.isAnyInvoiceSelected) {
+    this.balanceAmount = 0;
+  } else {
+    
+    let totalAvailableBalance = 0;
+    this.selectedInvoices.forEach(invoiceId => {
+      const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+      if (invoice) {
+        totalAvailableBalance += this.getTransactionItemBalanceAmount(invoice);
+      }
+    });
+         
+    this.balanceAmount = Number((totalAvailableBalance 
+      - this.totalHoldAmount 
+      - this.totalCreditNote 
+      - this.totalGstDeduction 
+      - this.totalTdsDeduction).toFixed(2));
   }
-
-  calculateBalanceAmount(): void {
-    const totalDeductions = Number((this.totalHoldAmount + this.totalCreditNote + this.totalGstDeduction + this.totalTdsDeduction).toFixed(2));
-
-    // Calculate total balance amount from selected invoices
-    const totalBalanceAmount = Array.from(this.selectedInvoices)
-      .map(invoiceId => {
-        const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
-        return invoice ? this.calculateItemBalance(invoice) : 0;
-      })
-      .reduce((sum, balance) => sum + balance, 0);
-
-    this.maxChequeAmount = Number((totalBalanceAmount - totalDeductions).toFixed(2));
-    this.balanceAmount = Number((this.maxChequeAmount - this.chequeAmount).toFixed(2));
+  
+  
+  const totalDeductions = this.totalHoldAmount + this.totalCreditNote + this.totalGstDeduction + this.totalTdsDeduction;
+  
+ 
+  let totalAvailableBalance = 0;
+  this.selectedInvoices.forEach(invoiceId => {
+    const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+    if (invoice) {
+      totalAvailableBalance += this.getTransactionItemBalanceAmount(invoice);
+    }
+  });
+  
+  this.maxChequeAmount = Number((totalAvailableBalance - totalDeductions).toFixed(2));
+  
+  
+  const invoiceValueInput = document.querySelector('input[name="InvoiceValue"]') as HTMLInputElement;
+  if (invoiceValueInput) {
+    invoiceValueInput.value = totalAvailableBalance.toFixed(2);
   }
+  
+  this.calculateBalanceAmount();
+}
+
+ calculateBalanceAmount(): void {
+  const totalDeductions = Number((this.totalHoldAmount + this.totalCreditNote + this.totalGstDeduction + this.totalTdsDeduction).toFixed(2));
+
+  
+  let totalAvailableBalance = 0;
+  this.selectedInvoices.forEach(invoiceId => {
+    const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+    if (invoice) {
+      totalAvailableBalance += this.getTransactionItemBalanceAmount(invoice);
+    }
+  });
+
+  this.maxChequeAmount = Number((totalAvailableBalance - totalDeductions).toFixed(2));
+  
+ 
+  this.balanceAmount = Number((this.maxChequeAmount - this.chequeAmount).toFixed(2));
+}
 
   calculateItemBalance(item: PaymentReceivableItem): number {
     if (!item.transaction || item.transaction.length === 0) {
@@ -826,7 +834,7 @@ clientList: ClientList[] = [];
       return sum + transactionDeductions;
     }, 0);
 
-    // Calculate remaining balance
+    
     const invoiceValue = item.invoiceValue || 0;
     const remainingBalance = invoiceValue - totalDeductions;
 
@@ -880,14 +888,14 @@ clientList: ClientList[] = [];
       const attachment = this.creditRemarkForm.get('attachment')?.value;
 
       if (remark) {
-        // Find the invoice in paymentReceviableList
+       
         const invoice = this.paymentReceviableList.find(item => item.id === this.selectedInvoiceForCredit?.id);
         if (invoice) {
-          // Store the remark and attachment in the invoice
+       
           invoice.creditRemark = remark;
           invoice.creditAttachment = attachment || null;
 
-          // Also store in creditRemarks map for quick lookup
+         
           this.creditRemarks[invoice.id] = {
             remark: remark,
             attachment: attachment || null
@@ -945,7 +953,7 @@ clientList: ClientList[] = [];
 
     const formData = new FormData();
 
-    // Add basic payment details
+     
     formData.append('PaymentNumber', '1');
     formData.append('PaymentType', this.selectedPaymentType?.toString() || '');
     formData.append('PaymentIdentifier', this.chequeNumber);
@@ -955,12 +963,12 @@ clientList: ClientList[] = [];
     formData.append('ITAndTDSAmount', this.totalTdsDeduction.toString());
     formData.append('BankId', this.selectedBank.toString());
 
-    // Add payment advisory attachment if exists
+     
     if (this.selectedPaymentAdvisoryFile) {
       formData.append('AttachmentPath', this.selectedPaymentAdvisoryFile);
     }
 
-    // Prepare invoices data
+     
     const selectedInvoices = Array.from(this.selectedInvoices).map(invoiceId => {
       const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
       if (!invoice) return null;
@@ -982,7 +990,7 @@ clientList: ClientList[] = [];
       };
     }).filter(invoice => invoice !== null);
 
-    // Add each invoice with proper index
+    
     selectedInvoices.forEach((invoice, index) => {
       if (invoice) {
         formData.append(`Invoices[${index}].InvoiceId`, invoice.InvoiceId.toString());
@@ -1290,5 +1298,17 @@ clientList: ClientList[] = [];
     const maxAllowedAmount = this.getTransactionItemBalanceAmount(invoice) - totalDeductions;
     return maxAllowedAmount <= 0;
   }
+//add new method
+calculateTotalAvailableBalance(): number {
+  let totalAvailableBalance = 0;
+  this.selectedInvoices.forEach(invoiceId => {
+    const invoice = this.paymentReceviableList.find(item => item.id === invoiceId);
+    if (invoice) {
+      totalAvailableBalance += this.getTransactionItemBalanceAmount(invoice);
+    }
+  });
+  return Number(totalAvailableBalance.toFixed(2));
+}
+
 }
 

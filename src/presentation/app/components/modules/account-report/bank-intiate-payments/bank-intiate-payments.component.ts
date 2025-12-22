@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+ 
 import { HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { Data, ToasterService } from '@teamopine/to-ng-grid';
+import { ToasterService } from '@teamopine/to-ng-grid';
+ 
 import { PayrollService } from '../../../../../../domain/services/payroll.service';
 import { LocalStorageService } from '../../../../../../common/local-storage.service';
 import { ProjectService } from '../../../../../../domain/services/project.service';
@@ -17,8 +18,7 @@ import { HeaderDropdownService } from '../../../../../../domain/services/header-
 import { PayrollModel, StatusWithCountModel } from '../../../../../../domain/models/payroll.model';
 import { ProjectDaum } from '../../../../../../domain/models/project.model';
 import { BankIniateModel } from '../../../../../../domain/models/bankiniate.model';
-import { ExportService } from '../../../../../../domain/services/export.service';
-import { GrantPermissionService } from '../../../../../../domain/services/permission/is-granted.service';
+import { ExportService } from '../../../../../../domain/services/export.service'; 
 import { BasicLayoutComponent } from '../../../core/basic-layout/basic-layout.component';
 
 @Component({
@@ -99,7 +99,6 @@ export class BankIntiatePaymentsComponent implements OnInit {
 
     this.projectId = this.jwtService.getProjectId() ?? 0;
 
-    // Initialize selectedDate with current month
     this.selectedDate = new Date(this.currentYear, this.selectedMonth, 1);
 
     this.signalRService.on('PayrollProcessed', (message: string) => {
@@ -110,11 +109,27 @@ export class BankIntiatePaymentsComponent implements OnInit {
     this.dropdownSubscription = this.headerDropdownService.dropdownValue$.subscribe((value) => {
       const project = this.localStorageService.getItem(AppConstant.PROJECTID);
       if (value != project) {
-        this.getPayrollAllData();
+        this.resetFormAndData();
+        this.getClients({});
       }
     });
     this.getClients({});
     this.store.select((state: any) => state.editForm).subscribe((data) => { });
+  }
+
+  resetFormAndData() {
+    this.bankinfoForm.reset();
+    this.bankList = [];
+    this.attributeArray = [];
+    this.payrollList = [];
+    this.allRowData = [];
+    this.rowData = [];
+    this.filteredRowData = [];
+    this.totalRecords = 0;
+    this.currentPage = 1;
+    this.searchTerm = '';
+    this.filterTerm = '';
+    this.PayrollId = 0;
   }
   async getPayrollAllData() {
     let bankParam = new HttpParams()
@@ -128,6 +143,9 @@ export class BankIntiatePaymentsComponent implements OnInit {
     });
   }
 
+
+
+  
  
 
   async getClients(event: any) {
@@ -150,10 +168,16 @@ export class BankIntiatePaymentsComponent implements OnInit {
 
     await this.getPayrollAllData();
 
+    await this.getPayrollalllist();
+
     if (this.payrollList.length > 0) {
       this.bankinfoForm.patchValue({
         payrollId: this.payrollList[0].id,
       });
+    }
+
+    if (this.bankinfoForm.value.payrollId) {
+      this.GetBankTransferSheet(this.bankinfoForm.value.payrollId);
     }
 
   }
@@ -208,38 +232,7 @@ export class BankIntiatePaymentsComponent implements OnInit {
     }
   }
   PayrollId: number = 0;
-  // async GetBankTransferSheet(payrollId: number) {
-
-  //   const monthName = this.monthsList[this.selectedMonth] || '';
-
-  //   if (this.bankinfoForm.valid) {
-  //     const params = new HttpParams()
-  //       .set('projectId', this.projectId)
-  //       .set('PayrollAttributeId', this.bankinfoForm.value.attrubuteId)
-  //       .set('bankId', this.bankinfoForm.value.bankId)
-  //       .set('PayrollId', payrollId)
-  //       .set('Month', monthName)
-  //       .set('PageNumber', this.RowpageNumber)
-  //       .set('RecordCount', this.recode.toString());
-
-  //     this.bankintiateService
-  //       .getBankTransferList(AppConstant.Bank_Transfer_List + '/GetBankTransferList', params)
-  //       .subscribe({
-  //         next: (response) => {
-  //           if (response) {
-  //             this.rowData = response.data as any[];
-  //             this.totalCount = response.totalCount;
-  //             this.filterDataByDate();
-  //             this.payrollList = [];
-  //           this.PayrollId = this.rowData[0].payrollId;
-  //           this.localStorageService.setItem('payrollId', this.PayrollId.toString());
-  //           }
-  //         },
-  //       });
-  //   } else {
-  //     this.toaster.errorToaster('Please fill all required fields');
-  //   }
-  // }
+   
   async GetBankTransferSheet(payrollId: number) {
     const monthName = this.monthsList[this.selectedMonth] || '';
 
@@ -442,7 +435,7 @@ export class BankIntiatePaymentsComponent implements OnInit {
   }
 
   filterAndPageData() {
-    // Implement search filtering on allRowData
+    
     if (this.searchTerm) {
       this.filteredRowData = this.allRowData.filter(item =>
         Object.values(item).some(val =>

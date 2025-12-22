@@ -155,6 +155,7 @@ export class EsicDashboardComponent implements OnInit {
         .set('clientId', this.esicFilterForm.value.selectedClientId)
         .set('month', this.esicFilterForm.value.selectedMonth)
         .set('year', this.esicFilterForm.value.selectedYear)
+        .set('types', "ESIC")
         .set('isSkipPaging', true)
 
       this.pfChallanService.getPfChallan<PayrollListByProject[]>(AppConstant.GET_PAYROLL_BY_PROJECT, params).subscribe({
