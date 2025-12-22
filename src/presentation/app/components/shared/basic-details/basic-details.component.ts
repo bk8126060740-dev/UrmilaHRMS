@@ -73,7 +73,7 @@ export class BasicDetailsComponent {
   @ViewChild("salarySlipModal", { static: false }) salarySlipModal: any | ModalDirective | undefined;
 
   ngOnInit(): void {
-
+debugger
     this.salarySlipForm = this.fb.group({
       employeeId: ['', Validators.required],
       month: ['', Validators.required],

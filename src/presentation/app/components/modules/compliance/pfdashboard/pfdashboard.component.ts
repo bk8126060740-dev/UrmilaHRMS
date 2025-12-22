@@ -445,6 +445,7 @@ viewDetails(): void {
           if (response.success) {
             this.toasterService.successToaster(response.message);
             this.closePfchallanModal();
+            this.viewDetails();
           }
         }
       });
