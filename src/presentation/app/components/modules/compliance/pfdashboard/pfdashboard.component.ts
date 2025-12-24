@@ -407,7 +407,6 @@ viewDetails(): void {
     window.open(challan.errorFilePath, '_blank');
   }
   uploadPFDocument(): void {
-    debugger
   this.isUploadSubmitted = true;
   this.PfUploadForm.markAllAsTouched();
 
@@ -446,6 +445,7 @@ viewDetails(): void {
             this.toasterService.successToaster(response.message);
             this.closePfchallanModal();
             this.viewDetails();
+            this.onClientChange();
           }
         }
       });
