@@ -106,7 +106,9 @@ clientList: ClientList[] = [];
   }
 
   onCancel() {
-    this.router.navigate(['/accountreport/dashboard']);
+
+    window.location.reload();
+
   }
 
   async getBankResourceData() {
@@ -217,10 +219,14 @@ clientList: ClientList[] = [];
   }
 
   viewPaymentReceivable(): void {
+    this.maxChequeAmount = 0;
+    this.totalInvoiceValue = 0;
+    this.balanceAmount = 0;
     this.isViewMode = true;
     if (!this.selectedClientId) {
       return;
     }
+
 
     let params = new HttpParams()
       .set('ClientId', this.selectedClientId.toString());
@@ -253,6 +259,7 @@ clientList: ClientList[] = [];
         next: (response: any) => {
           if (response.success && response.data) {
             const result: any = response.data;
+ 
 
             if (result.list) {
               this.paymentReceviableList = result.list.map((newItem: PaymentReceivableItem) => {

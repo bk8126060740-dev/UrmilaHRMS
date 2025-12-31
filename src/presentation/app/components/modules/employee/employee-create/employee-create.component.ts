@@ -118,6 +118,7 @@ export class EmployeeCreateComponent implements OnInit {
   }
 
   downloadOfferLatter() {
+    debugger
     if (!this.employeeBasicDetils || !this.employeeBasicDetils.offerLetter) {
       this.toaster.errorToaster("Offer Letter not available!");
       return;
@@ -188,6 +189,7 @@ export class EmployeeCreateComponent implements OnInit {
   }
 
   async getBasicDetils() {
+    debugger
     if (this.employeeId > 0) {
       if (this.isEmployed) {
         if (this.userTypeId >= 3) {
