@@ -87,7 +87,7 @@ export class LoginComponent {
             this.localstorage.setItem("isCheckIn", response.data.user.isCheckIn);
             this.localstorage.setItem("isHo", response.data.user.isHo);
             this.localstorage.setItem("isOnboardComplete", response.data.user.isOnboardComplete);
-
+             this.localstorage.setItem("userId", response.data.user.id);
 
 
             await this.menuService.getMenu<MenuDaum[]>(AppConstant.GET_MENUS).subscribe({
