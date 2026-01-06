@@ -95,7 +95,7 @@ export class CandidateCreateComponent implements OnInit {
   async getJobPosition() {
     await this.candidateService
       .getCandidate<JobPositionList[]>(
-        AppConstant.JOBPOSTOION + "/GetListOfIdAndName"
+        AppConstant.JOBPOSTOION + "/GetListOfIdAndName" 
       )
       .subscribe({
         next: (response) => {

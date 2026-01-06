@@ -123,7 +123,7 @@ getClientList(fromdate: any, Todate: any): void {
     .set('isSkipPaging', 'false')
     .set('fromDate', FromformattedDate)
     .set('toDate', ToformattedDate)
-    .set('pageNumber', '1')
+    .set('pageNumber', '0')
     .set('pageSize', '500'); 
 
   this.accountreportService.getAccountreport(AppConstant.GET_Account_SEARCH, params)

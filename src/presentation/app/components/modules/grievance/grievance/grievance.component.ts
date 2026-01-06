@@ -384,7 +384,7 @@ export class GrievanceComponent {
 
 
   async getProjectId() {
-    await this.grievanceService.getGrievanceAllData<ProjectId[]>(AppConstant.GET_PROJECT + "/GetListOfIdAndName").subscribe({
+    await this.grievanceService.getGrievanceAllData<ProjectId[]>(AppConstant.GET_PROJECT + "/GetListOfIdAndName" + "/" + this.localStorageService.getItem('userId')).subscribe({
       next: (responce: any) => {
         if (responce && responce.success) {
           this.projectIdData = responce.data;

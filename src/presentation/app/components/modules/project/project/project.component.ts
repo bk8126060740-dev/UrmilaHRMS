@@ -18,6 +18,7 @@ import { DatePipe } from "@angular/common";
 import { ExportService } from "../../../../../../domain/services/export.service";
 import { GrantPermissionService } from "../../../../../../domain/services/permission/is-granted.service";
 import { BasicLayoutComponent } from "../../../core/basic-layout/basic-layout.component";
+import { LocalStorageService } from "../../../../../../common/local-storage.service";
 
 @Component({
   selector: "app-project",
@@ -226,7 +227,9 @@ export class ProjectComponent {
     private exportService: ExportService,
     private grantPermissionService: GrantPermissionService,
     private datePipe: DatePipe,
-    private basicLayoutComponent: BasicLayoutComponent
+    private basicLayoutComponent: BasicLayoutComponent,
+    private localStorageService: LocalStorageService,
+
   ) { }
 
   ngOnInit() {
@@ -281,6 +284,7 @@ export class ProjectComponent {
       .set("RecordCount", this.recode.toString())
       .set("PageNumber", this.pageNumber.toString())
       .set("FilterBy", this.searchTerm)
+      .set("userId", this.localStorageService.getItem('userId'))
       .set("OrderBy", this.orderby);
 
 

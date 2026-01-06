@@ -453,7 +453,7 @@ export class HeaderComponent {
 
 
     }
-    await this.recruitmentService.getProjectDropdownData(`${AppConstant.GET_PROJECTDROPDOWN}`).subscribe({
+    await this.recruitmentService.getProjectDropdownData(`${AppConstant.GET_PROJECTDROPDOWN + "/" + this.localStorageService.getItem('userId')}`).subscribe({
       next: (response) => {
         if (response && response.success) {
           this.projectDropdownData = response.data;

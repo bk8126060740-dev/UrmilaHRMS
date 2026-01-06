@@ -10,6 +10,7 @@ import { PfChallan, PfChallanHistory } from '../../../../../../domain/models/pf-
 import { ToasterService } from '../../../../../../common/toaster-service';
 import { NavigationExtras, Router } from '@angular/router';
 import swal from "sweetalert";
+import { JwtService } from '../../../../../../common/jwtService.service';
 
 
 
@@ -38,7 +39,8 @@ export class PFDashboardComponent implements OnInit {
   @ViewChild("PfchallanModal", { static: false }) public PfchallanModal: ModalDirective | undefined;
 
   constructor(private pfChallanService: PfChallanService, private toasterService: ToasterService, private router: Router, private fb: FormBuilder,
-  ) {
+       private jwtService: JwtService,
+   ) {
     this.monthList = AppConstant.MONTH_DATA;
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();  
@@ -407,12 +409,11 @@ viewDetails(): void {
     window.open(challan.errorFilePath, '_blank');
   }
   uploadPFDocument(): void {
-    debugger
   this.isUploadSubmitted = true;
   this.PfUploadForm.markAllAsTouched();
-
+debugger
   if (this.PfUploadForm.valid) {
-
+      var userids = this.jwtService.getNameIdentifier();
     let formData = new FormData();
  
     const payrollList = this.PfUploadForm.value.id?.pfChallanHistory ?? [];
@@ -425,7 +426,9 @@ viewDetails(): void {
     formData.append('Amount', this.PfUploadForm.value.amount);
     formData.append('Remark', this.PfUploadForm.value.remark);
     formData.append('CRNNo', this.PfUploadForm.value.crnNo);
-
+    formData.append('month',  this.pfFilterForm.value.selectedMonth);
+    formData.append('year',  this.pfFilterForm.value.selectedYear);
+    formData.append('createdBy', userids== null ? '' : userids.toString());
     formData.append('PFAttachments[0].filePath', this.PfUploadForm.value.txtFile);
     formData.append('PFAttachments[0].fileType', '574');
 
@@ -446,6 +449,7 @@ viewDetails(): void {
             this.toasterService.successToaster(response.message);
             this.closePfchallanModal();
             this.viewDetails();
+            this.onClientChange();
           }
         }
       });

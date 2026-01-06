@@ -242,7 +242,7 @@ export class ProjectHistoryComponent {
 
 
   async getprojectName() {
-    this.ProjectServices.getAllProjectHistory<any[]>(AppConstant.GET_PROJECT + '/GetListOfIdAndName')
+    this.ProjectServices.getAllProjectHistory<any[]>(AppConstant.GET_PROJECT + '/GetListOfIdAndName' + "/" + this.localStorageService.getItem('userId') )
       .subscribe({
         next: (response) => {
           let allProjects = response.data;

@@ -2,6 +2,7 @@ import { environment } from '../environments/environment';
 
 export class AppConstant {
 
+  public static readonly API_BASE_URL = "http://uistech.in/api";
   public static readonly BASE_URL = environment.apiUrl;
   public static readonly BASE_IMAGEURL: string = "https://hrmsuistech.in/";
   public static readonly LOGIN: string = "Account/login";
@@ -22,6 +23,7 @@ export class AppConstant {
   public static readonly DELETE_CLIENT: string = "Client";
   public static readonly PATCH_UPDATEDEFAULTCODE: string = "Code/UpdateDefaultCode";
   public static readonly GET_PROJECT: string = "Project";
+  public static readonly GET_PROJECT_LIST: string = "Project/GetProjectList";
   public static readonly GET_EXPORT_PROJECT: string = "Project/ExcelExport";
   public static readonly GET_EXPORT_CANDIDATE: string = "Candidate/ExcelExport";
   public static readonly POST_PROJECT: string = "Project";
@@ -200,6 +202,7 @@ export class AppConstant {
     public static readonly Bank_Transfer_List: string = 'Payments';
   public static readonly GET_PAYROLL_BANK_SHEET: string = 'PayrollBankSheet';
   public static readonly GET_CLIENT_SEARCH: string = 'Client/Search';
+  public static readonly GET_CLIENT_LIST: string = 'Client/GetClientsByPayrollDate';
   public static readonly GET_Account_SEARCH: string = 'CustomReport/GetAccountColumn';
   public static readonly Get_Invoice_Files: string = 'CustomReport/GetInvoiceFiles';
   public static readonly Save_MultipleInvoice_Files: string = 'CustomReport/SaveMultipleInvoiceFiles';

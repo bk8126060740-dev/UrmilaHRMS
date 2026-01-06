@@ -115,6 +115,7 @@ export class PaymentReciveableReportComponent implements OnInit {
     this.paymentReciveableReportService.getPaginationData<PaymentReceviableReportListModel[]>(AppConstant.GET_PAYMENT_RECEVIABLE_REPORT, params)
       .subscribe({
         next: (response: any) => {
+          debugger
           if (response.success && response.data) {
             this.paymentReceviableReportList = this.groupByClientProject(response.data.list);
             console.log(this.paymentReceviableReportList);
