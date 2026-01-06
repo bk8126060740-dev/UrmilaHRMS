@@ -323,7 +323,7 @@ export class PayrollComponent {
     link.click();
     document.body.removeChild(link);
   }
-
+  //new code for invoice generation
   InvoiceFile(PayrollId: any) {
     swal({
       title: "Are you sure?",
