@@ -343,23 +343,27 @@ viewDetails(): void {
   }
 
   exportReport(): void {
+
+
     this.pfFilterForm.controls['name'].setValidators(Validators.required);
     this.pfFilterForm.controls['selectedPayrollId'].setValidators(Validators.required);
     this.pfFilterForm.controls['selectedProjectId'].setValidators(Validators.required);
     this.pfFilterForm.controls['name'].updateValueAndValidity();
     this.pfFilterForm.controls['selectedPayrollId'].updateValueAndValidity();
     this.pfFilterForm.controls['selectedProjectId'].updateValueAndValidity();
-
     this.isViewMode = true;
     if (this.pfFilterForm.valid) {
       let formData = new FormData();
       formData.append('Tag', this.pfFilterForm.value.name);
       formData.append('ClientId', this.pfFilterForm.value.selectedClientId);
+      formData.append('ProjectIds', this.pfFilterForm.value.selectedProjectId);
       this.pfFilterForm.value.selectedPayrollId.forEach((id: number, i: number) => {
         formData.append(`PayrollIds[${i}]`, id.toString());
-
       });
+    formData.append('month',  this.pfFilterForm.value.selectedMonth);
+    formData.append('year',  this.pfFilterForm.value.selectedYear);
 
+    debugger
       this.pfChallanService.postDownloadPfChallan(AppConstant.POST_PF_CHALLAN, formData).subscribe({
         next: (response) => {
           debugger
