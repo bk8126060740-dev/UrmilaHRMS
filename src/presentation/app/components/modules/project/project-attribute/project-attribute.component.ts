@@ -24,6 +24,7 @@ import { RecruitmentService } from "../../../../../../domain/services/recruitmen
 import { ProjectDropdown } from "../../../../../../domain/models/recruitment.model";
 import { NavigationExtras, Router } from "@angular/router";
 import { FormControl } from "@angular/forms";
+import { LocalStorageService } from "../../../../../../common/local-storage.service";
 
 @Component({
   selector: "app-project-attribute",
@@ -111,6 +112,7 @@ export class ProjectAttributeComponent {
     private formulaValidationService: FormulaValidationService,
     private grantPermissionService: GrantPermissionService,
     private recruitmentService: RecruitmentService,
+    private localStorageService: LocalStorageService,
     private router: Router
   ) { }
 
@@ -141,13 +143,20 @@ export class ProjectAttributeComponent {
   }
 
   async getAllProject() {
-    await this.recruitmentService.getProjectDropdownData(`${AppConstant.GET_PROJECTDROPDOWN}`).subscribe({
+     const userId = this.localStorageService.getItem('userId');
+
+  this.recruitmentService
+    .getProjectDropdownData(`${AppConstant.GET_PROJECTDROPDOWN}/${userId}`)
+    .subscribe({
       next: (response) => {
-        if (response && response.success) {
+        if (response?.success) {
           this.projectDropdownData = response.data;
           this.filterFromProjectDropdown();
         }
       },
+      error: (err) => {
+        console.error('Failed to load project dropdown', err);
+      }
     });
   }
 
